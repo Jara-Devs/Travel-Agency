@@ -6,12 +6,10 @@ using Travel_Agency_Api.Core.Enums;
 namespace Travel_Agency_Api.Models.User;
 
 [Index(nameof(Id), IsUnique = true)]
-public class Tourist : User
+public class Manager : User
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
-    [Required] public string Nacionality { get; set; } = null!;
-
-    [Required] public override Roles Role { get; set; } = Roles.Tourist;
+    [Required] public override Roles Role { get; set; } = Roles.Manager;
 }
