@@ -12,18 +12,11 @@ public class Excursion
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    [Required] public string Name { get; set; }
+    [Required] public string Name { get; set; } = null!;
 
-    public ICollection<TouristPlace> Places { get; set; }
+    public ICollection<TouristPlace> Places { get; set; } = null!;
 
-    public ICollection<TouristActivity> Activities { get; set; }
-
-    public Excursion(string name, ICollection<TouristPlace> places, ICollection<TouristActivity> activities)
-    {
-        this.Name = name;
-        this.Places = places;
-        this.Activities = activities;
-    }
+    public ICollection<TouristActivity> Activities { get; set; } = null!;
 
     public ICollection<ExcursionOffer> Offers { get; set; } = null!;
 }

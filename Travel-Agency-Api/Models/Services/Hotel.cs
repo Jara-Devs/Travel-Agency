@@ -13,7 +13,7 @@ public class Hotel
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    [Required] public string Name { get; set; }
+    [Required] public string Name { get; set; } = null!;
 
     [Required] public HotelCategory Category { get; set; }
 
@@ -21,14 +21,7 @@ public class Hotel
     [Required]
     public int TouristPlaceId { get; set; }
 
-    public TouristPlace TouristPlace { get; set; }
-
-    public Hotel(string name, HotelCategory category, TouristPlace touristPlace)
-    {
-        this.Name = name;
-        this.TouristPlace = touristPlace;
-        this.Category = category;
-    }
+    public TouristPlace TouristPlace { get; set; } = null!;
 
     public ICollection<HotelOffer> Offers { get; set; } = null!;
 

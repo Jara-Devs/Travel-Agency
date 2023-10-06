@@ -10,6 +10,11 @@ public class TravelAgencyContext : DbContext
     public TravelAgencyContext(DbContextOptions<TravelAgencyContext> options) : base(options)
     {
     }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<TouristPlace>().OwnsOne(h => h.Address);
+    }
 
     public DbSet<User> Users { get; set; } = null!;
 

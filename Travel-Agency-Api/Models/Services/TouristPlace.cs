@@ -12,18 +12,11 @@ public class TouristPlace
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    [Required] public string Name { get; set; }
+    [Required] public string Name { get; set; } = null!;
 
-    [Required] public string Description { get; set; }
+    [Required] public string Description { get; set; } = null!;
 
-    [Required] public Address Address { get; set; }
-
-    public TouristPlace(string name, string description, Address address)
-    {
-        this.Name = name;
-        this.Description = description;
-        this.Address = address;
-    }
+    [Required] public Address Address { get; set; } = null!;
 
     public ICollection<Excursion> Excursions { get; set; } = null!;
 

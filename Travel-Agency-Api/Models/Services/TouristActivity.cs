@@ -11,14 +11,8 @@ public class TouristActivity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    public string Name { get; set; }
-    public string Description { get; set; }
-
-    public TouristActivity(string name, string description)
-    {
-        this.Name = name;
-        this.Description = description;
-    }
+    public string Name { get; set; } = null!;
+    public string Description { get; set; } = null!;
 
     public ICollection<Excursion> Excursions { get; set; } = null!;
 }

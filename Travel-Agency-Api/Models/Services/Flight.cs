@@ -11,26 +11,17 @@ public class Flight
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    [Required] public string Company { get; set; }
+    [Required] public string Company { get; set; } = null!;
 
     [Required] public FlightCategory FlightCategory { get; set; }
 
     [Required] public long Duration { get; set; }
 
     [ForeignKey("TouristPlace")] public int Place1Id { get; set; }
-    public TouristPlace Place1 { get; set; }
+    public TouristPlace Place1 { get; set; } = null!;
 
     [ForeignKey("TouristPlace")] public int Place2Id { get; set; }
-    public TouristPlace Place2 { get; set; }
+    public TouristPlace Place2 { get; set; } = null!;
 
-    public Flight(string company, long duration, FlightCategory flightCategory, TouristPlace place1,
-        TouristPlace place2)
-    {
-        this.Company = company;
-        this.Place1 = place1;
-        this.Place2 = place2;
-        this.FlightCategory = flightCategory;
-    }
-    
     public ICollection<FlightOffer> Offers { get; set; } = null!;
 }
