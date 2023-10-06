@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Api.Models;
+using Travel_Agency_Api.Models.Offers;
 using Travel_Agency_Api.Models.Services;
 
 namespace Travel_Agency_Api.DataBase;
@@ -21,4 +22,10 @@ public class TravelAgencyContext : DbContext
     public DbSet<TouristPlace> TouristPlaces { get; set; } = null!;
 
     public DbSet<TouristActivity> TouristActivities { get; set; } = null!;
+
+    public DbSet<HotelOffer> HotelOffers { get; set; } = null!;
+
+    public DbSet<FlightOffer> FlightOffers { get; set; } = null!;
+
+    public DbSet<ExcursionOffer> ExcursionOffers { get; set; } = null!;
 }

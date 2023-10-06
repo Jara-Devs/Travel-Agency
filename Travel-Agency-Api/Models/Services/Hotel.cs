@@ -31,4 +31,6 @@ public class Hotel
     }
 
     public ICollection<HotelOffer> Offers { get; set; } = null!;
+
+    public ICollection<OverNightExcursion> OverNightExcursions { get; set; } = null!;
 }
