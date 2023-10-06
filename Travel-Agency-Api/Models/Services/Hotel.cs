@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Api.Core.Enums;
+using Travel_Agency_Api.Models.Offers;
 
 namespace Travel_Agency_Api.Models.Services;
 
@@ -28,4 +29,6 @@ public class Hotel
         this.TouristPlace = touristPlace;
         this.Category = category;
     }
+
+    public ICollection<HotelOffer> Offers { get; set; } = null!;
 }

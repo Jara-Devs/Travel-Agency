@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Travel_Agency_Api.Models.Offers;
 
 namespace Travel_Agency_Api.Models.Services;
 
@@ -23,4 +24,6 @@ public class Excursion
         this.Places = places;
         this.Activities = activities;
     }
+
+    public ICollection<ExcursionOffer> Offers { get; set; } = null!;
 }

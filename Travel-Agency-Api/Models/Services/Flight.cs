@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Travel_Agency_Api.Core.Enums;
+using Travel_Agency_Api.Models.Offers;
 
 namespace Travel_Agency_Api.Models.Services;
 
@@ -30,4 +31,6 @@ public class Flight
         this.Place2 = place2;
         this.FlightCategory = flightCategory;
     }
+    
+    public ICollection<FlightOffer> Offers { get; set; } = null!;
 }
