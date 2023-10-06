@@ -6,7 +6,7 @@ public abstract class TravelAgencyController : ControllerBase
 {
     protected IActionResult ToResponse<T>(ApiResponse<T> response)
     {
-        if (response.Value is null)
+        if (response.Value is not null)
             return StatusCode((int)response.Status,
                 new { ok = response.Ok, message = response.Message });
 
