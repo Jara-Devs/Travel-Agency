@@ -1,20 +1,22 @@
 using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Domain.User;
-using Travel_Agency_Domain;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Services;
+using Travel_Agency_Domain.User;
 
-namespace Travel_Agency_Api.DataBase;
+namespace Travel_Agency_DataBase;
 
 public class TravelAgencyContext : DbContext
 {
     public TravelAgencyContext(DbContextOptions<TravelAgencyContext> options) : base(options)
     {
     }
-    
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TouristPlace>().OwnsOne(h => h.Address);
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(TravelAgencyContext).Assembly);
     }
 
     public DbSet<User> Users { get; set; } = null!;

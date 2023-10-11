@@ -1,9 +1,9 @@
+using Travel_Agency_Core;
+
 namespace Travel_Agency_Domain.Services;
 
-public class TouristActivity
+public class TouristActivity : Entity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
     public string Description { get; set; }
 

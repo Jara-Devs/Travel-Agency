@@ -3,10 +3,8 @@ using Travel_Agency_Domain.User;
 
 namespace Travel_Agency_Domain;
 
-public class Agency
+public class Agency : Entity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 
     public string Email { get; set; }

@@ -1,4 +1,4 @@
-namespace Travel_Agency_Domain.Entities;
+namespace Travel_Agency_Domain.Others;
 
 public class Address
 {

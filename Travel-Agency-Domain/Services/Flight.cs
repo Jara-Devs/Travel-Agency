@@ -1,12 +1,11 @@
+using Travel_Agency_Core;
 using Travel_Agency_Core.Enums;
 using Travel_Agency_Domain.Offers;
 
 namespace Travel_Agency_Domain.Services;
 
-public class Flight
+public class Flight: Entity
 {
-    public int Id { get; set; }
-
     public string Company { get; set; }
 
     public FlightCategory FlightCategory { get; set; }

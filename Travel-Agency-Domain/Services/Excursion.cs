@@ -1,11 +1,10 @@
+using Travel_Agency_Core;
 using Travel_Agency_Domain.Offers;
 
 namespace Travel_Agency_Domain.Services;
 
-public class Excursion
+public class Excursion : Entity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 
     public ICollection<TouristPlace> Places { get; set; }

@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Travel_Agency_Api.DataBase;
+using Travel_Agency_DataBase;
 
 namespace Travel_Agency_Api;
 

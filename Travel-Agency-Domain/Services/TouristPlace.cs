@@ -1,11 +1,10 @@
-using Travel_Agency_Domain.Entities;
+using Travel_Agency_Core;
+using Travel_Agency_Domain.Others;
 
 namespace Travel_Agency_Domain.Services;
 
-public class TouristPlace
+public class TouristPlace:Entity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 
     public string Description { get; set; }

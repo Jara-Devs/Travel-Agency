@@ -1,12 +1,9 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Travel_Agency_Core;
 
 namespace Travel_Agency_Domain.User;
 
-public class User
+public class User : Entity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; }
 
     public string Email { get; set; }
