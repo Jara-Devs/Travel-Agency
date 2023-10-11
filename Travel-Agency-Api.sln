@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travel-Agency-Api", "Travel-Agency-Api\Travel-Agency-Api.csproj", "{CFC9F0E3-63F2-4162-BE92-2DBA1916644B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travel-Agency-Core", "Travel-Agency-Core\Travel-Agency-Core.csproj", "{EE76C563-907A-4A49-8C48-B80C0028E83F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{CFC9F0E3-63F2-4162-BE92-2DBA1916644B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFC9F0E3-63F2-4162-BE92-2DBA1916644B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFC9F0E3-63F2-4162-BE92-2DBA1916644B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE76C563-907A-4A49-8C48-B80C0028E83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE76C563-907A-4A49-8C48-B80C0028E83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE76C563-907A-4A49-8C48-B80C0028E83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE76C563-907A-4A49-8C48-B80C0028E83F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Api.Core.Enums;
+using Travel_Agency_Core.Enums;
 using Travel_Agency_Api.Models.Offers;
 
 namespace Travel_Agency_Api.Models.Services;

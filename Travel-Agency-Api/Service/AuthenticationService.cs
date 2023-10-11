@@ -1,4 +1,4 @@
-using Travel_Agency_Api.Core;
+using Travel_Agency_Core;
 using Travel_Agency_Api.DataBase;
 using Travel_Agency_Api.Request;
 using Travel_Agency_Api.Response;

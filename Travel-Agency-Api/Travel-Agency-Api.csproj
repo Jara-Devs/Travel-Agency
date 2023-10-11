@@ -25,13 +25,11 @@
         <Content Include="..\.dockerignore">
             <Link>.dockerignore</Link>
         </Content>
-
-
-
-
     </ItemGroup>
 
 
-
+    <ItemGroup>
+      <ProjectReference Include="..\Travel-Agency-Core\Travel-Agency-Core.csproj" />
+    </ItemGroup>
 
 </Project>

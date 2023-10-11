@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Api.Core.Enums;
+using Travel_Agency_Core.Enums;
 
 namespace Travel_Agency_Api.Models.User;
 
@@ -18,5 +18,5 @@ public class User
 
     [Required] public string Password { get; set; } = null!;
 
-    [Required] public virtual Roles Role { get; set; }
+    [Required] public virtual string Role { get; set; }
 }

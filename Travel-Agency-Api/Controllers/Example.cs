@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Travel_Agency_Api.Core;
-using Travel_Agency_Api.Models;
+using Travel_Agency_Core;
 
 namespace Travel_Agency_Api.Controllers;
 

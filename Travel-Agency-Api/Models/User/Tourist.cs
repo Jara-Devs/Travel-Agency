@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Api.Core.Enums;
+using Travel_Agency_Core;
 
 namespace Travel_Agency_Api.Models.User;
 
@@ -13,5 +13,5 @@ public class Tourist : User
 
     [Required] public string Nacionality { get; set; } = null!;
 
-    [Required] public override Roles Role { get; set; } = Roles.Tourist;
+    [Required] public override string Role { get; set; } = Roles.Tourist;
 }

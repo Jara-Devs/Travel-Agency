@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Travel_Agency_Api.Core;
+namespace Travel_Agency_Core;
 
 public class ApiResponse<T>
 {
