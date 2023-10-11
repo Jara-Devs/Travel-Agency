@@ -29,9 +29,5 @@
     </ItemGroup>
 
 
-    <ItemGroup>
-        <Folder Include="DataBase\"/>
-        <Folder Include="Models\"/>
-    </ItemGroup>
 
 </Project>
