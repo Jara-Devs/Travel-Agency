@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Travel_Agency_Api.Core;
+using Travel_Agency_Api.Models;
 
 namespace Travel_Agency_Api.Controllers;
 
@@ -19,7 +20,7 @@ public class Example : TravelAgencyController
     {
         return ToResponse(new ApiResponse(HttpStatusCode.BadRequest, "Error"));
     }
-    
+
     [HttpGet("notfound")]
     public new IActionResult NotFound()
     {
