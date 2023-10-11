@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Travel_Agency_Api.Models.User;
 using Travel_Agency_Api.Models;
 using Travel_Agency_Api.Models.Offers;
 using Travel_Agency_Api.Models.Services;
