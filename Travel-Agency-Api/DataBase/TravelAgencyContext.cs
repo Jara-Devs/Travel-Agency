@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Api.Models.User;
-using Travel_Agency_Api.Models;
-using Travel_Agency_Api.Models.Offers;
-using Travel_Agency_Api.Models.Services;
+using Travel_Agency_Domain.User;
+using Travel_Agency_Domain;
+using Travel_Agency_Domain.Offers;
+using Travel_Agency_Domain.Services;
 
 namespace Travel_Agency_Api.DataBase;
 

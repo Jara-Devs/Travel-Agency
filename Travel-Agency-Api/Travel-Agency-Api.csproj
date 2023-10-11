@@ -30,6 +30,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Travel-Agency-Core\Travel-Agency-Core.csproj" />
+      <ProjectReference Include="..\Travel-Agency-Domain\Travel-Agency-Domain.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Models\" />
     </ItemGroup>
 
 </Project>
