@@ -4,7 +4,7 @@ using Travel_Agency_Domain.Offers;
 
 namespace Travel_Agency_Domain.Services;
 
-public class Flight: Entity
+public class Flight : Entity
 {
     public string Company { get; set; }
 
@@ -12,13 +12,13 @@ public class Flight: Entity
 
     public long Duration { get; set; }
 
-     public int Place1Id { get; set; }
+    public int Place1Id { get; set; }
     public TouristPlace Place1 { get; set; } = null!;
 
-     public int Place2Id { get; set; }
+    public int Place2Id { get; set; }
     public TouristPlace Place2 { get; set; } = null!;
 
-    public Flight(string company,FlightCategory flightCategory, long duration, int place1Id, int place2Id)
+    public Flight(string company, FlightCategory flightCategory, long duration, int place1Id, int place2Id)
     {
         this.Company = company;
         this.FlightCategory = flightCategory;

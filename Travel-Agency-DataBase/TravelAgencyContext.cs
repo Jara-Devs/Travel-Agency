@@ -18,8 +18,7 @@ public class TravelAgencyContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
-        modelBuilder.ApplyConfiguration(new UserAgencyConfiguration());
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(TravelAgencyContext).Assembly);
     }
 
     public DbSet<User> Users { get; set; } = null!;
@@ -30,15 +29,15 @@ public class TravelAgencyContext : DbContext
 
     public DbSet<UserAgency> UserAgencies { get; set; } = null!;
 
-    // public DbSet<Excursion> Excursions { get; set; } = null!;
-    //
-    // public DbSet<Hotel> Hotels { get; set; } = null!;
-    //
-    // public DbSet<Flight> Flights { get; set; } = null!;
-    //
-    // public DbSet<TouristPlace> TouristPlaces { get; set; } = null!;
-    //
-    // public DbSet<TouristActivity> TouristActivities { get; set; } = null!;
+    public DbSet<Excursion> Excursions { get; set; } = null!;
+
+    public DbSet<Hotel> Hotels { get; set; } = null!;
+
+    public DbSet<Flight> Flights { get; set; } = null!;
+
+    public DbSet<TouristPlace> TouristPlaces { get; set; } = null!;
+
+    public DbSet<TouristActivity> TouristActivities { get; set; } = null!;
     //
     // public DbSet<HotelOffer> HotelOffers { get; set; } = null!;
     //
