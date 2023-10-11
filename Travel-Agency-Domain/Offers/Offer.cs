@@ -1,9 +1,9 @@
+using Travel_Agency_Core;
+
 namespace Travel_Agency_Domain.Offers;
 
-public abstract class Offer
+public abstract class Offer : Entity
 {
-    public int Id { get; set; }
-
     public string Description { get; set; }
 
     public double Price { get; set; }

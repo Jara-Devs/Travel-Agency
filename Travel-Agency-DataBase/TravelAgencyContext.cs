@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Travel_Agency_DataBase.Configurations;
 using Travel_Agency_Domain;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Services;
@@ -38,10 +37,10 @@ public class TravelAgencyContext : DbContext
     public DbSet<TouristPlace> TouristPlaces { get; set; } = null!;
 
     public DbSet<TouristActivity> TouristActivities { get; set; } = null!;
-    //
-    // public DbSet<HotelOffer> HotelOffers { get; set; } = null!;
-    //
-    // public DbSet<FlightOffer> FlightOffers { get; set; } = null!;
-    //
-    // public DbSet<ExcursionOffer> ExcursionOffers { get; set; } = null!;
+    
+    public DbSet<HotelOffer> HotelOffers { get; set; } = null!;
+    
+    public DbSet<FlightOffer> FlightOffers { get; set; } = null!;
+    
+    public DbSet<ExcursionOffer> ExcursionOffers { get; set; } = null!;
 }
