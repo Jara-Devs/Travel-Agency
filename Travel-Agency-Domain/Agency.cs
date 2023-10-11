@@ -11,21 +11,18 @@ public class Agency : Entity
 
     public long FaxNumber { get; set; }
 
-    public int AdminId { get; set; }
-
-    public UserAgency Admin { get; set; } = null!;
-
-    public Agency(string name, string email, long faxNumber, int adminId)
+    public Agency(string name, string email, long faxNumber)
     {
         this.Name = name;
         this.Email = email;
         this.FaxNumber = faxNumber;
-        this.AdminId = adminId;
     }
 
     public ICollection<UserAgency> Users { get; set; } = null!;
 
-    public ICollection<UserAgency> Managers => this.Users.Where(u => u.Role == Roles.ManagerAgency).ToList();
+    public UserAgency Admin() => this.Users.First(u => u.Role == Roles.AdminAgency);
 
-    public ICollection<UserAgency> Employees => this.Users.Where(u => u.Role == Roles.EmployeeAgency).ToList();
+    public ICollection<UserAgency> Managers() => this.Users.Where(u => u.Role == Roles.ManagerAgency).ToList();
+
+    public ICollection<UserAgency> Employees() => this.Users.Where(u => u.Role == Roles.EmployeeAgency).ToList();
 }

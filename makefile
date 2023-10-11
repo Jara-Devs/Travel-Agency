@@ -12,7 +12,11 @@ db:
 
 .PHONY: migrate
 migrate:
-	dotnet ef migrations add $(name) --project Travel-Agency-DataBase
+	dotnet ef migrations add "$(name)" --project Travel-Agency-DataBase
+
+.PHONY: remove
+remove:
+	dotnet ef  migrations remove --project Travel-Agency-DataBase
 
 
 .PHONY: build
