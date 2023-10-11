@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Api.Models;
+using Travel_Agency_Api.Models.User;
 
 namespace Travel_Agency_Api.DataBase;
 
