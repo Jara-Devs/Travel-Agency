@@ -12,7 +12,7 @@ public class ApiResponse<T>
 
     public bool Ok => HttpStatusCode.Accepted == Status;
 
-    public ApiResponse(HttpStatusCode status, string message)
+    public ApiResponse(HttpStatusCode status, string message = "")
     {
         this.Message = message;
         this.Status = status;
@@ -25,8 +25,8 @@ public class ApiResponse<T>
         this.Status = HttpStatusCode.Accepted;
     }
 
-    public ApiResponse<T1> ConvertApiResponse<T1>() => new(this.Status, this.Message!);
-    public ApiResponse ConvertApiResponse() => new(this.Status, this.Message!);
+    public ApiResponse<T1> ConvertApiResponse<T1>() => new(this.Status, this.Message);
+    public ApiResponse ConvertApiResponse() => new(this.Status, this.Message);
 }
 
 public class ApiResponse
@@ -37,7 +37,7 @@ public class ApiResponse
 
     public bool Ok => HttpStatusCode.Accepted == Status;
 
-    public ApiResponse(HttpStatusCode status, string message)
+    public ApiResponse(HttpStatusCode status, string message = "")
     {
         this.Message = message;
         this.Status = status;
@@ -50,4 +50,18 @@ public class ApiResponse
     }
 
     public ApiResponse<T> ConvertApiResponse<T>() => new(this.Status, this.Message);
+}
+
+public class NotFound<T> : ApiResponse<T>
+{
+    public NotFound(string message = "") : base(HttpStatusCode.NotFound, message)
+    {
+    }
+}
+
+public class BadRequest<T> : ApiResponse<T>
+{
+    public BadRequest(string message = "") : base(HttpStatusCode.BadRequest, message)
+    {
+    }
 }

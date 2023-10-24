@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Travel_Agency_Api.Service;
 using Travel_Agency_Core;
 
 namespace Travel_Agency_Api.Core;
@@ -19,5 +20,11 @@ public abstract class TravelAgencyController : ControllerBase
     {
         return StatusCode((int)response.Status,
             new { ok = response.Ok, message = response.Message });
+    }
+
+    protected ApiResponse<UserBasic> GetUser()
+    {
+        var authorization = Request.Headers["Authorization"].ToString();
+        return SecurityService.DecodingAuth(authorization);
     }
 }
