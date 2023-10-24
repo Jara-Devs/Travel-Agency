@@ -8,5 +8,6 @@ public class AgencyConfiguration : EntityConfiguration<Agency>
 {
     public override void ConfigureEntity(EntityTypeBuilder<Agency> builder)
     {
+        builder.HasIndex(a => a.Name).IsUnique();
     }
 }

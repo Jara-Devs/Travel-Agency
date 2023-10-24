@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Authentication;
+using Travel_Agency_Api.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Travel_Agency_DataBase;
 
@@ -12,6 +12,7 @@ public static class ProgramServices
     public static void AddAllServices(this IServiceCollection services)
     {
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<SecurityService>();
     }
 
     public static void AddDataBase(this IServiceCollection services, IConfigurationRoot configuration)
