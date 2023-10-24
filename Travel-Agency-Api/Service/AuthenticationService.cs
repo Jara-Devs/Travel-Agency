@@ -36,11 +36,11 @@ public class AuthenticationService : IAuthenticationService
         var user = await this._context.Users.Where(u => u.Email == request.Email).SingleOrDefaultAsync();
         if (user is null) return new NotFound<LoginResponse>("Incorrect email");
 
-        if (!SecurityService.CheckPassword(request.Password, user.Password))
+        if (!SecurityService.CheckPassword(user.Password, request.Password))
             return new BadRequest<LoginResponse>("Incorrect password");
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(user.Name, user.Role,
-            this._securityService.JwtAuth(user.Id, user.Name, user.Role)));
+        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Name,
+            this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
     public async Task<ApiResponse<LoginResponse>> RegisterTourist(RegisterTouristRequest touristRequest)
@@ -55,8 +55,8 @@ public class AuthenticationService : IAuthenticationService
 
         var user = await this._context.Users.Where(u => u.Email == touristRequest.Email).SingleOrDefaultAsync();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Name, user.Role,
-            this._securityService.JwtAuth(user.Id, user.Name, user.Role)));
+        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Name,
+            this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
     public async Task<ApiResponse<LoginResponse>> RegisterAgency(RegisterAgencyRequest agencyRequest)
@@ -75,8 +75,8 @@ public class AuthenticationService : IAuthenticationService
 
         var user = await this._context.Users.Where(u => u.Email == agencyRequest.Email).SingleOrDefaultAsync();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Name, user.Role,
-            this._securityService.JwtAuth(user.Id, user.Name, user.Role)));
+        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Name,
+            this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
     public ApiResponse<LoginResponse> Renew(UserBasic user)
