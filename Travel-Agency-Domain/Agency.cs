@@ -7,14 +7,11 @@ public class Agency : Entity
 {
     public string Name { get; set; }
 
-    public string Email { get; set; }
-
     public long FaxNumber { get; set; }
 
-    public Agency(string name, string email, long faxNumber)
+    public Agency(string name, long faxNumber)
     {
         this.Name = name;
-        this.Email = email;
         this.FaxNumber = faxNumber;
     }
 

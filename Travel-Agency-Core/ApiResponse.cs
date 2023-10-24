@@ -52,6 +52,20 @@ public class ApiResponse
     public ApiResponse<T> ConvertApiResponse<T>() => new(this.Status, this.Message);
 }
 
+public class NotFound : ApiResponse
+{
+    public NotFound(string message = "") : base(HttpStatusCode.NotFound, message)
+    {
+    }
+}
+
+public class BadRequest : ApiResponse
+{
+    public BadRequest(string message = "") : base(HttpStatusCode.BadRequest, message)
+    {
+    }
+}
+
 public class NotFound<T> : ApiResponse<T>
 {
     public NotFound(string message = "") : base(HttpStatusCode.NotFound, message)
