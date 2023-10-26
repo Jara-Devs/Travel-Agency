@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Travel_Agency_Core.Request;
+using Travel_Agency_Core.Response;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
-using Travel_Agency_Api.Request;
-using Travel_Agency_Api.Response;
 using Travel_Agency_Domain;
 using Travel_Agency_Domain.User;
 
-namespace Travel_Agency_Api.Service;
+namespace Travel_Agency_Logic.Auth;
 
 public interface IAuthenticationService
 {

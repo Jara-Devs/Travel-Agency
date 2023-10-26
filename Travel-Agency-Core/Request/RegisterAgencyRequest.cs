@@ -1,4 +1,4 @@
-namespace Travel_Agency_Api.Request;
+namespace Travel_Agency_Core.Request;
 
 public class RegisterAgencyRequest
 {

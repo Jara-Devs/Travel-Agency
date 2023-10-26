@@ -1,12 +1,13 @@
-using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Travel_Agency_Core;
 
-namespace Travel_Agency_Api.Service;
+namespace Travel_Agency_Logic;
 
 public static class MyClaims
 {

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Travel_Agency_Api.Service;
+using Travel_Agency_Logic;
 using Travel_Agency_Core;
 
 namespace Travel_Agency_Api.Core;

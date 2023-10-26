@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Travel_Agency_Api.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Travel_Agency_DataBase;
+using Travel_Agency_Logic;
+using Travel_Agency_Logic.Auth;
 
 namespace Travel_Agency_Api;
 
