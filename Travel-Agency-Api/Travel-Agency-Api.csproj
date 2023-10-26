@@ -12,7 +12,6 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9"/>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -26,6 +25,12 @@
         <ProjectReference Include="..\Travel-Agency-Core\Travel-Agency-Core.csproj"/>
         <ProjectReference Include="..\Travel-Agency-DataBase\Travel-Agency-DataBase.csproj"/>
         <ProjectReference Include="..\Travel-Agency-Domain\Travel-Agency-Domain.csproj"/>
+        <ProjectReference Include="..\Travel-Agency-Logic\Travel-Agency-Logic.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Service\" />
     </ItemGroup>
 
 

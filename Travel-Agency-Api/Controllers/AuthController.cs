@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Travel_Agency_Api.Core;
-using Travel_Agency_Api.Request;
-using Travel_Agency_Api.Response;
-using Travel_Agency_Api.Service;
+using Travel_Agency_Core.Request;
+using Travel_Agency_Logic.Auth;
 
 namespace Travel_Agency_Api.Controllers;
 
