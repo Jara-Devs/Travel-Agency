@@ -5,19 +5,9 @@ using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_Domain;
 using Travel_Agency_Domain.User;
+using Travel_Agency_Logic.Core;
 
 namespace Travel_Agency_Logic.Auth;
-
-public interface IAuthenticationService
-{
-    Task<ApiResponse<LoginResponse>> Login(LoginRequest login);
-
-    Task<ApiResponse<LoginResponse>> RegisterTourist(RegisterTouristRequest touristRequest);
-
-    Task<ApiResponse<LoginResponse>> RegisterAgency(RegisterAgencyRequest agencyRequest);
-
-    ApiResponse<LoginResponse> Renew(UserBasic user);
-}
 
 public class AuthenticationService : IAuthenticationService
 {

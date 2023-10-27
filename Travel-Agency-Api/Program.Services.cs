@@ -2,9 +2,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using Travel_Agency_DataBase;
+using Travel_Agency_DataBase.Core;
+using Travel_Agency_Domain.User;
 using Travel_Agency_Logic;
 using Travel_Agency_Logic.Auth;
+using Travel_Agency_Logic.Core;
 
 namespace Travel_Agency_Api;
 
@@ -12,6 +18,10 @@ public static class ProgramServices
 {
     public static void AddAllServices(this IServiceCollection services)
     {
+        // Configure query
+        services.AddScoped(typeof(IQuery<>), typeof(Query<>));
+
+        // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<SecurityService>();
     }
@@ -44,5 +54,22 @@ public static class ProgramServices
                             Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
                 };
             });
+    }
+
+    public static void ConfigureOdata(this IServiceCollection services)
+    {
+        services.AddControllers().AddOData(opt =>
+            opt.Select().Count().Filter().Expand().Select().OrderBy().SetMaxTop(50)
+                .AddRouteComponents("odata", GetEdmModel()));
+    }
+
+    private static IEdmModel GetEdmModel()
+    {
+        var builder = new ODataConventionModelBuilder();
+
+        // Configure entities
+
+
+        return builder.GetEdmModel();
     }
 }

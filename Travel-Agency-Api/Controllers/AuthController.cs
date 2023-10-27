@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
 using Travel_Agency_Api.Core;
 using Travel_Agency_Core.Request;
-using Travel_Agency_Logic.Auth;
+using Travel_Agency_DataBase.Core;
+using Travel_Agency_Domain.User;
+using Travel_Agency_Logic.Core;
 
 namespace Travel_Agency_Api.Controllers;
 
