@@ -1,4 +1,5 @@
 using Travel_Agency_Core;
+using Travel_Agency_Domain.Packages;
 
 namespace Travel_Agency_Domain.Offers;
 
@@ -13,4 +14,6 @@ public abstract class Offer : Entity
         this.Description = description;
         this.Price = price;
     }
+
+    public ICollection<Package> Packages { get; set; } = null!;
 }

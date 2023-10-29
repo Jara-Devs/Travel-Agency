@@ -4,7 +4,7 @@ using Travel_Agency_Core.Response;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_Domain;
-using Travel_Agency_Domain.User;
+using Travel_Agency_Domain.Users;
 using Travel_Agency_Logic.Core;
 
 namespace Travel_Agency_Logic.Auth;

@@ -7,7 +7,6 @@ using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Travel_Agency_DataBase;
 using Travel_Agency_DataBase.Core;
-using Travel_Agency_Domain.User;
 using Travel_Agency_Logic;
 using Travel_Agency_Logic.Auth;
 using Travel_Agency_Logic.Core;
