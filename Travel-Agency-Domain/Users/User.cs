@@ -1,4 +1,5 @@
 using Travel_Agency_Core;
+using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_Domain.Users;
 
@@ -19,4 +20,6 @@ public class User : Entity
         this.Password = password;
         this.Role = role;
     }
+
+    public ICollection<PaymentOrder> PaymentOrders { get; set; } = null!;
 }
