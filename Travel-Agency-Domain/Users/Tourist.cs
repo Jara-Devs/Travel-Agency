@@ -1,6 +1,6 @@
 using Travel_Agency_Core;
 
-namespace Travel_Agency_Domain.User;
+namespace Travel_Agency_Domain.Users;
 
 public class Tourist : User
 {

@@ -1,4 +1,4 @@
-namespace Travel_Agency_Domain.User;
+namespace Travel_Agency_Domain.Users;
 
 public class UserAgency : User
 {

@@ -1,5 +1,5 @@
 using Travel_Agency_Core;
-using Travel_Agency_Domain.User;
+using Travel_Agency_Domain.Users;
 
 namespace Travel_Agency_Domain;
 

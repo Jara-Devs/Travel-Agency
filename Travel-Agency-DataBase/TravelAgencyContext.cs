@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Domain;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Services;
-using Travel_Agency_Domain.User;
+using Travel_Agency_Domain.Users;
 
 namespace Travel_Agency_DataBase;
 
