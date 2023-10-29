@@ -8,15 +8,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Travel-Agency-DataBase\Travel-Agency-DataBase.csproj"/>
+        <ProjectReference Include="..\Travel-Agency-DataBase\Travel-Agency-DataBase.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Service\"/>
+        <Folder Include="Service\" />
     </ItemGroup>
 
 </Project>
