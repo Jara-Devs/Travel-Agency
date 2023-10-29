@@ -1,4 +1,6 @@
+using System.Collections;
 using Travel_Agency_Core;
+using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_Domain.Users;
 
@@ -11,4 +13,6 @@ public class Tourist : User
     {
         this.Nationality = nationality;
     }
+
+    public ICollection<ReserveTourist> Reserves { get; set; } = null!;
 }

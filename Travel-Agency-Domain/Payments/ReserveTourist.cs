@@ -9,10 +9,14 @@ public class ReserveTourist : Reserve
 
     public Tourist User { get; set; } = null!;
 
-    public ReserveTourist(int packageId, ICollection<UserIdentity> userIdentities, int paymentOrderId,
-        int userId) : base(
-        packageId, userIdentities, paymentOrderId)
+    public int PaymentId { get; set; }
+
+    public PaymentOnline Payment { get; set; } = null!;
+
+    public ReserveTourist(int packageId, ICollection<UserIdentity> userIdentities, int userId, int paymentId) : base(
+        packageId, userIdentities)
     {
         this.UserId = userId;
+        this.PaymentId = paymentId;
     }
 }

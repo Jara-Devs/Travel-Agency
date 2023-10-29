@@ -11,16 +11,11 @@ public class Reserve : Entity
 
     public Package Package { get; set; } = null!;
     
-    public int PaymentOrderId { get; set; }
-
-    // public PaymentOrder PaymentOrder { get; set; } = null!;
-
     public ICollection<UserIdentity> UserIdentities { get; set; }
 
-    public Reserve(int packageId, ICollection<UserIdentity> userIdentities,int paymentOrderId)
+    public Reserve(int packageId, ICollection<UserIdentity> userIdentities)
     {
         this.PackageId = packageId;
         this.UserIdentities = userIdentities;
-        this.PaymentOrderId = paymentOrderId;
     }
 }

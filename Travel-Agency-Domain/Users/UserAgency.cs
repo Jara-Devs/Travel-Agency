@@ -1,3 +1,6 @@
+using System.Collections;
+using Travel_Agency_Domain.Payments;
+
 namespace Travel_Agency_Domain.Users;
 
 public class UserAgency : User
@@ -11,4 +14,6 @@ public class UserAgency : User
     {
         this.AgencyId = agencyId;
     }
+
+    public ICollection<ReserveTicket> Reserves { get; set; } = null!;
 }

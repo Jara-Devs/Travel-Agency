@@ -1,6 +1,7 @@
 using System.Collections;
 using Travel_Agency_Core;
 using Travel_Agency_Domain.Offers;
+using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_Domain.Packages;
 
@@ -20,4 +21,6 @@ public class Package : Entity
         this.Description = description;
         this.Price = price;
     }
+
+    public ICollection<Reserve> Reserves { get; set; } = null!;
 }
