@@ -17,8 +17,8 @@ namespace Travel_Agency_Logic.Services
         public async Task<ApiResponse<Excursion>> CreateExcursion(Excursion excursion, UserBasic user) {
             if (!CheckPermissions(user))
                 return new Unauthorized<Excursion>("You don't have permissions");   
-            if (!await _context.Agencies.AnyAsync(a => a.Id == user.Id))
-                return new NotFound<Excursion>("Excursion not found");
+            if (!await _context.Excursions.AnyAsync(a => a.Id == user.Id))
+                return new NotFound<Excursion>("The excursion already exists");
             _context.Excursions.Add(excursion);
             await _context.SaveChangesAsync();
             return new ApiResponse<Excursion>(excursion);

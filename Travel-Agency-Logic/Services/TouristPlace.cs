@@ -19,8 +19,8 @@ namespace Travel_Agency_Logic.Services
         {
             if (!CheckPermissions(user))
                 return new Unauthorized<TouristPlace>("You don't have permissions");   
-            if (!await _context.Agencies.AnyAsync(a => a.Id == user.Id))
-                return new NotFound<TouristPlace>("TouristPlace not found");
+            if (!await _context.TouristPlaces.AnyAsync(a => a.Id == user.Id))
+                return new NotFound<TouristPlace>("The tourist place already exists");
             _context.TouristPlaces.Add(touristPlace);
             await _context.SaveChangesAsync();
             return new ApiResponse<TouristPlace>(touristPlace);
@@ -31,7 +31,7 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized<TouristPlace>("You don't have permissions");  
             if (!await _context.TouristPlaces.AnyAsync(h => h.Id == touristPlace.Id))
-                return new NotFound<TouristPlace>("TouristPlace not found");
+                return new NotFound<TouristPlace>("Tourist place not found");
             _context.Update(touristPlace).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return new ApiResponse<TouristPlace>(touristPlace);
@@ -42,7 +42,7 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized<TouristPlace>("You don't have permissions");  
             if (!await _context.TouristPlaces.AnyAsync(h => h.Id == id))
-                return new NotFound<TouristPlace>("TouristPlace not found");
+                return new NotFound<TouristPlace>("Tourist place not found");
             var touristPlace = await _context.TouristPlaces.FindAsync(id);
             _context.TouristPlaces.Remove(touristPlace!);
             await _context.SaveChangesAsync();

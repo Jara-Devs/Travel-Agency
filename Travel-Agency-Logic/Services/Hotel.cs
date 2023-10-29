@@ -19,8 +19,8 @@ namespace Travel_Agency_Logic.Services
         {
             if (!CheckPermissions(user))
                 return new Unauthorized<Hotel>("You don't have permissions");   
-            if (!await _context.Agencies.AnyAsync(a => a.Id == user.Id))
-                return new NotFound<Hotel>("Hotel not found");
+            if (await _context.Hotels.AnyAsync(h => h.Id == user.Id))
+                return new NotFound<Hotel>("The hotel already exists");
             _context.Hotels.Add(hotel);
             await _context.SaveChangesAsync();
             return new ApiResponse<Hotel>(hotel);
