@@ -48,13 +48,13 @@ public class TravelAgencyContext : DbContext
 
     public DbSet<Package> Packages { get; set; } = null!;
 
-    // public DbSet<Reserve> Reserves { get; set; } = null!;
+    public DbSet<Reserve> Reserves { get; set; } = null!;
 
     public DbSet<ReserveTicket> ReserveTickets { get; set; } = null!;
 
     public DbSet<ReserveTourist> ReserveTourists { get; set; } = null!;
 
-    // public DbSet<Payment> Payments { get; set; } = null!;
+    public DbSet<Payment> Payments { get; set; } = null!;
 
     public DbSet<PaymentOnline> PaymentsOnline { get; set; } = null!;
 

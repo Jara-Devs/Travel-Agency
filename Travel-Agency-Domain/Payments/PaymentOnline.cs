@@ -6,6 +6,10 @@ public class PaymentOnline : Payment
 {
     public long CreditCard { get; set; }
 
+    public PaymentOnline()
+    {
+    }
+
     public PaymentOnline(UserIdentity userIdentity, double price, long creditCard) : base(userIdentity, price)
     {
         this.CreditCard = creditCard;

@@ -13,6 +13,10 @@ public class ReserveTourist : Reserve
 
     public PaymentOnline Payment { get; set; } = null!;
 
+    public ReserveTourist()
+    {
+    }
+
     public ReserveTourist(int packageId, ICollection<UserIdentity> userIdentities, int userId, int paymentId) : base(
         packageId, userIdentities)
     {

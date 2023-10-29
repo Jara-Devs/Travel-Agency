@@ -13,6 +13,10 @@ public class ReserveTicket : Reserve
 
     public PaymentTicket Payment { get; set; } = null!;
 
+    public ReserveTicket()
+    {
+    }
+
     public ReserveTicket(int packageId, ICollection<UserIdentity> userIdentities, int userId, int paymentId) : base(
         packageId,
         userIdentities)

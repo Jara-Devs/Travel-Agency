@@ -10,8 +10,12 @@ public class Reserve : Entity
     public int PackageId { get; set; }
 
     public Package Package { get; set; } = null!;
-    
-    public ICollection<UserIdentity> UserIdentities { get; set; }
+
+    public ICollection<UserIdentity> UserIdentities { get; set; } = null!;
+
+    public Reserve()
+    {
+    }
 
     public Reserve(int packageId, ICollection<UserIdentity> userIdentities)
     {
