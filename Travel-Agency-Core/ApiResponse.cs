@@ -79,3 +79,17 @@ public class BadRequest<T> : ApiResponse<T>
     {
     }
 }
+
+public class Unauthorized<T> : ApiResponse<T>
+{
+    public Unauthorized(string message = "") : base(HttpStatusCode.Unauthorized, message)
+    {
+    }
+}
+
+public class Unauthorized : ApiResponse
+{
+    public Unauthorized(string message = "") : base(HttpStatusCode.Unauthorized, message)
+    {
+    }
+}
