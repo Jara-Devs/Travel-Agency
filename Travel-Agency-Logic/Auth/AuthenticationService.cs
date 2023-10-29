@@ -69,6 +69,19 @@ public class AuthenticationService : IAuthenticationService
             this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
+    public Task<ApiResponse<LoginResponse>> RegisterManagerAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user)
+    {
+        throw new NotImplementedException();
+        // if (user.Role != Roles.AdminAgency) 
+        //     return Task.FromResult(new BadRequest<LoginResponse>("You are not admin agency")
+        //     .ConvertApiResponse<LoginResponse>());
+    }
+
+    public Task<ApiResponse<LoginResponse>> RegisterEmployeeAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user)
+    {
+        throw new NotImplementedException();
+    }
+
     public ApiResponse<LoginResponse> Renew(UserBasic user)
     {
         return new ApiResponse<LoginResponse>(new LoginResponse(user.Name, user.Role,
