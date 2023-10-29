@@ -12,5 +12,9 @@ public interface IAuthenticationService
 
     Task<ApiResponse<LoginResponse>> RegisterAgency(RegisterAgencyRequest agencyRequest);
 
+    Task<ApiResponse<LoginResponse>> RegisterManagerAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user);
+
+    Task<ApiResponse<LoginResponse>> RegisterEmployeeAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user);
+
     ApiResponse<LoginResponse> Renew(UserBasic user);
 }
