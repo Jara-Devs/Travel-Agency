@@ -69,17 +69,40 @@ public class AuthenticationService : IAuthenticationService
             this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
-    public Task<ApiResponse<LoginResponse>> RegisterManagerAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user)
+    public async Task<ApiResponse<LoginResponse>> RegisterManagerAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user)
     {
-        throw new NotImplementedException();
-        // if (user.Role != Roles.AdminAgency) 
-        //     return Task.FromResult(new BadRequest<LoginResponse>("You are not admin agency")
-        //     .ConvertApiResponse<LoginResponse>());
+        if (user.Role != Roles.AdminAgency) 
+            return new Unauthorized<LoginResponse>("You are not an admin of this agency");
+
+        var check = await CheckRegister(userAgencyRequest.Email, userAgencyRequest.Password);
+        if (!check.Ok) return check.ConvertApiResponse<LoginResponse>();
+
+        this._context.Add(new UserAgency(userAgencyRequest.Name, userAgencyRequest.Email,
+            SecurityService.EncryptPassword(userAgencyRequest.Password), Roles.ManagerAgency, userAgencyRequest.AgencyId));
+        await this._context.SaveChangesAsync();
+
+        var userAgency = await this._context.Users.Where(u => u.Email == userAgencyRequest.Email).SingleOrDefaultAsync();
+
+        return new ApiResponse<LoginResponse>(new LoginResponse(userAgency!.Name,
+            this._securityService.JwtAuth(userAgency.Id, userAgency.Name, userAgency.Role), userAgency.Role));
     }
 
-    public Task<ApiResponse<LoginResponse>> RegisterEmployeeAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user)
+    public async Task<ApiResponse<LoginResponse>> RegisterEmployeeAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user)
     {
-        throw new NotImplementedException();
+        if (user.Role != Roles.AdminAgency) 
+            return new Unauthorized<LoginResponse>("You are not an admin of this agency");
+
+        var check = await CheckRegister(userAgencyRequest.Email, userAgencyRequest.Password);
+        if (!check.Ok) return check.ConvertApiResponse<LoginResponse>();
+
+        this._context.Add(new UserAgency(userAgencyRequest.Name, userAgencyRequest.Email,
+            SecurityService.EncryptPassword(userAgencyRequest.Password), Roles.EmployeeAgency, userAgencyRequest.AgencyId));
+        await this._context.SaveChangesAsync();
+
+        var userAgency = await this._context.Users.Where(u => u.Email == userAgencyRequest.Email).SingleOrDefaultAsync();
+
+        return new ApiResponse<LoginResponse>(new LoginResponse(userAgency!.Name,
+            this._securityService.JwtAuth(userAgency.Id, userAgency.Name, userAgency.Role), userAgency.Role));
     }
 
     public ApiResponse<LoginResponse> Renew(UserBasic user)
