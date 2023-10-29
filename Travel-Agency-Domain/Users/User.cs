@@ -20,6 +20,4 @@ public class User : Entity
         this.Password = password;
         this.Role = role;
     }
-
-    public ICollection<PaymentOrder> PaymentOrders { get; set; } = null!;
 }

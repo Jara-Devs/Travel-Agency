@@ -5,12 +5,9 @@ namespace Travel_Agency_Domain.Payments;
 
 public class PaymentTicket : Payment
 {
-    public int UserAgencyId { get; set; }
-
-    public UserAgency UserAgency { get; set; } = null!;
-
-    public PaymentTicket(int orderId, UserIdentity userIdentity, int userAgencyId) : base(orderId, userIdentity)
+    public PaymentTicket(UserIdentity userIdentity,double price) : base(userIdentity,price)
     {
-        this.UserAgencyId = userAgencyId;
     }
+
+    public ICollection<ReserveTicket> ReserveTickets { get; set; } = null!;
 }
