@@ -8,7 +8,7 @@ namespace Travel_Agency_Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles="AdminApp,EmployeeApp")]
+// [Authorize(Roles="AdminApp,EmployeeApp")]
 public class ExcusionController : TravelAgencyController
 {
     private readonly IExcursionService _excursionService;

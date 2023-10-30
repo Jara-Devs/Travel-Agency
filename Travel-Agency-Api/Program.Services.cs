@@ -10,6 +10,7 @@ using Travel_Agency_DataBase.Core;
 using Travel_Agency_Logic;
 using Travel_Agency_Logic.Auth;
 using Travel_Agency_Logic.Core;
+using Travel_Agency_Logic.Services;
 
 namespace Travel_Agency_Api;
 
@@ -22,6 +23,11 @@ public static class ProgramServices
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IExcursionService, ExcursionService>();
+        services.AddScoped<IHotelService, HotelService>();
+        services.AddScoped<ITouristPlaceService, TouristPlaceService>();
+        services.AddScoped<IHotelService, HotelService>();
+        
         services.AddScoped<SecurityService>();
     }
 
