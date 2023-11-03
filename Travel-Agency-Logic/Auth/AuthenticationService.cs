@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Core.Request;
-using Travel_Agency_Core.Response;
+using Travel_Agency_Logic.Request;
+using Travel_Agency_Logic.Response;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_Domain;

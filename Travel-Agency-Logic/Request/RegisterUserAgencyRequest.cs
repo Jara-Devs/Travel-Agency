@@ -1,4 +1,4 @@
-namespace Travel_Agency_Core.Request;
+namespace Travel_Agency_Logic.Request;
 
 public class RegisterUserAgencyRequest {
     public string Email { get; set; } = null!;

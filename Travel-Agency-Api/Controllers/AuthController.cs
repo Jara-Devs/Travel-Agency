@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Travel_Agency_Api.Core;
-using Travel_Agency_Core.Request;
+using Travel_Agency_Logic.Request;
 using Travel_Agency_Logic.Core;
 
 namespace Travel_Agency_Api.Controllers;

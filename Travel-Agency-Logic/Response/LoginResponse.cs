@@ -1,4 +1,4 @@
-namespace Travel_Agency_Core.Response;
+namespace Travel_Agency_Logic.Response;
 
 public class LoginResponse
 {

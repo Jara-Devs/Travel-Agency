@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Travel_Agency_Api.Core;
 using Travel_Agency_Domain.Services;
 using Travel_Agency_Logic.Core;
+using Travel_Agency_Logic.Request;
 
 namespace Travel_Agency_Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-// [Authorize(Roles="AdminApp,EmployeeApp")]
+// [Authorize(Roles = "AdminApp,EmployeeApp")]
 public class ExcusionController : TravelAgencyController
 {
     private readonly IExcursionService _excursionService;
@@ -19,17 +20,17 @@ public class ExcusionController : TravelAgencyController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Createexcursion([FromBody] Excursion excursion)
+    public async Task<IActionResult> Createexcursion([FromBody] ExcursionRequest excursion)
     {
         var user = GetUser().Value;
         return ToResponse(await _excursionService.CreateExcursion(excursion, user!));
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Updateexcursion(int id, [FromBody] Excursion excursion)
+    public async Task<IActionResult> Updateexcursion(int id, [FromBody] ExcursionRequest excursion)
     {
         var user = GetUser().Value;
-        return ToResponse(await _excursionService.UpdateExcursion(excursion, user!));
+        return ToResponse(await _excursionService.UpdateExcursion(id, excursion, user!));
     }
 
     [HttpDelete("{id}")]
