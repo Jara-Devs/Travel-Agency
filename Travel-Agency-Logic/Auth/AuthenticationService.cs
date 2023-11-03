@@ -23,6 +23,9 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<ApiResponse<LoginResponse>> Login(LoginRequest request)
     {
+        var response = LoginAdmin(request);
+        if (response.Ok) return response;
+
         var user = await this._context.Users.Where(u => u.Email == request.Email).SingleOrDefaultAsync();
         if (user is null) return new NotFound<LoginResponse>("Incorrect email");
 
@@ -157,5 +160,15 @@ public class AuthenticationService : IAuthenticationService
             return new BadRequest("There is already a user with same email");
 
         return password.Length <= 5 ? new BadRequest("The password is very short") : new ApiResponse();
+    }
+
+    private ApiResponse<LoginResponse> LoginAdmin(LoginRequest request)
+    {
+        var (user, password) = this._securityService.AdminCredentials();
+
+        if (user != request.Email || password != request.Password) return new BadRequest<LoginResponse>();
+
+        return new ApiResponse<LoginResponse>(new LoginResponse("Admin",
+            this._securityService.JwtAuth(0, "admin", Roles.AdminApp), Roles.AdminApp));
     }
 }
