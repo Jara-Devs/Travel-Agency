@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
+using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_DataBase.Core;
 using Travel_Agency_Logic;
@@ -27,7 +28,7 @@ public static class ProgramServices
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<ITouristPlaceService, TouristPlaceService>();
         services.AddScoped<IHotelService, HotelService>();
-        
+
         services.AddScoped<SecurityService>();
     }
 
@@ -66,6 +67,18 @@ public static class ProgramServices
         services.AddControllers().AddOData(opt =>
             opt.Select().Count().Filter().Expand().Select().OrderBy().SetMaxTop(50)
                 .AddRouteComponents("odata", GetEdmModel()));
+    }
+
+    public static void ConfigurePolicies(this IServiceCollection service)
+    {
+        service.AddAuthorization(options =>
+            options.AddPolicy(Policies.App, policy => policy.RequireRole(Roles.AdminApp, Roles.EmployeeApp)));
+        service.AddAuthorization(options =>
+            options.AddPolicy(Policies.Agency,
+                policy => policy.RequireRole(Roles.AdminAgency, Roles.ManagerAgency, Roles.EmployeeAgency)));
+        service.AddAuthorization(options =>
+            options.AddPolicy(Policies.AgencyManager,
+                policy => policy.RequireRole(Roles.AdminAgency, Roles.ManagerAgency)));
     }
 
     private static IEdmModel GetEdmModel()

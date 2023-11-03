@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Core.Request;
-using Travel_Agency_Core.Response;
+using Travel_Agency_Logic.Request;
+using Travel_Agency_Logic.Response;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_Domain;
@@ -23,13 +23,16 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<ApiResponse<LoginResponse>> Login(LoginRequest request)
     {
+        var response = LoginAdmin(request);
+        if (response.Ok) return response;
+
         var user = await this._context.Users.Where(u => u.Email == request.Email).SingleOrDefaultAsync();
         if (user is null) return new NotFound<LoginResponse>("Incorrect email");
 
         if (!SecurityService.CheckPassword(user.Password, request.Password))
             return new BadRequest<LoginResponse>("Incorrect password");
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Name,
+        return new ApiResponse<LoginResponse>(new LoginResponse(user.Name,
             this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
@@ -69,40 +72,64 @@ public class AuthenticationService : IAuthenticationService
             this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
-    public async Task<ApiResponse<LoginResponse>> RegisterManagerAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user)
+    public async Task<ApiResponse<IdResponse>> RegisterManagerAgency(RegisterUserAgencyRequest userAgencyRequest,
+        UserBasic user)
     {
-        if (user.Role != Roles.AdminAgency) 
-            return new Unauthorized<LoginResponse>("You are not an admin of this agency");
+        if (user.Role != Roles.AdminAgency)
+            return new Unauthorized<IdResponse>("You are not an admin of this agency");
 
         var check = await CheckRegister(userAgencyRequest.Email, userAgencyRequest.Password);
-        if (!check.Ok) return check.ConvertApiResponse<LoginResponse>();
+        if (!check.Ok) return check.ConvertApiResponse<IdResponse>();
 
         this._context.Add(new UserAgency(userAgencyRequest.Name, userAgencyRequest.Email,
-            SecurityService.EncryptPassword(userAgencyRequest.Password), Roles.ManagerAgency, userAgencyRequest.AgencyId));
+            SecurityService.EncryptPassword(userAgencyRequest.Password), Roles.ManagerAgency,
+            userAgencyRequest.AgencyId));
         await this._context.SaveChangesAsync();
 
-        var userAgency = await this._context.Users.Where(u => u.Email == userAgencyRequest.Email).SingleOrDefaultAsync();
+        var userAgency =
+            await this._context.Users.Where(u => u.Email == userAgencyRequest.Email)
+                .Select(x => new IdResponse { Id = x.Id }).SingleOrDefaultAsync();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(userAgency!.Name,
-            this._securityService.JwtAuth(userAgency.Id, userAgency.Name, userAgency.Role), userAgency.Role));
+        return new ApiResponse<IdResponse>(userAgency!);
     }
 
-    public async Task<ApiResponse<LoginResponse>> RegisterEmployeeAgency(RegisterUserAgencyRequest userAgencyRequest, UserBasic user)
+    public async Task<ApiResponse<IdResponse>> RegisterEmployeeAgency(RegisterUserAgencyRequest userAgencyRequest,
+        UserBasic user)
     {
-        if (user.Role != Roles.AdminAgency) 
-            return new Unauthorized<LoginResponse>("You are not an admin of this agency");
+        if (user.Role != Roles.AdminAgency)
+            return new Unauthorized<IdResponse>("You are not an admin of this agency");
 
         var check = await CheckRegister(userAgencyRequest.Email, userAgencyRequest.Password);
-        if (!check.Ok) return check.ConvertApiResponse<LoginResponse>();
+        if (!check.Ok) return check.ConvertApiResponse<IdResponse>();
 
         this._context.Add(new UserAgency(userAgencyRequest.Name, userAgencyRequest.Email,
-            SecurityService.EncryptPassword(userAgencyRequest.Password), Roles.EmployeeAgency, userAgencyRequest.AgencyId));
+            SecurityService.EncryptPassword(userAgencyRequest.Password), Roles.EmployeeAgency,
+            userAgencyRequest.AgencyId));
         await this._context.SaveChangesAsync();
 
-        var userAgency = await this._context.Users.Where(u => u.Email == userAgencyRequest.Email).SingleOrDefaultAsync();
+        var userAgency = await this._context.Users.Where(u => u.Email == userAgencyRequest.Email)
+            .Select(x => new IdResponse { Id = x.Id }).SingleOrDefaultAsync();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(userAgency!.Name,
-            this._securityService.JwtAuth(userAgency.Id, userAgency.Name, userAgency.Role), userAgency.Role));
+        return new ApiResponse<IdResponse>(userAgency!);
+    }
+
+    public async Task<ApiResponse<IdResponse>> RegisterUserApp(RegisterUserAgencyRequest userAppRequest,
+        UserBasic user)
+    {
+        if (user.Role != Roles.AdminApp)
+            return new Unauthorized<IdResponse>("You are not an admin of app");
+
+        var check = await CheckRegister(userAppRequest.Email, userAppRequest.Password);
+        if (!check.Ok) return check.ConvertApiResponse<IdResponse>();
+
+        this._context.Add(new User(userAppRequest.Name, userAppRequest.Email,
+            SecurityService.EncryptPassword(userAppRequest.Password), Roles.EmployeeApp));
+        await this._context.SaveChangesAsync();
+
+        var userApp = await this._context.Users.Where(u => u.Email == userAppRequest.Email)
+            .Select(x => new IdResponse { Id = x.Id }).SingleOrDefaultAsync();
+
+        return new ApiResponse<IdResponse>(userApp!);
     }
 
     public ApiResponse<LoginResponse> Renew(UserBasic user)
@@ -111,11 +138,37 @@ public class AuthenticationService : IAuthenticationService
             this._securityService.JwtAuth(user.Id, user.Name, user.Role)));
     }
 
+    public async Task<ApiResponse> ChangePassword(ChangePasswordRequest request, UserBasic userRequest)
+    {
+        var user = await this._context.Users.FindAsync(userRequest.Id);
+        if (user is null) return new NotFound("Not found user");
+
+        if (!SecurityService.CheckPassword(user.Password, request.OldPassword))
+            return new BadRequest("Incorrect password");
+
+        user.Password = SecurityService.EncryptPassword(request.NewPassword);
+
+        this._context.Update(user);
+        await this._context.SaveChangesAsync();
+
+        return new ApiResponse();
+    }
+
     private async Task<ApiResponse> CheckRegister(string email, string password)
     {
         if (await this._context.Users.CountAsync(u => u.Email == email) != 0)
             return new BadRequest("There is already a user with same email");
 
         return password.Length <= 5 ? new BadRequest("The password is very short") : new ApiResponse();
+    }
+
+    private ApiResponse<LoginResponse> LoginAdmin(LoginRequest request)
+    {
+        var (user, password) = this._securityService.AdminCredentials();
+
+        if (user != request.Email || password != request.Password) return new BadRequest<LoginResponse>();
+
+        return new ApiResponse<LoginResponse>(new LoginResponse("Admin",
+            this._securityService.JwtAuth(0, "admin", Roles.AdminApp), Roles.AdminApp));
     }
 }

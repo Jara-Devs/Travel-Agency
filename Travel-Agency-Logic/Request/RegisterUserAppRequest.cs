@@ -1,11 +1,10 @@
-namespace Travel_Agency_Core.Request;
+namespace Travel_Agency_Logic.Request;
 
-public class RegisterUserAgencyRequest {
+public class RegisterUserAppRequest
+{
     public string Email { get; set; } = null!;
 
     public string Password { get; set; } = null!;
 
     public string Name { get; set; } = null!;
-
-    public int AgencyId { get; set; } = 0;
 }

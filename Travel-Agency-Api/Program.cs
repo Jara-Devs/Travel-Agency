@@ -16,6 +16,7 @@ builder.Services.AddDataBase(configuration);
 builder.Services.AddAllServices();
 builder.Services.AddMyAuthentication(configuration);
 builder.Services.ConfigureOdata();
+builder.Services.ConfigurePolicies();
 
 // // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 // builder.Services.AddEndpointsApiExplorer();

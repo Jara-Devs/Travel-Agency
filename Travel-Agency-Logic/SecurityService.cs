@@ -143,12 +143,12 @@ public class SecurityService
         return new ApiResponse<JwtSecurityToken>(handler.ReadJwtToken(token));
     }
 
-    public bool AdminCredentials(string user, string password)
+    public (string user, string password) AdminCredentials()
     {
-        var userSystem = _configuration["Admin:User"];
-        var passwordSystem = _configuration["Admin:Password"];
+        var user = _configuration["Admin:User"];
+        var password = _configuration["Admin:Password"];
 
-        return user == userSystem && password == passwordSystem;
+        return (user!, password!);
     }
 
     // public ApiResponse Authorize(string authorization, Account account)

@@ -1,4 +1,4 @@
-namespace Travel_Agency_Core.Request;
+namespace Travel_Agency_Logic.Request;
 
 public class RegisterAgencyRequest
 {
