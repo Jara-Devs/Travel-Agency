@@ -20,14 +20,14 @@ public class TouristPlaceController : TravelAgencyController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateTouristPlace([FromBody] TouristicPlaceRequest touristPlace)
+    public async Task<IActionResult> CreateTouristPlace([FromBody] TouristPlaceRequest touristPlace)
     {
         var user = GetUser().Value;
         return ToResponse(await _touristPlaceService.CreateTouristPlace(touristPlace, user!));
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateTouristPlace(int id, [FromBody] TouristicPlaceRequest touristPlace)
+    public async Task<IActionResult> UpdateTouristPlace(int id, [FromBody] TouristPlaceRequest touristPlace)
     {
         var user = GetUser().Value;
         return ToResponse(await _touristPlaceService.UpdateTouristPlace(id, touristPlace, user!));
