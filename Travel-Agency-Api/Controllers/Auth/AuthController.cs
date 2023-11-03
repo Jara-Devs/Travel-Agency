@@ -22,16 +22,16 @@ public class AuthController : TravelAgencyController
     public async Task<IActionResult> Login(LoginRequest request) => ToResponse(await this._authService.Login(request));
 
     [HttpPost("register/tourist")]
-    public async Task<IActionResult> RegisterTourist(RegisterTouristRequest request) =>
+    public async Task<IActionResult> RegisterTourist([FromBody] RegisterTouristRequest request) =>
         ToResponse(await this._authService.RegisterTourist(request));
 
     [HttpPost("register/agency")]
-    public async Task<IActionResult> RegisterAgency(RegisterAgencyRequest request) =>
+    public async Task<IActionResult> RegisterAgency([FromBody] RegisterAgencyRequest request) =>
         ToResponse(await this._authService.RegisterAgency(request));
 
     [HttpPost("register/agency/manager")]
     [Authorize(Roles = Roles.AdminAgency)]
-    public async Task<IActionResult> RegisterManagerAgency(RegisterUserAgencyRequest request)
+    public async Task<IActionResult> RegisterManagerAgency([FromBody] RegisterUserAgencyRequest request)
     {
         var user = GetUser().Value!;
         return ToResponse(await this._authService.RegisterManagerAgency(request, user));
@@ -39,7 +39,7 @@ public class AuthController : TravelAgencyController
 
     [HttpPost("register/agency/employee")]
     [Authorize(Roles = Roles.AdminAgency)]
-    public async Task<IActionResult> RegisterEmployeeAgency(RegisterUserAgencyRequest request)
+    public async Task<IActionResult> RegisterEmployeeAgency([FromBody] RegisterUserAgencyRequest request)
     {
         var user = GetUser().Value!;
         return ToResponse(await this._authService.RegisterEmployeeAgency(request, user));
@@ -47,7 +47,7 @@ public class AuthController : TravelAgencyController
 
     [HttpPost("changePassword")]
     [Authorize]
-    public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
     {
         var user = GetUser().Value!;
         return ToResponse(await this._authService.ChangePassword(request, user));

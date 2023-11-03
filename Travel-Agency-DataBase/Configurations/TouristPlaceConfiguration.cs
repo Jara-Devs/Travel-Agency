@@ -8,6 +8,7 @@ public class TouristPlaceConfiguration : EntityConfiguration<TouristPlace>
 {
     public override void ConfigureEntity(EntityTypeBuilder<TouristPlace> builder)
     {
+        builder.HasIndex(x => x.Name).IsUnique();
         builder.OwnsOne(h => h.Address);
         builder.HasMany(tp => tp.Flights1)
             .WithOne(f => f.Place1)

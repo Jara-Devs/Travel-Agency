@@ -8,6 +8,7 @@ public class HotelConfiguration : EntityConfiguration<Hotel>
 {
     public override void ConfigureEntity(EntityTypeBuilder<Hotel> builder)
     {
+        builder.HasIndex(x => x.Name).IsUnique();
         builder.HasOne(h => h.TouristPlace).WithMany(p => p.Hotels).HasForeignKey(h => h.TouristPlaceId);
     }
 }
