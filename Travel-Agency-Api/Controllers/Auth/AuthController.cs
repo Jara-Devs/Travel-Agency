@@ -5,7 +5,7 @@ using Travel_Agency_Core;
 using Travel_Agency_Logic.Request;
 using Travel_Agency_Logic.Core;
 
-namespace Travel_Agency_Api.Controllers;
+namespace Travel_Agency_Api.Controllers.Auth;
 
 [ApiController]
 [Route("[controller]")]
