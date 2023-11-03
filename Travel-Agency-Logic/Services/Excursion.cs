@@ -4,6 +4,7 @@ using Travel_Agency_DataBase;
 using Travel_Agency_Domain.Services;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
+using Travel_Agency_Logic.Response;
 
 namespace Travel_Agency_Logic.Services
 {
@@ -16,40 +17,41 @@ namespace Travel_Agency_Logic.Services
             _context = context;
         }
 
-        public async Task<ApiResponse<Excursion>> CreateExcursion(ExcursionRequest request, UserBasic user)
+        public async Task<ApiResponse<IdResponse>> CreateExcursion(ExcursionRequest request, UserBasic user)
         {
             if (!CheckPermissions(user))
-                return new Unauthorized<Excursion>("You don't have permissions");
+                return new Unauthorized<IdResponse>("You don't have permissions");
 
             if (!await _context.Excursions.AnyAsync(a => a.Name == request.Name))
-                return new NotFound<Excursion>("The excursion already exists");
+                return new NotFound<IdResponse>("The excursion already exists");
 
             if (request.Places.Count == 0 || request.Activities.Count == 0)
-                return new BadRequest<Excursion>("There must be at least one tourist activity and one tourist place");
+                return new BadRequest<IdResponse>("There must be at least one tourist activity and one tourist place");
 
             var response = await CreateExcursion(request);
-            if (!response.Ok) return response.ConvertApiResponse<Excursion>();
+            if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
 
             _context.Excursions.Add(response.Value!);
             await _context.SaveChangesAsync();
 
-            return new ApiResponse<Excursion>((await this._context.Excursions.Where(x => x.Name == request.Name)
+            return new ApiResponse<IdResponse>((await this._context.Excursions.Where(x => x.Name == request.Name)
+                .Select(x => new IdResponse { Id = x.Id })
                 .SingleOrDefaultAsync())!);
         }
 
-        public async Task<ApiResponse<Excursion>> UpdateExcursion(int id, ExcursionRequest request, UserBasic user)
+        public async Task<ApiResponse> UpdateExcursion(int id, ExcursionRequest request, UserBasic user)
         {
             if (!CheckPermissions(user))
-                return new Unauthorized<Excursion>("You don't have permissions");
+                return new Unauthorized("You don't have permissions");
 
             var excursion = await this._context.Excursions.FindAsync(id);
-            if (excursion is null) return new NotFound<Excursion>("Not found excursion");
+            if (excursion is null) return new NotFound("Not found excursion");
 
             if (request.Places.Count == 0 || request.Activities.Count == 0)
-                return new BadRequest<Excursion>("There must be at least one tourist activity and one tourist place");
+                return new BadRequest("There must be at least one tourist activity and one tourist place");
 
             var response = await CreateExcursion(request);
-            if (!response.Ok) return response.ConvertApiResponse<Excursion>();
+            if (!response.Ok) return response.ConvertApiResponse();
 
             var newExcursion = response.Value!;
             newExcursion.Id = excursion.Id;
@@ -57,21 +59,21 @@ namespace Travel_Agency_Logic.Services
             _context.Update(newExcursion);
             await _context.SaveChangesAsync();
 
-            return new ApiResponse<Excursion>(newExcursion);
+            return new ApiResponse();
         }
 
-        public async Task<ApiResponse<Excursion>> DeleteExcursion(int id, UserBasic user)
+        public async Task<ApiResponse> DeleteExcursion(int id, UserBasic user)
         {
             if (!CheckPermissions(user))
-                return new Unauthorized<Excursion>("You don't have permissions");
+                return new Unauthorized("You don't have permissions");
 
             var excursion = await _context.Excursions.FindAsync(id);
-            if (excursion is null) return new NotFound<Excursion>("Excursion not found");
+            if (excursion is null) return new NotFound("Excursion not found");
 
             _context.Excursions.Remove(excursion);
             await _context.SaveChangesAsync();
 
-            return new ApiResponse<Excursion>(excursion!);
+            return new ApiResponse();
         }
 
         private static bool CheckPermissions(UserBasic user) =>
