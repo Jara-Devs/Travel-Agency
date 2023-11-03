@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
-using Travel_Agency_Domain.Services;
 using Travel_Agency_Logic.Core;
+using Travel_Agency_Logic.Request;
+using Travel_Agency_Logic.Response;
 
 namespace Travel_Agency_Logic.Services
 {
@@ -15,40 +16,54 @@ namespace Travel_Agency_Logic.Services
             _context = context;
         }
 
-        public async Task<ApiResponse<Hotel>> CreateHotel(Hotel hotel, UserBasic user)
+        public async Task<ApiResponse<IdResponse>> CreateHotel(HotelRequest hotel, UserBasic user)
         {
             if (!CheckPermissions(user))
-                return new Unauthorized<Hotel>("You don't have permissions");   
-            if (await _context.Hotels.AnyAsync(h => h.Id == user.Id))
-                return new NotFound<Hotel>("The hotel already exists");
-            _context.Hotels.Add(hotel);
+                return new Unauthorized<IdResponse>("You don't have permissions");
+
+            if (await _context.Hotels.AnyAsync(h => h.Name == hotel.Name))
+                return new NotFound<IdResponse>("The hotel already exists");
+
+            _context.Hotels.Add(hotel.Hotel());
             await _context.SaveChangesAsync();
-            return new ApiResponse<Hotel>(hotel);
+
+            return new ApiResponse<IdResponse>((await this._context.Hotels.Where(x => x.Name == hotel.Name)
+                .Select(x => new IdResponse { Id = x.Id }).SingleOrDefaultAsync())!);
         }
 
-        public async Task<ApiResponse<Hotel>> UpdateHotel(Hotel hotel, UserBasic user)
+        public async Task<ApiResponse> UpdateHotel(int id, HotelRequest hotel, UserBasic user)
         {
             if (!CheckPermissions(user))
-                return new Unauthorized<Hotel>("You don't have permissions");  
-            if (!await _context.Hotels.AnyAsync(h => h.Id == hotel.Id))
-                return new NotFound<Hotel>("Hotel not found");
-            _context.Update(hotel).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return new ApiResponse<Hotel>(hotel);
-        }
+                return new Unauthorized("You don't have permissions");
 
-        public async Task<ApiResponse<Hotel>> DeleteHotel(int id, UserBasic user)
-        {
-            if (!CheckPermissions(user))
-                return new Unauthorized<Hotel>("You don't have permissions");  
             if (!await _context.Hotels.AnyAsync(h => h.Id == id))
-                return new NotFound<Hotel>("Hotel not found");
-            var hotel = await _context.Hotels.FindAsync(id);
-            _context.Hotels.Remove(hotel!);
+                return new NotFound("Hotel not found");
+
+            var x = hotel.Hotel();
+            x.Id = id;
+
+            _context.Update(x);
             await _context.SaveChangesAsync();
-            return new ApiResponse<Hotel>(hotel!);
+
+            return new ApiResponse();
         }
 
-        private static bool CheckPermissions(UserBasic user) => user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
+        public async Task<ApiResponse> DeleteHotel(int id, UserBasic user)
+        {
+            if (!CheckPermissions(user))
+                return new Unauthorized("You don't have permissions");
+
+            var hotel = await _context.Hotels.FindAsync(id);
+
+            if (hotel is null)
+                return new NotFound("Hotel not found");
+
+            _context.Hotels.Remove(hotel);
+            await _context.SaveChangesAsync();
+            return new ApiResponse();
+        }
+
+        private static bool CheckPermissions(UserBasic user) =>
+            user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
     }
 }
