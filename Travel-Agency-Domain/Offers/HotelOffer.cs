@@ -8,8 +8,8 @@ public class HotelOffer : Offer
 
     public Hotel Hotel { get; set; } = null!;
 
-    public HotelOffer(string description, double price,int hotelId) : base(description, price)
-    {
+    public HotelOffer(string name, int availability, string description, double price, long startDate, long endDate, int hotelId) 
+        : base(description, price, name, availability, startDate, endDate) {
         this.HotelId = hotelId;
     }
 }

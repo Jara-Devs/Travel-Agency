@@ -8,8 +8,8 @@ public class ExcursionOffer : Offer
 
     public Excursion Excursion { get; set; } = null!;
 
-    public ExcursionOffer(string description, double price, int excursionId) : base(description, price)
-    {
+    public ExcursionOffer(string name, int availability, string description, double price, long startDate, long endDate, int excursionId) 
+        : base(description, price, name, availability, startDate, endDate) {
         this.ExcursionId = excursionId;
     }
 }
