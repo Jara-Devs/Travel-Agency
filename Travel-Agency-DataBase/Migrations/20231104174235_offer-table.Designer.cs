@@ -10,7 +10,7 @@ using Travel_Agency_DataBase;
 namespace Travel_Agency_DataBase.Migrations
 {
     [DbContext(typeof(TravelAgencyContext))]
-    [Migration("20231104162259_offer-table")]
+    [Migration("20231104174235_offer-table")]
     partial class offertable
     {
         /// <inheritdoc />
