@@ -7,11 +7,11 @@ using Travel_Agency_Logic.Response;
 
 namespace Travel_Agency_Logic.Services
 {
-    public class TouristActivitieservice : ITouristActivityService
+    public class TouristActivityService : ITouristActivityService
     {
         private readonly TravelAgencyContext _context;
 
-        public TouristActivitieservice(TravelAgencyContext context)
+        public TouristActivityService(TravelAgencyContext context)
         {
             _context = context;
         }
