@@ -27,6 +27,7 @@ public static class ProgramServices
         services.AddScoped<IExcursionService, ExcursionService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<ITouristPlaceService, TouristPlaceService>();
+        services.AddScoped<ITouristActivityService, TouristActivityService>();
         services.AddScoped<IHotelService, HotelService>();
 
         services.AddScoped<SecurityService>();

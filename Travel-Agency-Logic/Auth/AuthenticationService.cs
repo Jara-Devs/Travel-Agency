@@ -134,8 +134,8 @@ public class AuthenticationService : IAuthenticationService
 
     public ApiResponse<LoginResponse> Renew(UserBasic user)
     {
-        return new ApiResponse<LoginResponse>(new LoginResponse(user.Name, user.Role,
-            this._securityService.JwtAuth(user.Id, user.Name, user.Role)));
+        return new ApiResponse<LoginResponse>(new LoginResponse(user.Name,
+            this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
     public async Task<ApiResponse> ChangePassword(ChangePasswordRequest request, UserBasic userRequest)
