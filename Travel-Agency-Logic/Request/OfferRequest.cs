@@ -8,6 +8,8 @@ public abstract class OfferRequest<T> where T : Offer
 
     public int Availability { get; set; } = 0;
 
+    public int AgencyId { get; set; } = 0;
+
     public string Description { get; set; } = null!;
 
     public double Price { get; set; } = 0;
@@ -23,19 +25,19 @@ public class HotelOfferRequest : OfferRequest<HotelOffer>
 {
     public int HotelId { get; set; } = 0;
 
-    public override HotelOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, HotelId);
+    public override HotelOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, HotelId);
 }
 
 public class ExcursionOfferRequest : OfferRequest<ExcursionOffer>
 {
     public int ExcursionId { get; set; } = 0;
 
-    public override ExcursionOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, ExcursionId);
+    public override ExcursionOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, ExcursionId);
 }
 
 public class FlightOfferRequest : OfferRequest<FlightOffer>
 {
     public int FlightId { get; set; } = 0;
 
-    public override FlightOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, FlightId);
+    public override FlightOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, FlightId);
 }

@@ -8,8 +8,9 @@ public class FlightOffer : Offer
 
     public Flight Flight { get; set; } = null!;
 
-    public FlightOffer(string name, int availability, string description, double price, long startDate, long endDate, int flightId) 
-        : base(description, price, name, availability, startDate, endDate) {
+    public FlightOffer(string name, int availability, string description, double price, long startDate, 
+        long endDate, int agencyId, int flightId) 
+        : base(description, price, name, availability, startDate, endDate, agencyId) {
         this.FlightId = flightId;
     }
 }

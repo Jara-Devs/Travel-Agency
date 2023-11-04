@@ -27,6 +27,9 @@ namespace Travel_Agency_Logic.Services
             if (await _context.Set<T>().AnyAsync(o => o.Name == offer.Name))
                 return new BadRequest<IdResponse>("The offer already exists");
 
+            if (!await _context.Agencies.AnyAsync(a => a.Id == offer.AgencyId))
+                return new BadRequest<IdResponse>("The agency don't exists");
+
             if (!CheckValidity(offer))
                 return new BadRequest<IdResponse>("The offer is not valid");
 
@@ -45,7 +48,7 @@ namespace Travel_Agency_Logic.Services
 
             if (!await _context.Set<T>().AnyAsync(o => o.Id == id))
                 return new NotFound("Offer not found");
-
+                
             if (!CheckValidity(offer))
                 return new BadRequest("The offer is not valid");
 
