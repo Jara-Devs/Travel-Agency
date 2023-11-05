@@ -72,17 +72,24 @@ public class AuthenticationService : IAuthenticationService
             this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
-    public async Task<ApiResponse<IdResponse>> RegisterManagerAgency(RegisterUserAgencyRequest userAgencyRequest,
+    public async Task<ApiResponse<IdResponse>> RegisterUserAgency(RegisterUserAgencyRequest userAgencyRequest,
         UserBasic user)
     {
         if (user.Role != Roles.AdminAgency)
             return new Unauthorized<IdResponse>("You are not an admin of this agency");
 
+        var admin = await this._context.UserAgencies.FindAsync(user.Id);
+        if (admin!.Id != userAgencyRequest.AgencyId)
+            return new Unauthorized<IdResponse>("You are not an admin of this agency");
+
+        if (userAgencyRequest.Role != Roles.EmployeeAgency && userAgencyRequest.Role != Roles.ManagerAgency)
+            return new BadRequest<IdResponse>("Invalid role");
+
         var check = await CheckRegister(userAgencyRequest.Email, userAgencyRequest.Password);
         if (!check.Ok) return check.ConvertApiResponse<IdResponse>();
 
         this._context.Add(new UserAgency(userAgencyRequest.Name, userAgencyRequest.Email,
-            SecurityService.EncryptPassword(userAgencyRequest.Password), Roles.ManagerAgency,
+            SecurityService.EncryptPassword(userAgencyRequest.Password), userAgencyRequest.Role,
             userAgencyRequest.AgencyId));
         await this._context.SaveChangesAsync();
 
@@ -93,27 +100,29 @@ public class AuthenticationService : IAuthenticationService
         return new ApiResponse<IdResponse>(userAgency!);
     }
 
-    public async Task<ApiResponse<IdResponse>> RegisterEmployeeAgency(RegisterUserAgencyRequest userAgencyRequest,
-        UserBasic user)
+    public async Task<ApiResponse> RemoveUserAgency(int id, UserBasic userBasic)
     {
-        if (user.Role != Roles.AdminAgency)
-            return new Unauthorized<IdResponse>("You are not an admin of this agency");
+        if (userBasic.Role != Roles.AdminAgency)
+            return new Unauthorized("You are not an admin of this agency");
 
-        var check = await CheckRegister(userAgencyRequest.Email, userAgencyRequest.Password);
-        if (!check.Ok) return check.ConvertApiResponse<IdResponse>();
+        var user = await this._context.UserAgencies.FindAsync(id);
+        if (user is null) return new NotFound("Not found user");
 
-        this._context.Add(new UserAgency(userAgencyRequest.Name, userAgencyRequest.Email,
-            SecurityService.EncryptPassword(userAgencyRequest.Password), Roles.EmployeeAgency,
-            userAgencyRequest.AgencyId));
+        var admin = await this._context.UserAgencies.FindAsync(userBasic.Id);
+
+        if (user.AgencyId != admin!.AgencyId)
+            return new Unauthorized("You are not an admin of this agency");
+
+        if (admin.Id == user.Id)
+            return new BadRequest("You can't eliminate yourself");
+
+        this._context.Remove(user);
         await this._context.SaveChangesAsync();
 
-        var userAgency = await this._context.Users.Where(u => u.Email == userAgencyRequest.Email)
-            .Select(x => new IdResponse { Id = x.Id }).SingleOrDefaultAsync();
-
-        return new ApiResponse<IdResponse>(userAgency!);
+        return new ApiResponse();
     }
 
-    public async Task<ApiResponse<IdResponse>> RegisterUserApp(RegisterUserAgencyRequest userAppRequest,
+    public async Task<ApiResponse<IdResponse>> RegisterUserApp(RegisterUserAppRequest userAppRequest,
         UserBasic user)
     {
         if (user.Role != Roles.AdminApp)
@@ -130,6 +139,23 @@ public class AuthenticationService : IAuthenticationService
             .Select(x => new IdResponse { Id = x.Id }).SingleOrDefaultAsync();
 
         return new ApiResponse<IdResponse>(userApp!);
+    }
+
+    public async Task<ApiResponse> RemoveUserApp(int id, UserBasic userBasic)
+    {
+        if (userBasic.Role != Roles.AdminApp)
+            return new Unauthorized("You are not an admin of app");
+
+        var user = await this._context.Users.FindAsync(id);
+        if (user is null) return new NotFound("Not found user");
+
+        if (user.Role != Roles.EmployeeApp)
+            return new BadRequest("You cannot delete a user who is not from the app");
+
+        this._context.Remove(user);
+        await this._context.SaveChangesAsync();
+
+        return new ApiResponse();
     }
 
     public ApiResponse<LoginResponse> Renew(UserBasic user)

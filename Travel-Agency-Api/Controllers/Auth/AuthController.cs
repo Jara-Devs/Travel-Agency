@@ -29,22 +29,6 @@ public class AuthController : TravelAgencyController
     public async Task<IActionResult> RegisterAgency([FromBody] RegisterAgencyRequest request) =>
         ToResponse(await this._authService.RegisterAgency(request));
 
-    [HttpPost("register/agency/manager")]
-    [Authorize(Roles = Roles.AdminAgency)]
-    public async Task<IActionResult> RegisterManagerAgency([FromBody] RegisterUserAgencyRequest request)
-    {
-        var user = GetUser().Value!;
-        return ToResponse(await this._authService.RegisterManagerAgency(request, user));
-    }
-
-    [HttpPost("register/agency/employee")]
-    [Authorize(Roles = Roles.AdminAgency)]
-    public async Task<IActionResult> RegisterEmployeeAgency([FromBody] RegisterUserAgencyRequest request)
-    {
-        var user = GetUser().Value!;
-        return ToResponse(await this._authService.RegisterEmployeeAgency(request, user));
-    }
-
     [HttpPost("changePassword")]
     [Authorize]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
