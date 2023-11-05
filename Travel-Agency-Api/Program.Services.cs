@@ -12,6 +12,7 @@ using Travel_Agency_Logic;
 using Travel_Agency_Logic.Auth;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Services;
+using Travel_Agency_Domain.Offers;
 
 namespace Travel_Agency_Api;
 
@@ -27,6 +28,9 @@ public static class ProgramServices
         services.AddScoped<IExcursionService, ExcursionService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<ITouristPlaceService, TouristPlaceService>();
+        services.AddScoped<IOfferService<HotelOffer>, OfferService<HotelOffer>>();
+        services.AddScoped<IOfferService<ExcursionOffer>, OfferService<ExcursionOffer>>();
+        services.AddScoped<IOfferService<FlightOffer>, OfferService<FlightOffer>>();
         services.AddScoped<ITouristActivityService, TouristActivityService>();
         services.AddScoped<IHotelService, HotelService>();
 

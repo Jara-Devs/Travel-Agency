@@ -16,13 +16,13 @@ namespace Travel_Agency_Logic.Services
             _context = context;
         }
 
-        public async Task<ApiResponse<IdResponse>> CreateTouristPlace(TouristicPlaceRequest touristPlace,
+        public async Task<ApiResponse<IdResponse>> CreateTouristPlace(TouristPlaceRequest touristPlace,
             UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
-            if (await _context.TouristPlaces.AnyAsync(a => a.Name == touristPlace.Name))
+            if (await _context.TouristPlaces.AnyAsync(tp => tp.Name == touristPlace.Name))
                 return new NotFound<IdResponse>("The tourist place already exists");
 
             _context.TouristPlaces.Add(touristPlace.TouristPlace());
@@ -33,12 +33,12 @@ namespace Travel_Agency_Logic.Services
                 .SingleOrDefaultAsync())!);
         }
 
-        public async Task<ApiResponse> UpdateTouristPlace(int id, TouristicPlaceRequest touristPlace, UserBasic user)
+        public async Task<ApiResponse> UpdateTouristPlace(int id, TouristPlaceRequest touristPlace, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
-            if (!await _context.TouristPlaces.AnyAsync(h => h.Id == id))
+            if (!await _context.TouristPlaces.AnyAsync(tp => tp.Id == id))
                 return new NotFound("Tourist place not found");
 
             var newTouristPlace = touristPlace.TouristPlace();

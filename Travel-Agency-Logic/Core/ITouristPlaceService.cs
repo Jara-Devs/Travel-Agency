@@ -7,7 +7,7 @@ namespace Travel_Agency_Logic.Core;
 
 public interface ITouristPlaceService
 {
-    Task<ApiResponse<IdResponse>> CreateTouristPlace(TouristicPlaceRequest touristPlace, UserBasic user);
-    Task<ApiResponse> UpdateTouristPlace(int id, TouristicPlaceRequest touristPlace, UserBasic user);
+    Task<ApiResponse<IdResponse>> CreateTouristPlace(TouristPlaceRequest touristPlace, UserBasic user);
+    Task<ApiResponse> UpdateTouristPlace(int id, TouristPlaceRequest touristPlace, UserBasic user);
     Task<ApiResponse> DeleteTouristPlace(int id, UserBasic user);
 }

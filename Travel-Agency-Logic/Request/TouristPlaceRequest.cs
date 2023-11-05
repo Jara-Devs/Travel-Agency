@@ -3,7 +3,7 @@ using Travel_Agency_Domain.Services;
 
 namespace Travel_Agency_Logic.Request;
 
-public class TouristicPlaceRequest
+public class TouristPlaceRequest
 {
     public string Name { get; set; } = null!;
 

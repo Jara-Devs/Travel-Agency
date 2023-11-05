@@ -75,11 +75,11 @@ namespace Travel_Agency_Logic.Services
 
         private async Task<ApiResponse<Hotel>> CreateHotel(HotelRequest request)
         {
-            var touristicPlace = await this._context.TouristPlaces.FindAsync(request.TouristPlaceId);
-            if (touristicPlace is null) return new BadRequest<Hotel>("Not found touristic place");
+            var touristPlace = await this._context.TouristPlaces.FindAsync(request.TouristPlaceId);
+            if (touristPlace is null) return new BadRequest<Hotel>("Not found tourist place");
 
             var hotel = request.Hotel();
-            hotel.TouristPlace = touristicPlace;
+            hotel.TouristPlace = touristPlace;
 
             return new ApiResponse<Hotel>(hotel);
         }

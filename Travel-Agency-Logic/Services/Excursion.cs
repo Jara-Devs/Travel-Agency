@@ -86,7 +86,7 @@ namespace Travel_Agency_Logic.Services
             {
                 var place = await this._context.TouristPlaces.FindAsync(item);
                 if (place is null)
-                    return new BadRequest<Excursion>("Not found touristic place");
+                    return new BadRequest<Excursion>("Not found tourist place");
 
                 excursion.Places.Add(place);
             }
@@ -95,7 +95,7 @@ namespace Travel_Agency_Logic.Services
             {
                 var activity = await this._context.TouristActivities.FindAsync(item);
                 if (activity is null)
-                    return new BadRequest<Excursion>("Not found touristic place");
+                    return new BadRequest<Excursion>("Not found tourist activity");
 
                 excursion.Activities.Add(activity);
             }
