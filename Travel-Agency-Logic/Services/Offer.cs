@@ -21,7 +21,7 @@ namespace Travel_Agency_Logic.Services
 
         public async Task<ApiResponse<IdResponse>> CreateOffer(OfferRequest<T> offer, UserBasic user)
         {
-            if (!CheckPermissions(user))
+            if (!await CheckPermissions(user, offer.AgencyId))
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
             if (await _context.Set<T>().AnyAsync(o => o.Name == offer.Name))
@@ -43,7 +43,7 @@ namespace Travel_Agency_Logic.Services
         
         public async Task<ApiResponse> UpdateOffer(int id, OfferRequest<T> offer, UserBasic user)
         {
-            if (!CheckPermissions(user))
+            if (!await CheckPermissions(user, offer.AgencyId))
                 return new Unauthorized("You don't have permissions");
 
             if (!await _context.Set<T>().AnyAsync(o => o.Id == id))
@@ -63,13 +63,13 @@ namespace Travel_Agency_Logic.Services
 
         public async Task<ApiResponse> DeleteOffer(int id, UserBasic user)
         {
-            if (!CheckPermissions(user))
-                return new Unauthorized("You don't have permissions");
-
             var offer = await _context.Set<T>().FindAsync(id);
 
             if (offer is null)
                 return new NotFound("Offer not found");
+
+            if (!await CheckPermissions(user, offer.AgencyId))
+                return new Unauthorized("You don't have permissions");
 
             _context.Set<T>().Remove(offer);
             await _context.SaveChangesAsync();
@@ -77,8 +77,16 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse();
         }
 
-        private static bool CheckPermissions(UserBasic user) =>
-            user.Role == Roles.AdminAgency || user.Role == Roles.ManagerAgency;
+        private async Task<bool> CheckPermissions(UserBasic user, int agencyId) {
+            if (!(user.Role == Roles.AdminAgency || user.Role == Roles.ManagerAgency)) return false;
+
+            var fullUser = await _context.UserAgencies.FindAsync(user.Id);
+
+            if (fullUser is null) return false;
+
+            return fullUser.AgencyId == agencyId;
+        }
+            
 
         private static bool CheckValidity(OfferRequest<T> offer) =>
             offer.Availability >= 0 && offer.Price >= 0 && offer.StartDate <= offer.EndDate;
