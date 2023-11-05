@@ -31,6 +31,8 @@ public static class ProgramServices
         services.AddScoped<IOfferService<HotelOffer>, OfferService<HotelOffer>>();
         services.AddScoped<IOfferService<ExcursionOffer>, OfferService<ExcursionOffer>>();
         services.AddScoped<IOfferService<FlightOffer>, OfferService<FlightOffer>>();
+        services.AddScoped<ITouristActivityService, TouristActivityService>();
+        services.AddScoped<IHotelService, HotelService>();
 
         services.AddScoped<SecurityService>();
     }
