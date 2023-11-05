@@ -36,8 +36,8 @@ public class ExcursionOfferRequest : OfferRequest<ExcursionOffer>
 }
 
 public class FlightOfferRequest : OfferRequest<FlightOffer>
-{
+{ 
     public int FlightId { get; set; } = 0;
-
+    
     public override FlightOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, FlightId);
 }
