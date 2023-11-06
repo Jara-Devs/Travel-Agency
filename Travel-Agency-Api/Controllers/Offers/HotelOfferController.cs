@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
 using Travel_Agency_Api.Core;
 using Travel_Agency_Core;
+using Travel_Agency_DataBase.Core;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
@@ -15,10 +18,32 @@ public class HotelOfferController : TravelAgencyController
 {
     private readonly IOfferService<HotelOffer> _hotelOfferService;
 
-    public HotelOfferController(IOfferService<HotelOffer> hotelOfferService)
+    private readonly IQueryEntity<HotelOffer> _query;
+
+    public HotelOfferController(IOfferService<HotelOffer> hotelOfferService,IQueryEntity<HotelOffer> query)
     {
         _hotelOfferService = hotelOfferService;
+        _query = query;
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> Get(ODataQueryOptions<HotelOffer> options)
+    {
+        var user = GetUser().Value!;
+        var response = await this._query.Get(user);
+
+        return OdataResponse(response, options);
+    }
+
+    [HttpGet("{key}")]
+    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<HotelOffer> options)
+    {
+        var user = GetUser().Value!;
+        var response = await this._query.Get(user);
+
+        return OdataSingleResponse(response, options, x => x.Id == key);
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> CreateHotelOffer([FromBody] HotelOfferRequest hotelOffer)

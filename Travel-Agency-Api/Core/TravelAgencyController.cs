@@ -43,7 +43,7 @@ public abstract class TravelAgencyController : ControllerBase
         object? value = single ? query.SingleOrDefault() : query;
 
         if (value is null)
-            return NotFound(new { ok = false, message = response.Message });
+            return NotFound(new { ok = false, message = "Not found element" });
 
         return StatusCode((int)response.Status,
             new { ok = response.Ok, value, message = response.Message });

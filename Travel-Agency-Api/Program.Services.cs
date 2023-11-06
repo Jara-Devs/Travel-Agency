@@ -8,6 +8,7 @@ using Microsoft.OData.ModelBuilder;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_DataBase.Core;
+using Travel_Agency_DataBase.Queries.Offers;
 using Travel_Agency_DataBase.Queries.Services;
 using Travel_Agency_DataBase.Queries.Users;
 using Travel_Agency_Logic;
@@ -32,6 +33,9 @@ public static class ProgramServices
         services.AddScoped<IQueryEntity<Hotel>, ServiceQuery<Hotel>>();
         services.AddScoped<IQueryEntity<TouristActivity>, ServiceQuery<TouristActivity>>();
         services.AddScoped<IQueryEntity<TouristPlace>, ServiceQuery<TouristPlace>>();
+        services.AddScoped<IQueryEntity<ExcursionOffer>, OfferQuery<ExcursionOffer>>();
+        services.AddScoped<IQueryEntity<HotelOffer>, OfferQuery<HotelOffer>>();
+        services.AddScoped<IQueryEntity<FlightOffer>, OfferQuery<FlightOffer>>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -107,6 +111,9 @@ public static class ProgramServices
         builder.EntitySet<Hotel>("Hotel");
         builder.EntitySet<TouristPlace>("TouristPlace");
         builder.EntitySet<TouristActivity>("TouristActivity");
+        builder.EntitySet<HotelOffer>("HotelOffer");
+        builder.EntitySet<ExcursionOffer>("ExcursionOffer");
+        builder.EntitySet<FlightOffer>("FlightOffer");
 
         return builder.GetEdmModel();
     }
