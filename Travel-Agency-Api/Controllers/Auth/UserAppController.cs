@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
 using Travel_Agency_Api.Core;
 using Travel_Agency_Core;
+using Travel_Agency_DataBase.Core;
+using Travel_Agency_Domain.Users;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
 
@@ -14,10 +18,32 @@ public class UserAppController : TravelAgencyController
 {
     private readonly IAuthenticationService _authService;
 
-    public UserAppController(IAuthenticationService authService)
+    private readonly IQueryEntity<User> _query;
+
+    public UserAppController(IAuthenticationService authService, IQueryEntity<User> query)
     {
         this._authService = authService;
+        this._query = query;
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Get(ODataQueryOptions<User> options)
+    {
+        var user = GetUser().Value!;
+        var response = await this._query.Get(user);
+
+        return OdataResponse(response, options);
+    }
+
+    [HttpGet("{key}")]
+    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<User> options)
+    {
+        var user = GetUser().Value!;
+        var response = await this._query.Get(user);
+
+        return OdataSingleResponse(response, options, x => x.Id == key);
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> RegisterUser([FromBody] RegisterUserAppRequest request)

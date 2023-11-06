@@ -30,7 +30,6 @@ public class UserAgencyController : TravelAgencyController
     public async Task<IActionResult> Get(ODataQueryOptions<UserAgency> options)
     {
         var user = GetUser().Value!;
-
         var response = await this._query.Get(user);
 
         return OdataResponse(response, options);
@@ -40,7 +39,6 @@ public class UserAgencyController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<UserAgency> options)
     {
         var user = GetUser().Value!;
-
         var response = await this._query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);

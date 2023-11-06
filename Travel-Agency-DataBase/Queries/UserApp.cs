@@ -1,0 +1,25 @@
+using Travel_Agency_Core;
+using Travel_Agency_DataBase.Core;
+using Travel_Agency_Domain.Users;
+
+namespace Travel_Agency_DataBase.Queries;
+
+public class UserAppQuery : IQueryEntity<User>
+{
+    private readonly TravelAgencyContext _context;
+
+    public UserAppQuery(TravelAgencyContext context)
+    {
+        this._context = context;
+    }
+
+    public Task<ApiResponse<IQueryable<User>>> Get(UserBasic userBasic)
+    {
+        if (userBasic.Role != Roles.AdminApp)
+            return Task.FromResult(
+                new Unauthorized<IQueryable<User>>("You are not an admin app") as ApiResponse<IQueryable<User>>);
+
+        return Task.FromResult(new ApiResponse<IQueryable<User>>(
+            this._context.Users.Where(x => x.Role == Roles.EmployeeApp)));
+    }
+}

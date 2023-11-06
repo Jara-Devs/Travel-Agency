@@ -24,7 +24,8 @@ public static class ProgramServices
     public static void AddAllServices(this IServiceCollection services)
     {
         // Configure queries
-        services.AddScoped<IQueryEntity<UserAgency>,UserAgencyQuery>();
+        services.AddScoped<IQueryEntity<UserAgency>, UserAgencyQuery>();
+        services.AddScoped<IQueryEntity<User>, UserAppQuery>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -95,6 +96,7 @@ public static class ProgramServices
 
         // Configure entities
         builder.EntitySet<UserAgency>("UserAgency");
+        builder.EntitySet<User>("UserApp");
 
         return builder.GetEdmModel();
     }
