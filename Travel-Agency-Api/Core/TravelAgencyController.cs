@@ -39,15 +39,15 @@ public abstract class TravelAgencyController : ControllerBase
             return StatusCode((int)response.Status,
                 new { ok = response.Ok, message = response.Message });
 
-        var query = (options.ApplyTo(response.Value) as IQueryable<T>)!.Where(filter ?? (_ => true));
-        object? value = single ? query.SingleOrDefault() : query;
-
+        var query = options.ApplyTo(response.Value.Where(filter ?? (_ => true))).AsQueryable() as IQueryable<object>;
+        var value = single ? query!.SingleOrDefault() : query;
         if (value is null)
             return NotFound(new { ok = false, message = "Not found element" });
 
         return StatusCode((int)response.Status,
             new { ok = response.Ok, value, message = response.Message });
     }
+
 
     protected ApiResponse<UserBasic> GetUser()
     {
