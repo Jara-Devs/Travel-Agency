@@ -1,14 +1,12 @@
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_Domain.Offers;
-using Travel_Agency_Domain.Services;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
 using Travel_Agency_Logic.Response;
 
-namespace Travel_Agency_Logic.Services
+namespace Travel_Agency_Logic.Offers
 {
     public class OfferService<T> : IOfferService<T> where T : Offer
     {

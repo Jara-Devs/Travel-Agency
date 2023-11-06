@@ -14,6 +14,7 @@ using Travel_Agency_Logic;
 using Travel_Agency_Logic.Auth;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Services;
+using Travel_Agency_Logic.Offers;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Services;
 using Travel_Agency_Domain.Users;
