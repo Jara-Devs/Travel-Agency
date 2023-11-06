@@ -20,7 +20,7 @@ public class AuthController : TravelAgencyController
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request) => ToResponse(await this._authService.Login(request));
-
+    
     [HttpPost("register/tourist")]
     public async Task<IActionResult> RegisterTourist([FromBody] RegisterTouristRequest request) =>
         ToResponse(await this._authService.RegisterTourist(request));

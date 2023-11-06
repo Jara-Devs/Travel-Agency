@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
+using Travel_Agency_Api.Controllers.Auth;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_DataBase.Core;
+using Travel_Agency_DataBase.Queries;
 using Travel_Agency_Logic;
 using Travel_Agency_Logic.Auth;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Services;
 using Travel_Agency_Domain.Offers;
+using Travel_Agency_Domain.Users;
 
 namespace Travel_Agency_Api;
 
@@ -20,8 +23,8 @@ public static class ProgramServices
 {
     public static void AddAllServices(this IServiceCollection services)
     {
-        // Configure query
-        services.AddScoped(typeof(IQuery<>), typeof(Query<>));
+        // Configure queries
+        services.AddScoped<IQueryEntity<UserAgency>,UserAgencyQuery>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -91,7 +94,7 @@ public static class ProgramServices
         var builder = new ODataConventionModelBuilder();
 
         // Configure entities
-
+        builder.EntitySet<UserAgency>("UserAgency");
 
         return builder.GetEdmModel();
     }
