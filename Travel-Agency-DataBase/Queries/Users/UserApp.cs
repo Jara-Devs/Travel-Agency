@@ -2,7 +2,7 @@ using Travel_Agency_Core;
 using Travel_Agency_DataBase.Core;
 using Travel_Agency_Domain.Users;
 
-namespace Travel_Agency_DataBase.Queries;
+namespace Travel_Agency_DataBase.Queries.Users;
 
 public class UserAppQuery : IQueryEntity<User>
 {

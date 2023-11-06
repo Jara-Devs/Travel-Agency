@@ -5,16 +5,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using Travel_Agency_Api.Controllers.Auth;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_DataBase.Core;
-using Travel_Agency_DataBase.Queries;
+using Travel_Agency_DataBase.Queries.Services;
+using Travel_Agency_DataBase.Queries.Users;
 using Travel_Agency_Logic;
 using Travel_Agency_Logic.Auth;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Services;
 using Travel_Agency_Domain.Offers;
+using Travel_Agency_Domain.Services;
 using Travel_Agency_Domain.Users;
 
 namespace Travel_Agency_Api;
@@ -26,6 +27,10 @@ public static class ProgramServices
         // Configure queries
         services.AddScoped<IQueryEntity<UserAgency>, UserAgencyQuery>();
         services.AddScoped<IQueryEntity<User>, UserAppQuery>();
+        services.AddScoped<IQueryEntity<Excursion>, ServiceQuery<Excursion>>();
+        services.AddScoped<IQueryEntity<Hotel>, ServiceQuery<Hotel>>();
+        services.AddScoped<IQueryEntity<TouristActivity>, ServiceQuery<TouristActivity>>();
+        services.AddScoped<IQueryEntity<TouristPlace>, ServiceQuery<TouristPlace>>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -97,6 +102,10 @@ public static class ProgramServices
         // Configure entities
         builder.EntitySet<UserAgency>("UserAgency");
         builder.EntitySet<User>("UserApp");
+        builder.EntitySet<Excursion>("Excursion");
+        builder.EntitySet<Hotel>("Hotel");
+        builder.EntitySet<TouristPlace>("TouristPlace");
+        builder.EntitySet<TouristActivity>("TouristActivity");
 
         return builder.GetEdmModel();
     }

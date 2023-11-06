@@ -40,7 +40,7 @@ namespace Travel_Agency_Logic.Services
                 .Where(o => o.Name == offer.Name).Select(o => new IdResponse { Id = o.Id })
                 .SingleOrDefaultAsync())!);
         }
-        
+
         public async Task<ApiResponse> UpdateOffer(int id, OfferRequest<T> offer, UserBasic user)
         {
             if (!await CheckPermissions(user, offer.AgencyId))
@@ -48,7 +48,7 @@ namespace Travel_Agency_Logic.Services
 
             if (!await _context.Set<T>().AnyAsync(o => o.Id == id))
                 return new NotFound("Offer not found");
-                
+
             if (!CheckValidity(offer))
                 return new BadRequest("The offer is not valid");
 
@@ -77,7 +77,8 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse();
         }
 
-        private async Task<bool> CheckPermissions(UserBasic user, int agencyId) {
+        private async Task<bool> CheckPermissions(UserBasic user, int agencyId)
+        {
             if (!(user.Role == Roles.AdminAgency || user.Role == Roles.ManagerAgency)) return false;
 
             var fullUser = await _context.UserAgencies.FindAsync(user.Id);
@@ -86,7 +87,7 @@ namespace Travel_Agency_Logic.Services
 
             return fullUser.AgencyId == agencyId;
         }
-            
+
 
         private static bool CheckValidity(OfferRequest<T> offer) =>
             offer.Availability >= 0 && offer.Price >= 0 && offer.StartDate <= offer.EndDate;
