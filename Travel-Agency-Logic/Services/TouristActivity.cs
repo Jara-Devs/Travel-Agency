@@ -25,15 +25,15 @@ namespace Travel_Agency_Logic.Services
             if (await _context.TouristActivities.AnyAsync(ta => ta.Name == touristActivity.Name))
                 return new NotFound<IdResponse>("The tourist activity already exists");
 
-            _context.TouristActivities.Add(touristActivity.TouristActivity());
+            var entity = touristActivity.TouristActivity();
+            _context.TouristActivities.Add(entity);
             await _context.SaveChangesAsync();
 
-            return new ApiResponse<IdResponse>((await this._context.TouristActivities
-                .Where(x => x.Name == touristActivity.Name).Select(x => new IdResponse { Id = x.Id })
-                .SingleOrDefaultAsync())!);
+            return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateTouristActivity(int id, TouristActivityRequest touristActivity, UserBasic user)
+        public async Task<ApiResponse> UpdateTouristActivity(int id, TouristActivityRequest touristActivity,
+            UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");

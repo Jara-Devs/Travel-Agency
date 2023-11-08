@@ -27,6 +27,7 @@ public class HotelOfferController : TravelAgencyController
     }
     
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(ODataQueryOptions<HotelOffer> options)
     {
         var user = GetUser().Value!;
@@ -36,6 +37,7 @@ public class HotelOfferController : TravelAgencyController
     }
 
     [HttpGet("{key}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<HotelOffer> options)
     {
         var user = GetUser().Value!;

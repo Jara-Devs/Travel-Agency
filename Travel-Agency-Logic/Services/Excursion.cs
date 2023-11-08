@@ -31,12 +31,11 @@ namespace Travel_Agency_Logic.Services
             var response = await CreateExcursion(request);
             if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
 
-            _context.Excursions.Add(response.Value!);
+            var entity = response.Value!;
+            _context.Excursions.Add(entity);
             await _context.SaveChangesAsync();
 
-            return new ApiResponse<IdResponse>((await this._context.Excursions.Where(x => x.Name == request.Name)
-                .Select(x => new IdResponse { Id = x.Id })
-                .SingleOrDefaultAsync())!);
+            return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
         public async Task<ApiResponse> UpdateExcursion(int id, ExcursionRequest request, UserBasic user)

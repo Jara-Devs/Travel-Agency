@@ -27,6 +27,7 @@ public class ExcursionController : TravelAgencyController
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(ODataQueryOptions<Excursion> options)
     {
         var user = GetUser().Value!;
@@ -36,6 +37,7 @@ public class ExcursionController : TravelAgencyController
     }
 
     [HttpGet("{key}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<Excursion> options)
     {
         var user = GetUser().Value!;

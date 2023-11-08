@@ -8,8 +8,7 @@ using Microsoft.OData.ModelBuilder;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_DataBase.Core;
-using Travel_Agency_DataBase.Queries.Offers;
-using Travel_Agency_DataBase.Queries.Services;
+using Travel_Agency_DataBase.Queries;
 using Travel_Agency_DataBase.Queries.Users;
 using Travel_Agency_Logic;
 using Travel_Agency_Logic.Auth;
@@ -29,13 +28,13 @@ public static class ProgramServices
         // Configure queries
         services.AddScoped<IQueryEntity<UserAgency>, UserAgencyQuery>();
         services.AddScoped<IQueryEntity<User>, UserAppQuery>();
-        services.AddScoped<IQueryEntity<Excursion>, ServiceQuery<Excursion>>();
-        services.AddScoped<IQueryEntity<Hotel>, ServiceQuery<Hotel>>();
-        services.AddScoped<IQueryEntity<TouristActivity>, ServiceQuery<TouristActivity>>();
-        services.AddScoped<IQueryEntity<TouristPlace>, ServiceQuery<TouristPlace>>();
-        services.AddScoped<IQueryEntity<ExcursionOffer>, OfferQuery<ExcursionOffer>>();
-        services.AddScoped<IQueryEntity<HotelOffer>, OfferQuery<HotelOffer>>();
-        services.AddScoped<IQueryEntity<FlightOffer>, OfferQuery<FlightOffer>>();
+        services.AddScoped<IQueryEntity<Excursion>, PublicQuery<Excursion>>();
+        services.AddScoped<IQueryEntity<Hotel>, PublicQuery<Hotel>>();
+        services.AddScoped<IQueryEntity<TouristActivity>, PublicQuery<TouristActivity>>();
+        services.AddScoped<IQueryEntity<TouristPlace>, PublicQuery<TouristPlace>>();
+        services.AddScoped<IQueryEntity<ExcursionOffer>, PublicQuery<ExcursionOffer>>();
+        services.AddScoped<IQueryEntity<HotelOffer>, PublicQuery<HotelOffer>>();
+        services.AddScoped<IQueryEntity<FlightOffer>, PublicQuery<FlightOffer>>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();

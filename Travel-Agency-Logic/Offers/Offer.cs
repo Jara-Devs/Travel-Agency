@@ -31,12 +31,11 @@ namespace Travel_Agency_Logic.Offers
             if (!CheckValidity(offer))
                 return new BadRequest<IdResponse>("The offer is not valid");
 
-            _context.Set<T>().Add(offer.Offer());
+            var entity = offer.Offer();
+            _context.Set<T>().Add(entity);
             await _context.SaveChangesAsync();
 
-            return new ApiResponse<IdResponse>((await this._context.Set<T>()
-                .Where(o => o.Name == offer.Name).Select(o => new IdResponse { Id = o.Id })
-                .SingleOrDefaultAsync())!);
+            return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
         public async Task<ApiResponse> UpdateOffer(int id, OfferRequest<T> offer, UserBasic user)

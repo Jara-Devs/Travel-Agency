@@ -88,16 +88,14 @@ public class AuthenticationService : IAuthenticationService
         var check = await CheckRegister(userAgencyRequest.Email, userAgencyRequest.Password);
         if (!check.Ok) return check.ConvertApiResponse<IdResponse>();
 
-        this._context.Add(new UserAgency(userAgencyRequest.Name, userAgencyRequest.Email,
+        var entity = new UserAgency(userAgencyRequest.Name, userAgencyRequest.Email,
             SecurityService.EncryptPassword(userAgencyRequest.Password), userAgencyRequest.Role,
-            userAgencyRequest.AgencyId));
+            userAgencyRequest.AgencyId);
+
+        this._context.Add(entity);
         await this._context.SaveChangesAsync();
 
-        var userAgency =
-            await this._context.Users.Where(u => u.Email == userAgencyRequest.Email)
-                .Select(x => new IdResponse { Id = x.Id }).SingleOrDefaultAsync();
-
-        return new ApiResponse<IdResponse>(userAgency!);
+        return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
     }
 
     public async Task<ApiResponse> RemoveUserAgency(int id, UserBasic userBasic)
@@ -131,14 +129,13 @@ public class AuthenticationService : IAuthenticationService
         var check = await CheckRegister(userAppRequest.Email, userAppRequest.Password);
         if (!check.Ok) return check.ConvertApiResponse<IdResponse>();
 
-        this._context.Add(new User(userAppRequest.Name, userAppRequest.Email,
-            SecurityService.EncryptPassword(userAppRequest.Password), Roles.EmployeeApp));
+        var entity = new User(userAppRequest.Name, userAppRequest.Email,
+            SecurityService.EncryptPassword(userAppRequest.Password), Roles.EmployeeApp);
+
+        this._context.Add(entity);
         await this._context.SaveChangesAsync();
 
-        var userApp = await this._context.Users.Where(u => u.Email == userAppRequest.Email)
-            .Select(x => new IdResponse { Id = x.Id }).SingleOrDefaultAsync();
-
-        return new ApiResponse<IdResponse>(userApp!);
+        return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
     }
 
     public async Task<ApiResponse> RemoveUserApp(int id, UserBasic userBasic)

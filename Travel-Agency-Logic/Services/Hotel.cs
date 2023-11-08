@@ -28,11 +28,11 @@ namespace Travel_Agency_Logic.Services
             var response = await CreateHotel(hotel);
             if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
 
-            _context.Hotels.Add(response.Value!);
+            var entity = response.Value!;
+            _context.Hotels.Add(entity);
             await _context.SaveChangesAsync();
 
-            return new ApiResponse<IdResponse>((await this._context.Hotels.Where(x => x.Name == hotel.Name)
-                .Select(x => new IdResponse { Id = x.Id }).SingleOrDefaultAsync())!);
+            return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
         public async Task<ApiResponse> UpdateHotel(int id, HotelRequest hotel, UserBasic user)

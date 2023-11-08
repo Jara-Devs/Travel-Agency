@@ -25,12 +25,11 @@ namespace Travel_Agency_Logic.Services
             if (await _context.TouristPlaces.AnyAsync(tp => tp.Name == touristPlace.Name))
                 return new NotFound<IdResponse>("The tourist place already exists");
 
-            _context.TouristPlaces.Add(touristPlace.TouristPlace());
+            var entity = touristPlace.TouristPlace();
+            _context.TouristPlaces.Add(entity);
             await _context.SaveChangesAsync();
 
-            return new ApiResponse<IdResponse>((await this._context.TouristPlaces
-                .Where(x => x.Name == touristPlace.Name).Select(x => new IdResponse { Id = x.Id })
-                .SingleOrDefaultAsync())!);
+            return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
         public async Task<ApiResponse> UpdateTouristPlace(int id, TouristPlaceRequest touristPlace, UserBasic user)
