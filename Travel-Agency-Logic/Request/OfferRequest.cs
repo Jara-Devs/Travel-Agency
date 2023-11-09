@@ -1,3 +1,4 @@
+using Travel_Agency_Core.Enums;
 using Travel_Agency_Domain.Offers;
 
 namespace Travel_Agency_Logic.Request;
@@ -25,19 +26,28 @@ public class HotelOfferRequest : OfferRequest<HotelOffer>
 {
     public int HotelId { get; set; } = 0;
 
-    public override HotelOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, HotelId);
+    public List<HotelFacility> Facilities { get; set; } = null!;
+
+    public override HotelOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId,
+        HotelId, Facilities);
 }
 
 public class ExcursionOfferRequest : OfferRequest<ExcursionOffer>
 {
     public int ExcursionId { get; set; } = 0;
 
-    public override ExcursionOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, ExcursionId);
+    public List<ExcursionFacility> Facilities { get; set; } = null!;
+
+    public override ExcursionOffer Offer() =>
+        new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, ExcursionId, Facilities);
 }
 
 public class FlightOfferRequest : OfferRequest<FlightOffer>
-{ 
+{
     public int FlightId { get; set; } = 0;
-    
-    public override FlightOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, FlightId);
+
+    public List<FlightFacility> Facilities { get; set; } = null!;
+
+    public override FlightOffer Offer() =>
+        new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, FlightId, Facilities);
 }
