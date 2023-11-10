@@ -87,6 +87,7 @@ namespace Travel_Agency_Logic.Offers
 
 
         private static bool CheckValidity(OfferRequest<T> offer) =>
-            offer.Availability >= 0 && offer.Price >= 0 && offer.StartDate <= offer.EndDate;
+            offer.Availability >= 0 && offer.Price >= 0 && offer.StartDate <= offer.EndDate &&
+            Helpers.ValidDate(offer.EndDate);
     }
 }

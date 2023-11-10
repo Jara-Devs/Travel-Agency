@@ -90,6 +90,8 @@ public class PackageService : IPackageService
     private async Task<ApiResponse<Package>> CheckRequest(PackageRequest request, int agencyId)
     {
         if (request.Offers.Count == 0) return new BadRequest<Package>("You must add at least one offer");
+        if (request.Discount is > 100 or < 0)
+            return new BadRequest<Package>("Discount must be between 0 and 100");
 
         var offers = new List<Offer>();
 
@@ -99,6 +101,8 @@ public class PackageService : IPackageService
             if (offer is null) return new NotFound<Package>("Offer not found");
             if (offer.AgencyId != agencyId) return new Unauthorized<Package>("You don't have permissions");
 
+            if (!Helpers.ValidDate(offer.EndDate)) return new BadRequest<Package>("The offer has expired");
+            
             offers.Add(offer);
         }
 
