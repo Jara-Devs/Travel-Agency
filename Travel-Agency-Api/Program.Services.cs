@@ -16,8 +16,10 @@ using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Services;
 using Travel_Agency_Logic.Offers;
 using Travel_Agency_Domain.Offers;
+using Travel_Agency_Domain.Packages;
 using Travel_Agency_Domain.Services;
 using Travel_Agency_Domain.Users;
+using Travel_Agency_Logic.Packages;
 
 namespace Travel_Agency_Api;
 
@@ -35,6 +37,7 @@ public static class ProgramServices
         services.AddScoped<IQueryEntity<ExcursionOffer>, PublicQuery<ExcursionOffer>>();
         services.AddScoped<IQueryEntity<HotelOffer>, PublicQuery<HotelOffer>>();
         services.AddScoped<IQueryEntity<FlightOffer>, PublicQuery<FlightOffer>>();
+        services.AddScoped<IQueryEntity<Package>, PublicQuery<Package>>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -46,6 +49,7 @@ public static class ProgramServices
         services.AddScoped<IOfferService<FlightOffer>, OfferService<FlightOffer>>();
         services.AddScoped<ITouristActivityService, TouristActivityService>();
         services.AddScoped<IHotelService, HotelService>();
+        services.AddScoped<IPackageService, PackageService>();
 
         services.AddScoped<SecurityService>();
     }
@@ -113,6 +117,7 @@ public static class ProgramServices
         builder.EntitySet<HotelOffer>("HotelOffer");
         builder.EntitySet<ExcursionOffer>("ExcursionOffer");
         builder.EntitySet<FlightOffer>("FlightOffer");
+        builder.EntitySet<Package>("Package");
 
         return builder.GetEdmModel();
     }
