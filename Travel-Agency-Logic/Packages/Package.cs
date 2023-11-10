@@ -89,6 +89,8 @@ public class PackageService : IPackageService
 
     private async Task<ApiResponse<Package>> CheckRequest(PackageRequest request, int agencyId)
     {
+        if (request.Offers.Count == 0) return new BadRequest<Package>("You must add at least one offer");
+
         var offers = new List<Offer>();
 
         foreach (var item in request.Offers)
