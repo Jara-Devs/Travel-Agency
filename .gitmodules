@@ -1,0 +1,3 @@
+[submodule "Travel-Agency-Client"]
+	path = Travel-Agency-Client
+	url = https://github.com/Jara-Devs/Travel-Agency-Client.git
