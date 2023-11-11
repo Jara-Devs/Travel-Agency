@@ -10,5 +10,5 @@ public class ExcursionRequest
 
     public ICollection<int> Activities { get; set; } = null!;
 
-    public Excursion Excursion() => new Excursion(this.Name);
+    public virtual Excursion Excursion() => new Excursion(this.Name);
 }
