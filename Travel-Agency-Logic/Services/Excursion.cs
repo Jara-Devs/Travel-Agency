@@ -22,7 +22,7 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
-            if (!await _context.Excursions.AnyAsync(a => a.Name == request.Name))
+            if (await _context.Excursions.AnyAsync(a => a.Name == request.Name))
                 return new NotFound<IdResponse>("The excursion already exists");
 
             if (request.Places.Count == 0 || request.Activities.Count == 0)
@@ -53,7 +53,7 @@ namespace Travel_Agency_Logic.Services
             if (!response.Ok) return response.ConvertApiResponse();
 
             var newExcursion = response.Value!;
-            newExcursion.Id = excursion.Id;
+            newExcursion.Id = id;
 
             _context.Update(newExcursion);
             await _context.SaveChangesAsync();
@@ -67,7 +67,7 @@ namespace Travel_Agency_Logic.Services
                 return new Unauthorized("You don't have permissions");
 
             var excursion = await _context.Excursions.FindAsync(id);
-            if (excursion is null) return new NotFound("Excursion not found");
+            if (excursion is null) return new NotFound("Not found excursion");
 
             _context.Excursions.Remove(excursion);
             await _context.SaveChangesAsync();
