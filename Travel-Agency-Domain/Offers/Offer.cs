@@ -5,7 +5,7 @@ namespace Travel_Agency_Domain.Offers;
 
 public class Offer : Entity
 {
-    public string Name { get; set; } = null!;
+    public string Name { get; set; }
 
     public int Availability { get; set; }
 

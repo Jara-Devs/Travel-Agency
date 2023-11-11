@@ -12,9 +12,12 @@ namespace Travel_Agency_Logic.Offers
     {
         private readonly TravelAgencyContext _context;
 
-        public OfferService(TravelAgencyContext context)
+        private readonly IPackageService _packageService;
+
+        public OfferService(TravelAgencyContext context, IPackageService packageService)
         {
             _context = context;
+            _packageService = packageService;
         }
 
         public async Task<ApiResponse<IdResponse>> CreateOffer(OfferRequest<T> offer, UserBasic user)
@@ -34,6 +37,11 @@ namespace Travel_Agency_Logic.Offers
             var entity = offer.Offer();
             _context.Set<T>().Add(entity);
             await _context.SaveChangesAsync();
+
+            var package = new PackageRequest
+                { Description = offer.Description, Discount = 0, Offers = new List<int> { entity.Id } };
+
+            await _packageService.CreatePackage(package, user);
 
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
@@ -88,6 +96,6 @@ namespace Travel_Agency_Logic.Offers
 
         private static bool CheckValidity(OfferRequest<T> offer) =>
             offer.Availability >= 0 && offer.Price >= 0 && offer.StartDate <= offer.EndDate &&
-            Helpers.ValidDate(offer.EndDate);
+            Helpers.ValidDate(offer.StartDate);
     }
 }

@@ -8,15 +8,15 @@ restore:
 
 .PHONY: db
 db:
-	dotnet ef database update --project Travel-Agency-DataBase
+	dotnet ef database update --project Travel-Agency-DataBase\Travel-Agency-DataBase.csproj --startup-project Travel-Agency-Api\Travel-Agency-Api.csproj
 
 .PHONY: migrate
 migrate:
-	dotnet ef migrations add "$(name)" --project Travel-Agency-DataBase
+	dotnet ef migrations add "$(name)" --project Travel-Agency-DataBase\Travel-Agency-DataBase.csproj --startup-project Travel-Agency-Api\Travel-Agency-Api.csproj
 
 .PHONY: remove
 remove:
-	dotnet ef  migrations remove --project Travel-Agency-DataBase
+	dotnet ef  migrations remove --project Travel-Agency-DataBase\Travel-Agency-DataBase.csproj --startup-project Travel-Agency-Api\Travel-Agency-Api.csproj
 
 
 .PHONY: build
