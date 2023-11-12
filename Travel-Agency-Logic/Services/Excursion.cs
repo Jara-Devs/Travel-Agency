@@ -52,6 +52,9 @@ namespace Travel_Agency_Logic.Services
             if (request.Places.Count == 0 || request.Activities.Count == 0)
                 return new BadRequest("There must be at least one tourist activity and one tourist place");
 
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
+
             var response = await CreateExcursion(request);
             if (!response.Ok) return response.ConvertApiResponse();
 
@@ -68,6 +71,9 @@ namespace Travel_Agency_Logic.Services
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
+
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
 
             var excursion = await _context.Excursions.FindAsync(id);
             if (excursion is null) return new NotFound("Not found excursion");
@@ -104,5 +110,10 @@ namespace Travel_Agency_Logic.Services
 
             return new ApiResponse<Excursion>(excursion);
         }
+
+        private async Task<ApiResponse> CheckDependency(int id) =>
+            await this._context.ExcursionOffers.AnyAsync(o => o.ExcursionId == id)
+                ? new BadRequest("There is an offer for this excursion")
+                : new ApiResponse();
     }
 }

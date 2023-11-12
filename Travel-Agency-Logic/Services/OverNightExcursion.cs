@@ -36,7 +36,7 @@ namespace Travel_Agency_Logic.Services
             if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
 
             var entity = response.Value!;
-            _context.Excursions.Add(entity);
+            _context.OverNightExcursions.Add(entity);
             await _context.SaveChangesAsync();
 
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
@@ -48,7 +48,7 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
-            if (!await _context.Excursions.AnyAsync(e => e.Id == id))
+            if (!await _context.OverNightExcursions.AnyAsync(e => e.Id == id))
                 return new NotFound("Excursion not found");
 
             if (await _context.Excursions.AnyAsync(a => a.Name == excursion.Name && a.Id != id))
@@ -59,6 +59,9 @@ namespace Travel_Agency_Logic.Services
 
             if (excursion.Places.Count == 0 || excursion.Activities.Count == 0)
                 return new BadRequest("There must be at least one tourist activity and one tourist place");
+
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
 
             var response = await CreateExcursion(excursion);
             if (!response.Ok) return response.ConvertApiResponse();
@@ -77,10 +80,13 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
-            var excursion = await _context.Excursions.FindAsync(id);
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
+
+            var excursion = await _context.OverNightExcursions.FindAsync(id);
             if (excursion is null) return new NotFound("Excursion not found");
 
-            _context.Excursions.Remove(excursion);
+            _context.OverNightExcursions.Remove(excursion);
             await _context.SaveChangesAsync();
 
             return new ApiResponse();
@@ -89,14 +95,14 @@ namespace Travel_Agency_Logic.Services
         private static bool CheckPermissions(UserBasic user) =>
             user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
 
-        private async Task<ApiResponse<Excursion>> CreateExcursion(ExcursionRequest request)
+        private async Task<ApiResponse<OverNightExcursion>> CreateExcursion(OverNightExcursionRequest request)
         {
             var excursion = request.Excursion();
             foreach (var item in request.Places)
             {
                 var place = await this._context.TouristPlaces.FindAsync(item);
                 if (place is null)
-                    return new BadRequest<Excursion>("Not found tourist place");
+                    return new BadRequest<OverNightExcursion>("Not found tourist place");
 
                 excursion.Places.Add(place);
             }
@@ -105,12 +111,17 @@ namespace Travel_Agency_Logic.Services
             {
                 var activity = await this._context.TouristActivities.FindAsync(item);
                 if (activity is null)
-                    return new BadRequest<Excursion>("Not found tourist activity");
+                    return new BadRequest<OverNightExcursion>("Not found tourist activity");
 
                 excursion.Activities.Add(activity);
             }
 
-            return new ApiResponse<Excursion>(excursion);
+            return new ApiResponse<OverNightExcursion>(excursion);
         }
+
+        private async Task<ApiResponse> CheckDependency(int id) =>
+            await this._context.ExcursionOffers.AnyAsync(o => o.ExcursionId == id)
+                ? new BadRequest("There is an offer for this excursion")
+                : new ApiResponse();
     }
 }

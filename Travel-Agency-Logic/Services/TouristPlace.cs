@@ -37,6 +37,9 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
+
             if (!await _context.TouristPlaces.AnyAsync(tp => tp.Id == id))
                 return new NotFound("Tourist place not found");
 
@@ -57,6 +60,9 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
+
             var touristPlace = await _context.TouristPlaces.FindAsync(id);
             if (touristPlace is null) return new NotFound("Tourist place not found");
 
@@ -68,5 +74,15 @@ namespace Travel_Agency_Logic.Services
 
         private static bool CheckPermissions(UserBasic user) =>
             user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
+
+        private async Task<ApiResponse> CheckDependency(int id)
+        {
+            if (await this._context.Hotels.AnyAsync(h => h.TouristPlaceId == id))
+                return new BadRequest("There is an hotel for this tourist place");
+            if (await this._context.Excursions.Include(e => e.Places).AnyAsync(e => e.Places.Any(p => p.Id == id)))
+                return new BadRequest("There is an excursion for this tourist place");
+
+            return new ApiResponse();
+        }
     }
 }
