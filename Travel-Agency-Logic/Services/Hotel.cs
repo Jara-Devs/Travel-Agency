@@ -23,7 +23,7 @@ namespace Travel_Agency_Logic.Services
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
             if (await _context.Hotels.AnyAsync(h => h.Name == hotel.Name))
-                return new NotFound<IdResponse>("The hotel already exists");
+                return new NotFound<IdResponse>("The hotel with same name already exists");
 
             var response = await CreateHotel(hotel);
             if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
@@ -43,6 +43,12 @@ namespace Travel_Agency_Logic.Services
             if (!await _context.Hotels.AnyAsync(h => h.Id == id))
                 return new NotFound("Hotel not found");
 
+            if (await _context.Hotels.AnyAsync(h => h.Name == hotel.Name && id != h.Id))
+                return new NotFound("The hotel with same name already exists");
+
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
+
             var response = await CreateHotel(hotel);
             if (!response.Ok) return response.ConvertApiResponse();
 
@@ -59,6 +65,9 @@ namespace Travel_Agency_Logic.Services
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
+
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
 
             var hotel = await _context.Hotels.FindAsync(id);
 
@@ -82,6 +91,16 @@ namespace Travel_Agency_Logic.Services
             hotel.TouristPlace = touristPlace;
 
             return new ApiResponse<Hotel>(hotel);
+        }
+
+        private async Task<ApiResponse> CheckDependency(int id)
+        {
+            if (await this._context.HotelOffers.AnyAsync(o => o.HotelId == id))
+                return new BadRequest("There is an offer for this hotel");
+            if (await this._context.OverNightExcursions.AnyAsync(h => h.HotelId == id))
+                return new BadRequest("There is an over night excursion for this hotel");
+
+            return new ApiResponse();
         }
     }
 }
