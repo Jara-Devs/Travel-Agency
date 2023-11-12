@@ -71,7 +71,7 @@ public class PackageService : IPackageService
 
     private async Task<ApiResponse<int>> CheckPermissions(UserBasic userBasic, int id = -1)
     {
-        if (userBasic.Role != Roles.AdminAgency || userBasic.Role != Roles.ManagerAgency)
+        if (userBasic.Role != Roles.AdminAgency && userBasic.Role != Roles.ManagerAgency)
             return new Unauthorized<int>("You don't have permissions");
 
         var agencyId = await _context.UserAgencies.Where(u => u.Id == userBasic.Id).Select(u => u.AgencyId)
@@ -102,7 +102,7 @@ public class PackageService : IPackageService
             if (offer.AgencyId != agencyId) return new Unauthorized<Package>("You don't have permissions");
 
             if (!Helpers.ValidDate(offer.StartDate)) return new BadRequest<Package>("The offer has expired");
-            
+
             offers.Add(offer);
         }
 

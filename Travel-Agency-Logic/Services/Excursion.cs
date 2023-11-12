@@ -81,6 +81,9 @@ namespace Travel_Agency_Logic.Services
         private async Task<ApiResponse<Excursion>> CreateExcursion(ExcursionRequest request)
         {
             var excursion = request.Excursion();
+            excursion.Activities = new List<TouristActivity>();
+            excursion.Places = new List<TouristPlace>();
+            
             foreach (var item in request.Places)
             {
                 var place = await this._context.TouristPlaces.FindAsync(item);
