@@ -23,7 +23,7 @@ namespace Travel_Agency_Logic.Services
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
             if (await _context.TouristPlaces.AnyAsync(tp => tp.Name == touristPlace.Name))
-                return new NotFound<IdResponse>("The tourist place already exists");
+                return new NotFound<IdResponse>("The tourist place with same name already exists");
 
             var entity = touristPlace.TouristPlace();
             _context.TouristPlaces.Add(entity);
@@ -39,6 +39,9 @@ namespace Travel_Agency_Logic.Services
 
             if (!await _context.TouristPlaces.AnyAsync(tp => tp.Id == id))
                 return new NotFound("Tourist place not found");
+
+            if (await _context.TouristPlaces.AnyAsync(tp => tp.Name == touristPlace.Name && tp.Id != id))
+                return new NotFound("The tourist place with same name already exists");
 
             var newTouristPlace = touristPlace.TouristPlace();
             newTouristPlace.Id = id;

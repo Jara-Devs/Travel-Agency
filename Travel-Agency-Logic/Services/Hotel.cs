@@ -23,7 +23,7 @@ namespace Travel_Agency_Logic.Services
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
             if (await _context.Hotels.AnyAsync(h => h.Name == hotel.Name))
-                return new NotFound<IdResponse>("The hotel already exists");
+                return new NotFound<IdResponse>("The hotel with same name already exists");
 
             var response = await CreateHotel(hotel);
             if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
@@ -42,6 +42,9 @@ namespace Travel_Agency_Logic.Services
 
             if (!await _context.Hotels.AnyAsync(h => h.Id == id))
                 return new NotFound("Hotel not found");
+
+            if (await _context.Hotels.AnyAsync(h => h.Name == hotel.Name && id != h.Id))
+                return new NotFound("The hotel with same name already exists");
 
             var response = await CreateHotel(hotel);
             if (!response.Ok) return response.ConvertApiResponse();

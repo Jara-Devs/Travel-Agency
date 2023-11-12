@@ -23,7 +23,7 @@ namespace Travel_Agency_Logic.Services
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
             if (await _context.Excursions.AnyAsync(a => a.Name == request.Name))
-                return new NotFound<IdResponse>("The excursion already exists");
+                return new NotFound<IdResponse>("The excursion with same name already exists");
 
             if (request.Places.Count == 0 || request.Activities.Count == 0)
                 return new BadRequest<IdResponse>("There must be at least one tourist activity and one tourist place");
@@ -43,8 +43,11 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
-            var excursion = await this._context.Excursions.FindAsync(id);
-            if (excursion is null) return new NotFound("Not found excursion");
+            if (!await _context.Excursions.AnyAsync(e => e.Id == id))
+                return new NotFound("Hotel not found");
+
+            if (await _context.Excursions.AnyAsync(a => a.Name == request.Name && a.Id != id))
+                return new NotFound("The excursion with same name already exists");
 
             if (request.Places.Count == 0 || request.Activities.Count == 0)
                 return new BadRequest("There must be at least one tourist activity and one tourist place");

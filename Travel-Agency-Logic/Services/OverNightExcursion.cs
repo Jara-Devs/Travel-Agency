@@ -17,13 +17,14 @@ namespace Travel_Agency_Logic.Services
             _context = context;
         }
 
-        public async Task<ApiResponse<IdResponse>> CreateOverNightExcursion(OverNightExcursionRequest excursion, UserBasic user)
+        public async Task<ApiResponse<IdResponse>> CreateOverNightExcursion(OverNightExcursionRequest excursion,
+            UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
             if (await _context.Excursions.AnyAsync(a => a.Name == excursion.Name))
-                return new NotFound<IdResponse>("The excursion already exists");
+                return new NotFound<IdResponse>("The excursion with same name already exists");
 
             if (!await _context.Hotels.AnyAsync(h => h.Id == excursion.HotelId))
                 return new NotFound<IdResponse>("The referenced hotel does not exist");
@@ -41,13 +42,17 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateOverNightExcursion(int id, OverNightExcursionRequest excursion, UserBasic user)
+        public async Task<ApiResponse> UpdateOverNightExcursion(int id, OverNightExcursionRequest excursion,
+            UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
             if (!await _context.Excursions.AnyAsync(e => e.Id == id))
                 return new NotFound("Excursion not found");
+
+            if (await _context.Excursions.AnyAsync(a => a.Name == excursion.Name && a.Id != id))
+                return new NotFound("The excursion with same name already exists");
 
             if (!await _context.Hotels.AnyAsync(h => h.Id == excursion.HotelId))
                 return new NotFound("The referenced hotel does not exist");
