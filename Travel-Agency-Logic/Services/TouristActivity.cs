@@ -23,7 +23,7 @@ namespace Travel_Agency_Logic.Services
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
             if (await _context.TouristActivities.AnyAsync(ta => ta.Name == touristActivity.Name))
-                return new NotFound<IdResponse>("The tourist activity already exists");
+                return new NotFound<IdResponse>("The tourist activity with same name already exists");
 
             var entity = touristActivity.TouristActivity();
             _context.TouristActivities.Add(entity);
@@ -37,9 +37,15 @@ namespace Travel_Agency_Logic.Services
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
+            
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
 
             if (!await _context.TouristActivities.AnyAsync(ta => ta.Id == id))
                 return new NotFound("Tourist activity not found");
+
+            if (await _context.TouristActivities.AnyAsync(ta => ta.Name == touristActivity.Name && id != ta.Id))
+                return new NotFound("The tourist activity with same name already exists");
 
             var newTouristActivity = touristActivity.TouristActivity();
             newTouristActivity.Id = id;
@@ -55,10 +61,13 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
+            var inUse = await CheckDependency(id);
+            if (!inUse.Ok) return inUse;
+
             var touristActivity = await _context.TouristActivities.FindAsync(id);
             if (touristActivity is null) return new NotFound("Tourist activity not found");
 
-            _context.TouristActivities.Remove(touristActivity!);
+            _context.TouristActivities.Remove(touristActivity);
             await _context.SaveChangesAsync();
 
             return new ApiResponse();
@@ -66,5 +75,10 @@ namespace Travel_Agency_Logic.Services
 
         private static bool CheckPermissions(UserBasic user) =>
             user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
+
+        private async Task<ApiResponse> CheckDependency(int id) =>
+            await this._context.Excursions.Include(e => e.Activities).AnyAsync(e => e.Activities.Any(a => a.Id == id))
+                ? new BadRequest("There is an excursion for this activity")
+                : new ApiResponse();
     }
 }
