@@ -8,27 +8,30 @@ using Travel_Agency_Logic.Response;
 
 namespace Travel_Agency_Logic.Services
 {
-    public class ExcursionService : IExcursionService
+    public class OverNightExcursionExcursionService : IOverNightExcursionService
     {
         private readonly TravelAgencyContext _context;
 
-        public ExcursionService(TravelAgencyContext context)
+        public OverNightExcursionExcursionService(TravelAgencyContext context)
         {
             _context = context;
         }
 
-        public async Task<ApiResponse<IdResponse>> CreateExcursion(ExcursionRequest request, UserBasic user)
+        public async Task<ApiResponse<IdResponse>> CreateOverNightExcursion(OverNightExcursionRequest excursion, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
-            if (await _context.Excursions.AnyAsync(a => a.Name == request.Name))
+            if (await _context.Excursions.AnyAsync(a => a.Name == excursion.Name))
                 return new NotFound<IdResponse>("The excursion already exists");
 
-            if (request.Places.Count == 0 || request.Activities.Count == 0)
+            if (!await _context.Hotels.AnyAsync(h => h.Id == excursion.HotelId))
+                return new NotFound<IdResponse>("The referenced hotel does not exist");
+
+            if (excursion.Places.Count == 0 || excursion.Activities.Count == 0)
                 return new BadRequest<IdResponse>("There must be at least one tourist activity and one tourist place");
 
-            var response = await CreateExcursion(request);
+            var response = await CreateExcursion(excursion);
             if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
 
             var entity = response.Value!;
@@ -38,18 +41,21 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateExcursion(int id, ExcursionRequest request, UserBasic user)
+        public async Task<ApiResponse> UpdateOverNightExcursion(int id, OverNightExcursionRequest excursion, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
-            var excursion = await this._context.Excursions.FindAsync(id);
-            if (excursion is null) return new NotFound("Not found excursion");
+            if (!await _context.Excursions.AnyAsync(e => e.Id == id))
+                return new NotFound("Excursion not found");
 
-            if (request.Places.Count == 0 || request.Activities.Count == 0)
+            if (!await _context.Hotels.AnyAsync(h => h.Id == excursion.HotelId))
+                return new NotFound("The referenced hotel does not exist");
+
+            if (excursion.Places.Count == 0 || excursion.Activities.Count == 0)
                 return new BadRequest("There must be at least one tourist activity and one tourist place");
 
-            var response = await CreateExcursion(request);
+            var response = await CreateExcursion(excursion);
             if (!response.Ok) return response.ConvertApiResponse();
 
             var newExcursion = response.Value!;
@@ -61,13 +67,13 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse();
         }
 
-        public async Task<ApiResponse> DeleteExcursion(int id, UserBasic user)
+        public async Task<ApiResponse> DeleteOverNightExcursion(int id, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
             var excursion = await _context.Excursions.FindAsync(id);
-            if (excursion is null) return new NotFound("Not found excursion");
+            if (excursion is null) return new NotFound("Excursion not found");
 
             _context.Excursions.Remove(excursion);
             await _context.SaveChangesAsync();

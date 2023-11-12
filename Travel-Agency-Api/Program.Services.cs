@@ -118,6 +118,7 @@ public static class ProgramServices
         builder.EntitySet<ExcursionOffer>("ExcursionOffer");
         builder.EntitySet<FlightOffer>("FlightOffer");
         builder.EntitySet<Package>("Package");
+        builder.EntitySet<OverNightExcursion>("OverNightExcursion");
 
         return builder.GetEdmModel();
     }
