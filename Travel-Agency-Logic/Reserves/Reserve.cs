@@ -48,9 +48,8 @@ namespace Travel_Agency_Logic.Offers
         {
             foreach (Offer offer in package.Offers)
             {
-                var reserves = await _context.Reserves.Where(r => r.Package.Offers
-                    .Select(o => o.Id).Contains(offer.Id)).ToListAsync();
-                var count = reserves.Count;
+                var count = await _context.Reserves.Where(r => r.Package.Offers
+                    .Select(o => o.Id).Contains(offer.Id)).CountAsync();
                 if (count >= offer.Availability) return false;
             }
 
