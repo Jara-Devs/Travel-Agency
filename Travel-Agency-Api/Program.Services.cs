@@ -20,6 +20,7 @@ using Travel_Agency_Domain.Packages;
 using Travel_Agency_Domain.Services;
 using Travel_Agency_Domain.Users;
 using Travel_Agency_Logic.Packages;
+using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_Api;
 
@@ -120,6 +121,7 @@ public static class ProgramServices
         builder.EntitySet<FlightOffer>("FlightOffer");
         builder.EntitySet<Package>("Package");
         builder.EntitySet<OverNightExcursion>("OverNightExcursion");
+        builder.EntitySet<ReserveTicket>("ReserveTicket");
 
         return builder.GetEdmModel();
     }
