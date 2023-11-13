@@ -21,7 +21,7 @@ namespace Travel_Agency_Logic.Offers
 
         public async Task<ApiResponse<IdResponse>> CreateReserve(ReserveRequest<T1, T2> request, UserBasic userBasic)
         {
-            if (await CheckPermissions(userBasic)) 
+            if (!CheckPermissions(userBasic)) 
                 return new Unauthorized<IdResponse>("You don't have permissions");
 
             var package = await _context.Packages.FirstOrDefaultAsync(p => p.Id == request.PackageId);
@@ -34,11 +34,11 @@ namespace Travel_Agency_Logic.Offers
             var price = package.Price();
 
             var payment = request.Payment(price);
-            _context.Payments.Add(payment);
+            _context.Set<T2>().Add(payment);
             await _context.SaveChangesAsync();
 
             var reserve = request.Reserve(payment.Id);
-            _context.Reserves.Add(reserve);
+            _context.Set<T1>().Add(reserve);
             await _context.SaveChangesAsync();
 
             return new ApiResponse<IdResponse>(new IdResponse { Id = reserve.Id });
@@ -57,6 +57,6 @@ namespace Travel_Agency_Logic.Offers
             return true;
         }
 
-        internal abstract Task<bool> CheckPermissions(UserBasic user);
+        internal abstract bool CheckPermissions(UserBasic user);
     }
 }
