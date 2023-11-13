@@ -6,12 +6,9 @@ public class UserIdentity
 
     public string IdentityDocument { get; set; }
 
-    public string Address { get; set; }
-
-    public UserIdentity(string name, string identityDocument, string address)
+    public UserIdentity(string name, string identityDocument)
     {
         this.Name = name;
         this.IdentityDocument = identityDocument;
-        this.Address = address;
     }
 }
