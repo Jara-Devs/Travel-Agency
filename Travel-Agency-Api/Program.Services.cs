@@ -39,6 +39,7 @@ public static class ProgramServices
         services.AddScoped<IQueryEntity<HotelOffer>, PublicQuery<HotelOffer>>();
         services.AddScoped<IQueryEntity<FlightOffer>, PublicQuery<FlightOffer>>();
         services.AddScoped<IQueryEntity<Package>, PublicQuery<Package>>();
+        services.AddScoped<IQueryEntity<Flight>, PublicQuery<Flight>>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -51,6 +52,7 @@ public static class ProgramServices
         services.AddScoped<ITouristActivityService, TouristActivityService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<IPackageService, PackageService>();
+        services.AddScoped<IFlightService, FlightService>();
 
         services.AddScoped<SecurityService>();
     }
