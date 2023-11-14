@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase.Core;
 using Travel_Agency_Domain.Users;
@@ -21,6 +22,6 @@ public class UserAgencyQuery : IQueryEntity<UserAgency>
         var admin = await this._context.UserAgencies.FindAsync(userBasic.Id);
 
         return new ApiResponse<IQueryable<UserAgency>>(
-            this._context.UserAgencies.Where(x =>x.AgencyId == admin!.AgencyId));
+            this._context.UserAgencies.AsNoTracking().Where(x =>x.AgencyId == admin!.AgencyId));
     }
 }

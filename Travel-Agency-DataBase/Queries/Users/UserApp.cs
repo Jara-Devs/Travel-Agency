@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase.Core;
 using Travel_Agency_Domain.Users;
@@ -20,6 +21,6 @@ public class UserAppQuery : IQueryEntity<User>
                 new Unauthorized<IQueryable<User>>("You are not an admin app") as ApiResponse<IQueryable<User>>);
 
         return Task.FromResult(new ApiResponse<IQueryable<User>>(
-            this._context.Users.Where(x => x.Role == Roles.EmployeeApp)));
+            this._context.Users.AsNoTracking().Where(x => x.Role == Roles.EmployeeApp)));
     }
 }

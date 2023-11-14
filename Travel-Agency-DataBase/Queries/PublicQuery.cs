@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase.Core;
 
@@ -13,5 +14,5 @@ public class PublicQuery<T>:IQueryEntity<T> where T:Entity
     }
 
     public Task<ApiResponse<IQueryable<T>>> Get(UserBasic _) =>
-        Task.FromResult(new ApiResponse<IQueryable<T>>(this._context.Set<T>()));
+        Task.FromResult(new ApiResponse<IQueryable<T>>(this._context.Set<T>().AsNoTracking()));
 }
