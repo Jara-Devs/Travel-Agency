@@ -12,19 +12,21 @@ public class Flight : Entity
 
     public long Duration { get; set; }
 
-    public int Place1Id { get; set; }
-    public TouristPlace Place1 { get; set; } = null!;
+    public int OriginId { get; set; }
+    
+    public TouristPlace Origin { get; set; } = null!;
 
-    public int Place2Id { get; set; }
-    public TouristPlace Place2 { get; set; } = null!;
+    public int DestinationId { get; set; }
 
-    public Flight(string company, FlightCategory flightCategory, long duration, int place1Id, int place2Id)
+    public TouristPlace Destination { get; set; } = null!;
+
+    public Flight(string company, FlightCategory flightCategory, long duration, int originId, int destinationId)
     {
         this.Company = company;
         this.FlightCategory = flightCategory;
         this.Duration = duration;
-        this.Place1Id = place1Id;
-        this.Place2Id = place2Id;
+        this.OriginId = originId;
+        this.DestinationId = destinationId;
     }
 
     public ICollection<FlightOffer> Offers { get; set; } = null!;
