@@ -49,7 +49,7 @@ public class ReserveTouristController : TravelAgencyController
 
 
     [HttpPost]
-    public async Task<IActionResult> CreateHotelOffer([FromBody] ReserveTouristRequest reserveTourist)
+    public async Task<IActionResult> CreateReserveTourist([FromBody] ReserveTouristRequest reserveTourist)
     {
         var user = GetUser().Value;
         return ToResponse(await _reserveTouristService.CreateReserve(reserveTourist, user!));
