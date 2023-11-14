@@ -42,6 +42,7 @@ public static class ProgramServices
         services.AddScoped<IQueryEntity<Package>, PublicQuery<Package>>();
         services.AddScoped<IQueryEntity<ReserveTicket>, ReserveQuery<ReserveTicket>>();
         services.AddScoped<IQueryEntity<ReserveTourist>, ReserveQuery<ReserveTourist>>();
+        services.AddScoped<IQueryEntity<Flight>, PublicQuery<Flight>>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -57,6 +58,7 @@ public static class ProgramServices
         services.AddScoped<IPackageService, PackageService>();
         services.AddScoped<IReserveService<ReserveTicket, PaymentTicket>, ReserveTicketService>();
         services.AddScoped<IReserveService<ReserveTourist, PaymentOnline>, ReserveTouristService>();
+        services.AddScoped<IFlightService, FlightService>();
 
         services.AddScoped<SecurityService>();
     }
@@ -128,6 +130,7 @@ public static class ProgramServices
         builder.EntitySet<OverNightExcursion>("OverNightExcursion");
         builder.EntitySet<ReserveTicket>("ReserveTicket");
         builder.EntitySet<ReserveTourist>("ReserveTourist");
+        builder.EntitySet<Flight>("Flight");
 
         return builder.GetEdmModel();
     }
