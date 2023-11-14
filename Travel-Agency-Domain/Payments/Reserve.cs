@@ -7,6 +7,8 @@ namespace Travel_Agency_Domain.Payments;
 
 public class Reserve : Entity
 {
+    public int UserId { get; set; }
+    
     public int PackageId { get; set; }
 
     public Package Package { get; set; } = null!;

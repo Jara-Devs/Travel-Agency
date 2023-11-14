@@ -20,6 +20,7 @@ using Travel_Agency_Domain.Packages;
 using Travel_Agency_Domain.Services;
 using Travel_Agency_Domain.Users;
 using Travel_Agency_Logic.Packages;
+using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_Api;
 
@@ -39,11 +40,14 @@ public static class ProgramServices
         services.AddScoped<IQueryEntity<HotelOffer>, PublicQuery<HotelOffer>>();
         services.AddScoped<IQueryEntity<FlightOffer>, PublicQuery<FlightOffer>>();
         services.AddScoped<IQueryEntity<Package>, PublicQuery<Package>>();
+        services.AddScoped<IQueryEntity<ReserveTicket>, ReserveQuery<ReserveTicket>>();
+        services.AddScoped<IQueryEntity<ReserveTourist>, ReserveQuery<ReserveTourist>>();
         services.AddScoped<IQueryEntity<Flight>, PublicQuery<Flight>>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IExcursionService, ExcursionService>();
+        services.AddScoped<IOverNightExcursionService, OverNightExcursionService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<ITouristPlaceService, TouristPlaceService>();
         services.AddScoped<IOfferService<HotelOffer>, OfferService<HotelOffer>>();
@@ -52,6 +56,8 @@ public static class ProgramServices
         services.AddScoped<ITouristActivityService, TouristActivityService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<IPackageService, PackageService>();
+        services.AddScoped<IReserveService<ReserveTicket, PaymentTicket>, ReserveTicketService>();
+        services.AddScoped<IReserveService<ReserveTourist, PaymentOnline>, ReserveTouristService>();
         services.AddScoped<IFlightService, FlightService>();
 
         services.AddScoped<SecurityService>();
@@ -122,6 +128,8 @@ public static class ProgramServices
         builder.EntitySet<FlightOffer>("FlightOffer");
         builder.EntitySet<Package>("Package");
         builder.EntitySet<OverNightExcursion>("OverNightExcursion");
+        builder.EntitySet<ReserveTicket>("ReserveTicket");
+        builder.EntitySet<ReserveTourist>("ReserveTourist");
         builder.EntitySet<Flight>("Flight");
 
         return builder.GetEdmModel();
