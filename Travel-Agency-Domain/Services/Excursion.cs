@@ -7,13 +7,17 @@ public class Excursion : Entity
 {
     public string Name { get; set; }
 
-    public ICollection<TouristPlace> Places { get; set; } = null!;
+    public bool IsOverNight { get; set; }
 
-    public ICollection<TouristActivity> Activities { get; set; } = null!;
+    public ICollection<TouristPlace> Places { get; set; }
+
+    public ICollection<TouristActivity> Activities { get; set; }
 
     public Excursion(string name)
     {
         this.Name = name;
+        this.Activities = new List<TouristActivity>();
+        this.Places = new List<TouristPlace>();
     }
 
 

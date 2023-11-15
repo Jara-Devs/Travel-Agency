@@ -2,9 +2,16 @@ using Travel_Agency_Domain.Services;
 
 namespace Travel_Agency_Logic.Request;
 
-public class OverNightExcursionRequest : ExcursionRequest 
+public class OverNightExcursionRequest : ExcursionRequest
 {
-    public int HotelId;
+    public int HotelId { get; set; }
 
-    public override OverNightExcursion Excursion() => new(this.Name, this.HotelId);
+    public OverNightExcursion Excursion(OverNightExcursion? excursion = null)
+    {
+        excursion ??= new OverNightExcursion(this.Name, this.HotelId);
+        excursion.Name = this.Name;
+        excursion.HotelId = this.HotelId;
+
+        return excursion;
+    }
 }

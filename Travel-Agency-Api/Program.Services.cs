@@ -43,6 +43,7 @@ public static class ProgramServices
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IExcursionService, ExcursionService>();
+        services.AddScoped<IOverNightExcursionService, OverNightExcursionExcursionService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<ITouristPlaceService, TouristPlaceService>();
         services.AddScoped<IOfferService<HotelOffer>, OfferService<HotelOffer>>();

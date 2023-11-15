@@ -48,8 +48,9 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
-            if (!await _context.OverNightExcursions.AnyAsync(e => e.Id == id))
-                return new NotFound("Excursion not found");
+            var entity = await _context.OverNightExcursions.Include(x => x.Activities).Include(x => x.Places)
+                .Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (entity is null) return new NotFound("Excursion not found");
 
             if (await _context.Excursions.AnyAsync(a => a.Name == excursion.Name && a.Id != id))
                 return new NotFound("The excursion with same name already exists");
@@ -63,11 +64,10 @@ namespace Travel_Agency_Logic.Services
             var inUse = await CheckDependency(id);
             if (!inUse.Ok) return inUse;
 
-            var response = await CreateExcursion(excursion);
+            var response = await CreateExcursion(excursion, entity);
             if (!response.Ok) return response.ConvertApiResponse();
 
             var newExcursion = response.Value!;
-            newExcursion.Id = id;
 
             _context.Update(newExcursion);
             await _context.SaveChangesAsync();
@@ -95,11 +95,10 @@ namespace Travel_Agency_Logic.Services
         private static bool CheckPermissions(UserBasic user) =>
             user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
 
-        private async Task<ApiResponse<OverNightExcursion>> CreateExcursion(OverNightExcursionRequest request)
+        private async Task<ApiResponse<OverNightExcursion>> CreateExcursion(OverNightExcursionRequest request,
+            OverNightExcursion? excursion = null)
         {
-            var excursion = request.Excursion();
-            excursion.Activities = new List<TouristActivity>();
-            excursion.Places = new List<TouristPlace>();
+            excursion = request.Excursion(excursion);
 
             foreach (var item in request.Places)
             {

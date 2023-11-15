@@ -43,8 +43,9 @@ namespace Travel_Agency_Logic.Services
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
-            if (!await _context.Excursions.AnyAsync(e => e.Id == id))
-                return new NotFound("Hotel not found");
+            var excursion = await _context.Excursions.Include(x => x.Activities).Include(x => x.Places)
+                .Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (excursion is null) return new NotFound("Excursion not found");
 
             if (await _context.Excursions.AnyAsync(a => a.Name == request.Name && a.Id != id))
                 return new NotFound("The excursion with same name already exists");
@@ -55,12 +56,11 @@ namespace Travel_Agency_Logic.Services
             var inUse = await CheckDependency(id);
             if (!inUse.Ok) return inUse;
 
-            var response = await CreateExcursion(request);
+            var response = await CreateExcursion(request, excursion);
             if (!response.Ok) return response.ConvertApiResponse();
 
             var newExcursion = response.Value!;
-            newExcursion.Id = id;
-
+          
             _context.Update(newExcursion);
             await _context.SaveChangesAsync();
 
@@ -87,12 +87,13 @@ namespace Travel_Agency_Logic.Services
         private static bool CheckPermissions(UserBasic user) =>
             user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
 
-        private async Task<ApiResponse<Excursion>> CreateExcursion(ExcursionRequest request)
+        private async Task<ApiResponse<Excursion>> CreateExcursion(ExcursionRequest request,
+            Excursion? excursion = null)
         {
-            var excursion = request.Excursion();
-            excursion.Activities = new List<TouristActivity>();
-            excursion.Places = new List<TouristPlace>();
-            
+            excursion = request.Excursion(excursion);
+            excursion.Activities.Clear();
+            excursion.Places.Clear();
+
             foreach (var item in request.Places)
             {
                 var place = await this._context.TouristPlaces.FindAsync(item);

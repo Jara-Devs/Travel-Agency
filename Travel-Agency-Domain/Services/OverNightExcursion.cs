@@ -9,5 +9,6 @@ public class OverNightExcursion : Excursion
     public OverNightExcursion(string name, int hotelId) : base(name)
     {
         this.HotelId = hotelId;
+        this.IsOverNight = true;
     }
 }
