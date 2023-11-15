@@ -26,7 +26,7 @@ public class TouristPlace : Entity
 
     public ICollection<Hotel> Hotels { get; set; } = null!;
 
-    public ICollection<Flight> Flights1 { get; set; } = null!;
+    public ICollection<Flight> OriginFlights { get; set; } = null!;
 
-    public ICollection<Flight> Flights2 { get; set; } = null!;
+    public ICollection<Flight> DestinationFlights { get; set; } = null!;
 }

@@ -8,11 +8,11 @@ using Travel_Agency_Logic.Response;
 
 namespace Travel_Agency_Logic.Services
 {
-    public class OverNightExcursionExcursionService : IOverNightExcursionService
+    public class OverNightExcursionService : IOverNightExcursionService
     {
         private readonly TravelAgencyContext _context;
 
-        public OverNightExcursionExcursionService(TravelAgencyContext context)
+        public OverNightExcursionService(TravelAgencyContext context)
         {
             _context = context;
         }

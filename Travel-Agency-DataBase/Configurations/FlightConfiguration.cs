@@ -8,7 +8,7 @@ public class FlightConfiguration : EntityConfiguration<Flight>
 {
     public override void ConfigureEntity(EntityTypeBuilder<Flight> builder)
     {
-        builder.HasOne(f => f.Place1).WithMany(p => p.Flights1).HasForeignKey(f => f.Place1Id);
-        builder.HasOne(f => f.Place2).WithMany(p => p.Flights2).HasForeignKey(f => f.Place2Id);
+        builder.HasOne(f => f.Origin).WithMany(p => p.OriginFlights).HasForeignKey(f => f.OriginId);
+        builder.HasOne(f => f.Destination).WithMany(p => p.DestinationFlights).HasForeignKey(f => f.DestinationId);
     }
 }

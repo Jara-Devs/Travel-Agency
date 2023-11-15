@@ -5,8 +5,6 @@ namespace Travel_Agency_Domain.Payments;
 
 public class ReserveTourist : Reserve
 {
-    public int UserId { get; set; }
-
     public Tourist User { get; set; } = null!;
 
     public int PaymentId { get; set; }

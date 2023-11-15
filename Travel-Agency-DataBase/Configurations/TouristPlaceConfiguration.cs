@@ -10,11 +10,11 @@ public class TouristPlaceConfiguration : EntityConfiguration<TouristPlace>
     {
         builder.HasIndex(x => x.Name).IsUnique();
         builder.OwnsOne(h => h.Address);
-        builder.HasMany(tp => tp.Flights1)
-            .WithOne(f => f.Place1)
-            .HasForeignKey(f => f.Place1Id);
-        builder.HasMany(tp => tp.Flights2)
-            .WithOne(f => f.Place2)
-            .HasForeignKey(f => f.Place2Id);
+        builder.HasMany(tp => tp.OriginFlights)
+            .WithOne(f => f.Origin)
+            .HasForeignKey(f => f.OriginId);
+        builder.HasMany(tp => tp.DestinationFlights)
+            .WithOne(f => f.Destination)
+            .HasForeignKey(f => f.DestinationId);
     }
 }
