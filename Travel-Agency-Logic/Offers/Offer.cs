@@ -46,18 +46,19 @@ namespace Travel_Agency_Logic.Offers
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateOffer(int id, OfferRequest<T> offer, UserBasic user)
+        public async Task<ApiResponse> UpdateOffer(int id, OfferRequest<T> offerRequest, UserBasic user)
         {
-            if (!await CheckPermissions(user, offer.AgencyId))
+            if (!await CheckPermissions(user, offerRequest.AgencyId))
                 return new Unauthorized("You don't have permissions");
 
-            if (!await _context.Set<T>().AnyAsync(o => o.Id == id))
+            var offer = await _context.Set<T>().FindAsync(id);
+            if (offer is null)
                 return new NotFound("Offer not found");
 
-            if (!CheckValidity(offer))
+            if (!CheckValidity(offerRequest))
                 return new BadRequest("The offer is not valid");
 
-            var newOffer = offer.Offer();
+            var newOffer = offerRequest.Offer(offer);
             newOffer.Id = id;
 
             _context.Update(newOffer);
