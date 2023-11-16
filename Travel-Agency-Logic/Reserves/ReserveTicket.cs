@@ -4,9 +4,9 @@ using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_Logic.Offers
 {
-    public abstract class ReserveTicketService : ReserveService<ReserveTicket, PaymentTicket>
+    public class ReserveTicketService : ReserveService<ReserveTicket, PaymentTicket>
     {
-        protected ReserveTicketService(TravelAgencyContext context) : base(context)
+        public ReserveTicketService(TravelAgencyContext context) : base(context)
         {
         }
 

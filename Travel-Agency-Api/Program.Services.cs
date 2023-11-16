@@ -56,8 +56,8 @@ public static class ProgramServices
         services.AddScoped<ITouristActivityService, TouristActivityService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<IPackageService, PackageService>();
-        // services.AddScoped<IReserveService<ReserveTicket, PaymentTicket>, ReserveTicketService>();
-        // services.AddScoped<IReserveService<ReserveTourist, PaymentOnline>, ReserveTouristService>();
+        services.AddScoped<IReserveService<ReserveTicket, PaymentTicket>, ReserveTicketService>();
+        services.AddScoped<IReserveService<ReserveTourist, PaymentOnline>, ReserveTouristService>();
         services.AddScoped<IFlightService, FlightService>();
 
         services.AddScoped<SecurityService>();
