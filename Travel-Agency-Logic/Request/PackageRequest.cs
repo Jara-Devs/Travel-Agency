@@ -10,5 +10,12 @@ public class PackageRequest
 
     public ICollection<int> Offers { get; set; } = null!;
 
-    public Package Package() => new(Description, Discount);
+    public Package Package(Package? package = null)
+    {
+        package ??= new Package(this.Description, this.Discount);
+        package.Description = this.Description;
+        package.Discount = this.Discount;
+
+        return package;
+    } 
 }

@@ -11,6 +11,13 @@ public class TouristPlaceRequest
 
     public Address Address { get; set; } = null!;
 
-    public TouristPlace TouristPlace() => new TouristPlace(this.Name, this.Description, this.Address);
+    public TouristPlace TouristPlace(TouristPlace? touristPlace = null) 
+    {
+        touristPlace ??= new TouristPlace(this.Name, this.Description, this.Address);
+        touristPlace.Name = this.Name;
+        touristPlace.Description = this.Description;
+        touristPlace.Address = this.Address;
 
+        return touristPlace;
+    }
 }

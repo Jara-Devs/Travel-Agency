@@ -35,12 +35,13 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateHotel(int id, HotelRequest hotel, UserBasic user)
+        public async Task<ApiResponse> UpdateHotel(int id, HotelRequest hotelRequest, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
-            if (!await _context.Hotels.AnyAsync(h => h.Id == id))
+            var hotel = await _context.Hotels.Include(x => x.TouristPlace).Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (hotel is null)
                 return new NotFound("Hotel not found");
 
             if (await _context.Hotels.AnyAsync(h => h.Name == hotel.Name && id != h.Id))
@@ -49,7 +50,7 @@ namespace Travel_Agency_Logic.Services
             var inUse = await CheckDependency(id);
             if (!inUse.Ok) return inUse;
 
-            var response = await CreateHotel(hotel);
+            var response = await CreateHotel(hotelRequest, hotel);
             if (!response.Ok) return response.ConvertApiResponse();
 
             var newHotel = response.Value!;
@@ -82,12 +83,12 @@ namespace Travel_Agency_Logic.Services
         private static bool CheckPermissions(UserBasic user) =>
             user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
 
-        private async Task<ApiResponse<Hotel>> CreateHotel(HotelRequest request)
+        private async Task<ApiResponse<Hotel>> CreateHotel(HotelRequest request, Hotel? hotel = null)
         {
+            hotel = request.Hotel(hotel);
             var touristPlace = await this._context.TouristPlaces.FindAsync(request.TouristPlaceId);
             if (touristPlace is null) return new BadRequest<Hotel>("Not found tourist place");
 
-            var hotel = request.Hotel();
             hotel.TouristPlace = touristPlace;
 
             return new ApiResponse<Hotel>(hotel);

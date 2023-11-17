@@ -15,6 +15,15 @@ public class FlightRequest
 
     public int DestinationId { get; set; } = 0;
 
-    public Flight Flight()
-        => new(Company, FlightCategory, Duration, OriginId, DestinationId);
+    public Flight Flight(Flight? flight = null) 
+    {
+        flight ??= new Flight(this.Company, this.FlightCategory, this.Duration, this.OriginId, this.DestinationId);
+        flight.Company = this.Company;
+        flight.FlightCategory = this.FlightCategory;
+        flight.Duration = this.Duration;
+        flight.OriginId = this.OriginId;
+        flight.DestinationId = this.DestinationId;
+
+        return flight;
+    }
 }
