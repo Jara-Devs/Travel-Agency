@@ -57,6 +57,9 @@ namespace Travel_Agency_Logic.Offers
             if (!CheckValidity(offer))
                 return new BadRequest("The offer is not valid");
 
+            if (!await CheckDependency(id))
+                return new BadRequest("The offer is in use");
+
             var newOffer = offer.Offer();
             newOffer.Id = id;
 
@@ -75,6 +78,9 @@ namespace Travel_Agency_Logic.Offers
 
             if (!await CheckPermissions(user, offer.AgencyId))
                 return new Unauthorized("You don't have permissions");
+            
+            if (!await CheckDependency(id))
+                return new BadRequest("The offer is in use");
 
             _context.Set<T>().Remove(offer);
             await _context.SaveChangesAsync();
@@ -97,5 +103,14 @@ namespace Travel_Agency_Logic.Offers
         private static bool CheckValidity(OfferRequest<T> offer) =>
             offer.Availability >= 0 && offer.Price >= 0 && offer.StartDate <= offer.EndDate &&
             Helpers.ValidDate(offer.StartDate);
+
+        private async Task<bool> CheckDependency(int id)
+        {
+            if (await this._context.Reserves.Include(r => r.Package)
+                .AnyAsync(r => r.Package.Offers.Select(o => o.Id).Contains(id)))
+                return false;
+
+            return true;
+        }
     }
 }
