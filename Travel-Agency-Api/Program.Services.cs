@@ -131,6 +131,7 @@ public static class ProgramServices
         builder.EntitySet<ReserveTicket>("ReserveTicket");
         builder.EntitySet<ReserveTourist>("ReserveTourist");
         builder.EntitySet<Flight>("Flight");
+        builder.EntitySet<Image>("Image");
 
         return builder.GetEdmModel();
     }
