@@ -35,24 +35,25 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateFlight(int id, FlightRequest flight, UserBasic user)
+        public async Task<ApiResponse> UpdateFlight(int id, FlightRequest flightRequest, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
-            if (!await _context.Flights.AnyAsync(f => f.Id == id))
+            var flight = await _context.Flights.FindAsync(id);
+            if (flight is null)
                 return new NotFound("Flight not found");
 
-            if (await CheckIfFlightExists(flight))
+            if (await CheckIfFlightExists(flightRequest))
                 return new NotFound("The flight already exists");
 
-            var isCoherent = await CheckCoherence(flight);
+            var isCoherent = await CheckCoherence(flightRequest);
             if (!isCoherent.Ok) return isCoherent;
 
             var inUse = await CheckDependency(id);
             if (!inUse.Ok) return inUse;
 
-            var newFlight = flight.Flight();
+            var newFlight = flightRequest.Flight(flight);
             newFlight.Id = id;
 
             _context.Update(newFlight);

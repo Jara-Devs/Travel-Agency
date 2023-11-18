@@ -39,17 +39,16 @@ public class PackageService : IPackageService
         var responsePermissions = await CheckPermissions(userBasic, id);
         if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse();
 
+        var package = await _context.Packages.FindAsync(id);
+        if (package is null) return new NotFound("Package not found");
+
         var response = await CheckRequest(request, responsePermissions.Value);
         if (!response.Ok) return response.ConvertApiResponse();
 
-        var package = response.Value!;
+        var newPackage = response.Value!;
+        newPackage.Id = package.Id;
 
-        var oldPackage = await _context.Packages.FindAsync(id);
-        if (oldPackage is null) return new NotFound("Package not found");
-
-        package.Id = oldPackage.Id;
-
-        _context.Packages.Update(package);
+        _context.Packages.Update(newPackage);
         await _context.SaveChangesAsync();
 
         return new ApiResponse();
@@ -87,7 +86,7 @@ public class PackageService : IPackageService
             : new ApiResponse<int>(agencyId);
     }
 
-    private async Task<ApiResponse<Package>> CheckRequest(PackageRequest request, int agencyId)
+    private async Task<ApiResponse<Package>> CheckRequest(PackageRequest request, int agencyId, Package? package = null)
     {
         if (request.Offers.Count == 0) return new BadRequest<Package>("You must add at least one offer");
         if (request.Discount is > 100 or < 0)
@@ -106,7 +105,7 @@ public class PackageService : IPackageService
             offers.Add(offer);
         }
 
-        var package = request.Package();
+        package = request.Package(package);
         package.Offers = offers;
 
         return new ApiResponse<Package>(package);

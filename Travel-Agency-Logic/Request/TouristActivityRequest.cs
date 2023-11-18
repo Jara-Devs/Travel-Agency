@@ -9,6 +9,13 @@ public class TouristActivityRequest
 
     public string Description { get; set; } = null!;
 
-    public TouristActivity TouristActivity() => new TouristActivity(this.Name, this.Description);
+    public TouristActivity TouristActivity(TouristActivity? touristActivity = null)
+    {
+        touristActivity ??= new TouristActivity(this.Name, this.Description);
+        touristActivity.Name = this.Name;
+        touristActivity.Description = this.Description;
+
+        return touristActivity;
+    } 
 
 }
