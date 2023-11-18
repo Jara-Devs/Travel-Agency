@@ -9,6 +9,8 @@ public class TouristActivityRequest
 
     public string Description { get; set; } = null!;
 
+    public int ImageId { get; set; }
+
     public TouristActivity TouristActivity(TouristActivity? touristActivity = null)
     {
         touristActivity ??= new TouristActivity(this.Name, this.Description, this.ImageId);
@@ -17,5 +19,5 @@ public class TouristActivityRequest
         touristActivity.ImageId = this.ImageId;
 
         return touristActivity;
-    } 
+    }
 }

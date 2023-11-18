@@ -10,6 +10,8 @@ public class TouristPlaceRequest
     public string Description { get; set; } = null!;
 
     public Address Address { get; set; } = null!;
+    
+    public int ImageId { get; set; }
 
     public TouristPlace TouristPlace(TouristPlace? touristPlace = null) 
     {
