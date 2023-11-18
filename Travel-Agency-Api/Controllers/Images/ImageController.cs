@@ -1,12 +1,6 @@
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.AspNetCore.OData.Query;
 using Travel_Agency_Api.Core;
-using Travel_Agency_Core;
-using Travel_Agency_DataBase.Core;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
 
@@ -19,12 +13,9 @@ public class ImageController : TravelAgencyController
 {
     private readonly IImageService _imageService;
 
-    private readonly IQueryEntity<Image> _query;
-
-    public ImageController(IImageService imageService, IQueryEntity<Image> query)
+    public ImageController(IImageService imageService)
     {
         _imageService = imageService;
-        _query = query;
     }
 
     [HttpPost]
