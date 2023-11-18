@@ -8,9 +8,10 @@ public class OverNightExcursionRequest : ExcursionRequest
 
     public OverNightExcursion Excursion(OverNightExcursion? excursion = null)
     {
-        excursion ??= new OverNightExcursion(this.Name, this.HotelId);
+        excursion ??= new OverNightExcursion(this.Name, this.HotelId, this.ImageId);
         excursion.Name = this.Name;
         excursion.HotelId = this.HotelId;
+        excursion.ImageId = this.ImageId;
 
         return excursion;
     }

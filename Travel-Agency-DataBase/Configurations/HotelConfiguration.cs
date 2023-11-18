@@ -10,5 +10,6 @@ public class HotelConfiguration : EntityConfiguration<Hotel>
     {
         builder.HasIndex(x => x.Name).IsUnique();
         builder.HasOne(h => h.TouristPlace).WithMany(p => p.Hotels).HasForeignKey(h => h.TouristPlaceId);
+        builder.HasOne(h => h.Image).WithMany().HasForeignKey(h => h.ImageId);
     }
 }

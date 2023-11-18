@@ -12,14 +12,8 @@ public class HotelOffer : Offer
     public List<HotelFacility> Facilities { get; set; } = null!;
 
     public HotelOffer(string name, int availability, string description, double price, long startDate,
-        long endDate, int agencyId)
-        : base(description, price, name, availability, startDate, endDate, agencyId)
-    {
-    }
-
-    public HotelOffer(string name, int availability, string description, double price, long startDate,
-        long endDate, int agencyId, int hotelId, List<HotelFacility> facilities)
-        : base(description, price, name, availability, startDate, endDate, agencyId)
+        long endDate, int agencyId, int hotelId, List<HotelFacility> facilities, int imageId)
+        : base(description, price, name, availability, startDate, endDate, agencyId, imageId)
     {
         this.HotelId = hotelId;
         this.Facilities = facilities;

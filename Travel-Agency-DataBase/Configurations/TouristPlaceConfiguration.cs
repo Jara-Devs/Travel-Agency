@@ -16,5 +16,6 @@ public class TouristPlaceConfiguration : EntityConfiguration<TouristPlace>
         builder.HasMany(tp => tp.DestinationFlights)
             .WithOne(f => f.Destination)
             .HasForeignKey(f => f.DestinationId);
+        builder.HasOne(t => t.Image).WithMany().HasForeignKey(t => t.ImageId);
     }
 }

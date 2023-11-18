@@ -11,5 +11,6 @@ public class ExcursionConfiguration : EntityConfiguration<Excursion>
         builder.HasIndex(x => x.Name).IsUnique();
         builder.HasMany(e => e.Places).WithMany(p => p.Excursions);
         builder.HasMany(e => e.Activities).WithMany(t => t.Excursions);
+        builder.HasOne(e => e.Image).WithMany().HasForeignKey(e => e.ImageId);
     }
 }

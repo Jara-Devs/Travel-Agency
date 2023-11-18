@@ -6,9 +6,8 @@ public class OverNightExcursion : Excursion
 
     public Hotel Hotel { get; set; } = null!;
 
-    public OverNightExcursion(string name, int hotelId) : base(name)
+    public OverNightExcursion(string name, int hotelId, int imageId) : base(name, imageId, true)
     {
         this.HotelId = hotelId;
-        this.IsOverNight = true;
     }
 }

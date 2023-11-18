@@ -11,11 +11,11 @@ public class TouristActivityRequest
 
     public TouristActivity TouristActivity(TouristActivity? touristActivity = null)
     {
-        touristActivity ??= new TouristActivity(this.Name, this.Description);
+        touristActivity ??= new TouristActivity(this.Name, this.Description, this.ImageId);
         touristActivity.Name = this.Name;
         touristActivity.Description = this.Description;
+        touristActivity.ImageId = this.ImageId;
 
         return touristActivity;
     } 
-
 }

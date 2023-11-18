@@ -12,14 +12,8 @@ public class ExcursionOffer : Offer
     public List<ExcursionFacility> Facilities { get; set; } = null!;
 
     public ExcursionOffer(string name, int availability, string description, double price, long startDate,
-        long endDate, int agencyId)
-        : base(description, price, name, availability, startDate, endDate, agencyId)
-    {
-    }
-
-    public ExcursionOffer(string name, int availability, string description, double price, long startDate,
-        long endDate, int agencyId, int excursionId, List<ExcursionFacility> facilities)
-        : base(description, price, name, availability, startDate, endDate, agencyId)
+        long endDate, int agencyId, int excursionId, List<ExcursionFacility> facilities, int imageId)
+        : base(description, price, name, availability, startDate, endDate, agencyId, imageId)
     {
         this.ExcursionId = excursionId;
         this.Facilities = facilities;

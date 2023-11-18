@@ -59,6 +59,7 @@ public static class ProgramServices
         services.AddScoped<IReserveService<ReserveTicket, PaymentTicket>, ReserveTicketService>();
         services.AddScoped<IReserveService<ReserveTourist, PaymentOnline>, ReserveTouristService>();
         services.AddScoped<IFlightService, FlightService>();
+        services.AddScoped<IImageService, ImageService>();
 
         services.AddScoped<SecurityService>();
     }
@@ -131,6 +132,7 @@ public static class ProgramServices
         builder.EntitySet<ReserveTicket>("ReserveTicket");
         builder.EntitySet<ReserveTourist>("ReserveTourist");
         builder.EntitySet<Flight>("Flight");
+        builder.EntitySet<Image>("Image");
 
         return builder.GetEdmModel();
     }

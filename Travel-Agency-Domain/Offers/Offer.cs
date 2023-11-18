@@ -19,7 +19,11 @@ public class Offer : Entity
 
     public long EndDate { get; set; }
 
-    public Offer(string description, double price, string name, int availability, long startDate, long endDate, int agencyId) {
+    public Image Image { get; set; } = null!;
+
+    public int ImageId { get; set; }
+
+    public Offer(string description, double price, string name, int availability, long startDate, long endDate, int agencyId, int imageId) {
         this.Description = description;
         this.Price = price;
         this.Name = name;
@@ -27,6 +31,7 @@ public class Offer : Entity
         this.StartDate = startDate;
         this.EndDate = endDate;
         this.AgencyId = agencyId;
+        this.ImageId = imageId;
     }
     
     public ICollection<Package> Packages { get; set; } = null!;

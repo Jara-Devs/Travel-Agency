@@ -13,11 +13,12 @@ public class TouristPlaceRequest
 
     public TouristPlace TouristPlace(TouristPlace? touristPlace = null) 
     {
-        touristPlace ??= new TouristPlace(this.Name, this.Description, this.Address);
+        touristPlace ??= new TouristPlace(this.Name, this.Description, this.Address, ImageId);
         touristPlace.Name = this.Name;
         touristPlace.Description = this.Description;
         touristPlace.Address = this.Address;
-
+        touristPlace.ImageId = this.ImageId;
+      
         return touristPlace;
     }
 }

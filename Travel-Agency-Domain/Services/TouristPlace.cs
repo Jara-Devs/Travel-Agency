@@ -11,15 +11,20 @@ public class TouristPlace : Entity
 
     public Address Address { get; set; } = null!;
 
+    public Image Image { get; set; } = null!;
+
+    public int ImageId { get; set; }
+
     public TouristPlace()
     {
     }
 
-    public TouristPlace(string name, string description, Address address)
+    public TouristPlace(string name, string description, Address address, int imageId)
     {
         this.Name = name;
         this.Description = description;
         this.Address = address;
+        this.ImageId = imageId;
     }
 
     public ICollection<Excursion> Excursions { get; set; } = null!;

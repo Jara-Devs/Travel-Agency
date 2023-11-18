@@ -11,12 +11,15 @@ public class HotelRequest
 
     public int TouristPlaceId { get; set; }
 
+    public int ImageId { get; set; }
+
     public Hotel Hotel(Hotel? hotel = null) 
     {
-        hotel ??= new Hotel(this.Name, this.Category, this.TouristPlaceId);
+        hotel ??= new Hotel(this.Name, this.Category, this.TouristPlaceId, this.ImageId);
         hotel.Name = this.Name;
         hotel.Category = this.Category;
         hotel.TouristPlaceId = this.TouristPlaceId;
+        hotel.ImageId = this.ImageId;
 
         return hotel;
     }
