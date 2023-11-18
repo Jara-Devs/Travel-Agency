@@ -1,49 +1,59 @@
+using System.Net;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
-using Travel_Agency_Domain.Services;
+using Travel_Agency_Domain.Images;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
-using Travel_Agency_Logic.Response;
 
-namespace Travel_Agency_Logic.Services
+namespace Travel_Agency_Logic.Images
 {
     public class ImageService : IImageService
     {
         private readonly TravelAgencyContext _context;
 
-        public ImageService(TravelAgencyContext context)
+        private readonly IConfiguration _configuration;
+
+
+        public ImageService(TravelAgencyContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
-        public async Task<ApiResponse<IdResponse>> UploadImage(ImageRequest imageRequest)
+        public async Task<ApiResponse<Image>> UploadImage(ImageRequest imageRequest)
         {
-            var cloudinary = new Cloudinary(
-            new Account(
-                "dryboggbt", 
-                "514276145235847", 
-                "GSA-X91PxIeg9FvLLE53VnuCEAA"
-                ));
-
-            var file = imageRequest.File;
-            if (file is null) return new BadRequest<IdResponse>("There is no file to upload");
-
-            var uploadParams = new ImageUploadParams()
+            try
             {
-                File = new FileDescription(file.FileName, file.OpenReadStream())
-            };
+                var cloud = _configuration["Cloudinary:Cloud"];
+                var apiKey = _configuration["Cloudinary:ApiKey"];
+                var apiSecret = _configuration["Cloudinary:ApiSecret"];
+                
+                var cloudinary = new Cloudinary(
+                    new Account(cloud, apiKey, apiSecret));
 
-            var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                var file = imageRequest.File;
+                if (file is null) return new BadRequest<Image>("There is no file to upload");
 
-            var entity = ImageRequest.Image(uploadResult.Url.ToString());
-            _context.Images.Add(entity);
-            await _context.SaveChangesAsync();
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(file.FileName, file.OpenReadStream())
+                };
 
-            return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
+                var uploadResult = await cloudinary.UploadAsync(uploadParams);
+
+                var entity = ImageRequest.Image(file.FileName, uploadResult.Url.ToString());
+                _context.Images.Add(entity);
+                await _context.SaveChangesAsync();
+
+                return new ApiResponse<Image>(entity);
+            }
+            catch
+            {
+                return new ApiResponse<Image>(HttpStatusCode.InternalServerError, "Connection error");
+            }
         }
     }
 }

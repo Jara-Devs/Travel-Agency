@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Domain;
+using Travel_Agency_Domain.Images;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Packages;
 using Travel_Agency_Domain.Payments;

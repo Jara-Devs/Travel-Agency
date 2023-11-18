@@ -10,6 +10,7 @@ using Travel_Agency_DataBase;
 using Travel_Agency_DataBase.Core;
 using Travel_Agency_DataBase.Queries;
 using Travel_Agency_DataBase.Queries.Users;
+using Travel_Agency_Domain.Images;
 using Travel_Agency_Logic;
 using Travel_Agency_Logic.Auth;
 using Travel_Agency_Logic.Core;
@@ -21,6 +22,7 @@ using Travel_Agency_Domain.Services;
 using Travel_Agency_Domain.Users;
 using Travel_Agency_Logic.Packages;
 using Travel_Agency_Domain.Payments;
+using Travel_Agency_Logic.Images;
 
 namespace Travel_Agency_Api;
 

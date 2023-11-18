@@ -1,4 +1,5 @@
 using Travel_Agency_Core;
+using Travel_Agency_Domain.Images;
 
 namespace Travel_Agency_Domain.Services;
 
