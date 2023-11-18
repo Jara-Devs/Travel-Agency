@@ -14,11 +14,16 @@ public class Hotel : Entity
 
     public TouristPlace TouristPlace { get; set; } = null!;
 
-    public Hotel(string name, HotelCategory category, int touristPlaceId)
+    public Image Image { get; set; } = null!;
+
+    public int ImageId { get; set; }
+
+    public Hotel(string name, HotelCategory category, int touristPlaceId, int imageId)
     {
         this.Name = name;
         this.Category = category;
         this.TouristPlaceId = touristPlaceId;
+        this.ImageId = imageId;
     }
 
     public ICollection<HotelOffer> Offers { get; set; } = null!;
