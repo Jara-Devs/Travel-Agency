@@ -9,5 +9,6 @@ public class TouristActivityConfiguration : EntityConfiguration<TouristActivity>
     public override void ConfigureEntity(EntityTypeBuilder<TouristActivity> builder)
     {
         builder.HasIndex(x => x.Name).IsUnique();
+        builder.HasOne(t => t.Image).WithMany().HasForeignKey(t => t.ImageId);
     }
 }

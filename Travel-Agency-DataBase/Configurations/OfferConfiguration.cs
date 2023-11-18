@@ -9,5 +9,6 @@ public class OfferConfiguration : EntityConfiguration<Offer>
     public override void ConfigureEntity(EntityTypeBuilder<Offer> builder)
     {
         builder.HasMany(o => o.Packages).WithMany(p => p.Offers);
+        builder.HasOne(o => o.Image).WithMany().HasForeignKey(o => o.ImageId);
     }
 }
