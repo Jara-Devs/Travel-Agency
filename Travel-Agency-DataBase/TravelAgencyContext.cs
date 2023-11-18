@@ -63,4 +63,6 @@ public class TravelAgencyContext : DbContext
     public DbSet<PaymentOnline> PaymentsOnline { get; set; } = null!;
 
     public DbSet<PaymentTicket> PaymentTickets { get; set; } = null!;
+
+    public DbSet<Image> Images { get; set; } = null!;
 }
