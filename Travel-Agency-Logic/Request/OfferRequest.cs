@@ -21,7 +21,7 @@ public abstract class OfferRequest<T> where T : Offer
 
     public int ImageId { get; set; } = 0;
 
-    public abstract T Offer();
+    public abstract T Offer(T? offer = null);
 }
 
 public class HotelOfferRequest : OfferRequest<HotelOffer>
@@ -29,9 +29,23 @@ public class HotelOfferRequest : OfferRequest<HotelOffer>
     public int HotelId { get; set; } = 0;
 
     public List<HotelFacility> Facilities { get; set; } = null!;
+    
+    public override HotelOffer Offer(HotelOffer? hotelOffer = null)
+    {
+        hotelOffer ??= new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, HotelId, Facilities, ImageId);
+        hotelOffer.Name = this.Name;
+        hotelOffer.Availability = this.Availability;
+        hotelOffer.Description = this.Description;
+        hotelOffer.Price = this.Price;
+        hotelOffer.StartDate = this.StartDate;
+        hotelOffer.EndDate = this.EndDate;
+        hotelOffer.AgencyId = this.AgencyId;
+        hotelOffer.HotelId = this.HotelId;
+        hotelOffer.Facilities = this.Facilities;
+        hotelOffer.ImageId = this.ImageId;
 
-    public override HotelOffer Offer() 
-        => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, HotelId, Facilities, ImageId);
+        return hotelOffer;
+    }
 }
 
 public class ExcursionOfferRequest : OfferRequest<ExcursionOffer>
@@ -40,8 +54,22 @@ public class ExcursionOfferRequest : OfferRequest<ExcursionOffer>
 
     public List<ExcursionFacility> Facilities { get; set; } = null!;
 
-    public override ExcursionOffer Offer() 
-        => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, ExcursionId, Facilities, ImageId);
+    public override ExcursionOffer Offer(ExcursionOffer? excursionOffer = null) 
+    {
+        excursionOffer ??= new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, ExcursionId, Facilities, ImageId);
+        excursionOffer.Name = this.Name;
+        excursionOffer.Availability = this.Availability;
+        excursionOffer.Description = this.Description;
+        excursionOffer.Price = this.Price;
+        excursionOffer.StartDate = this.StartDate;
+        excursionOffer.EndDate = this.EndDate;
+        excursionOffer.AgencyId = this.AgencyId;
+        excursionOffer.ExcursionId = this.ExcursionId;
+        excursionOffer.Facilities = this.Facilities;
+        excursionOffer.ImageId = this.ImageId;
+
+        return excursionOffer;
+    }
 }
 
 public class FlightOfferRequest : OfferRequest<FlightOffer>
@@ -50,6 +78,21 @@ public class FlightOfferRequest : OfferRequest<FlightOffer>
 
     public List<FlightFacility> Facilities { get; set; } = null!;
 
-    public override FlightOffer Offer() 
-        => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, FlightId, Facilities, ImageId);
+    public override FlightOffer Offer(FlightOffer? flightOffer = null)
+    {
+        flightOffer ??= new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, FlightId, Facilities, ImageId);
+        flightOffer.Name = this.Name;
+        flightOffer.Availability = this.Availability;
+        flightOffer.Description = this.Description;
+        flightOffer.Price = this.Price;
+        flightOffer.StartDate = this.StartDate;
+        flightOffer.EndDate = this.EndDate;
+        flightOffer.AgencyId = this.AgencyId;
+        flightOffer.FlightId = this.FlightId;
+        flightOffer.Facilities = this.Facilities;
+        flightOffer.ImageId = this.ImageId;
+
+        return flightOffer;
+    }
+
 }

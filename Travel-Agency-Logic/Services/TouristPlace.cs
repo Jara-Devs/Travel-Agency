@@ -32,21 +32,21 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateTouristPlace(int id, TouristPlaceRequest touristPlace, UserBasic user)
+        public async Task<ApiResponse> UpdateTouristPlace(int id, TouristPlaceRequest touristPlaceRequest, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
 
+            var touristPlace = await _context.TouristPlaces.FindAsync(id);
+            if (touristPlace is null) return new NotFound("Tourist place not found");
+
             var inUse = await CheckDependency(id);
             if (!inUse.Ok) return inUse;
 
-            if (!await _context.TouristPlaces.AnyAsync(tp => tp.Id == id))
-                return new NotFound("Tourist place not found");
-
-            if (await _context.TouristPlaces.AnyAsync(tp => tp.Name == touristPlace.Name && tp.Id != id))
+            if (await _context.TouristPlaces.AnyAsync(tp => tp.Name == touristPlaceRequest.Name && tp.Id != id))
                 return new NotFound("The tourist place with same name already exists");
 
-            var newTouristPlace = touristPlace.TouristPlace();
+            var newTouristPlace = touristPlaceRequest.TouristPlace(touristPlace);
             newTouristPlace.Id = id;
 
             _context.Update(newTouristPlace);

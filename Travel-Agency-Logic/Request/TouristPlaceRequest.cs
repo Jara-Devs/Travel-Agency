@@ -11,8 +11,14 @@ public class TouristPlaceRequest
 
     public Address Address { get; set; } = null!;
 
-    public int ImageId { get; set; }
-
-    public TouristPlace TouristPlace() => new(this.Name, this.Description, this.Address, this.ImageId);
-
+    public TouristPlace TouristPlace(TouristPlace? touristPlace = null) 
+    {
+        touristPlace ??= new TouristPlace(this.Name, this.Description, this.Address, ImageId);
+        touristPlace.Name = this.Name;
+        touristPlace.Description = this.Description;
+        touristPlace.Address = this.Address;
+        touristPlace.ImageId = this.ImageId;
+      
+        return touristPlace;
+    }
 }
