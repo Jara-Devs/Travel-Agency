@@ -11,6 +11,8 @@ public class TouristPlaceRequest
 
     public Address Address { get; set; } = null!;
 
-    public TouristPlace TouristPlace() => new TouristPlace(this.Name, this.Description, this.Address);
+    public int ImageId { get; set; }
+
+    public TouristPlace TouristPlace() => new(this.Name, this.Description, this.Address, this.ImageId);
 
 }

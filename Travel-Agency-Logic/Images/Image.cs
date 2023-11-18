@@ -39,7 +39,7 @@ namespace Travel_Agency_Logic.Services
 
             var uploadResult = await cloudinary.UploadAsync(uploadParams);
 
-            var entity = imageRequest.Image(uploadResult.Url.ToString());
+            var entity = ImageRequest.Image(uploadResult.Url.ToString());
             _context.Images.Add(entity);
             await _context.SaveChangesAsync();
 

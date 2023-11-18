@@ -19,6 +19,8 @@ public abstract class OfferRequest<T> where T : Offer
 
     public long EndDate { get; set; } = 0;
 
+    public int ImageId { get; set; } = 0;
+
     public abstract T Offer();
 }
 
@@ -28,8 +30,8 @@ public class HotelOfferRequest : OfferRequest<HotelOffer>
 
     public List<HotelFacility> Facilities { get; set; } = null!;
 
-    public override HotelOffer Offer() => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId,
-        HotelId, Facilities);
+    public override HotelOffer Offer() 
+        => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, HotelId, Facilities, ImageId);
 }
 
 public class ExcursionOfferRequest : OfferRequest<ExcursionOffer>
@@ -38,8 +40,8 @@ public class ExcursionOfferRequest : OfferRequest<ExcursionOffer>
 
     public List<ExcursionFacility> Facilities { get; set; } = null!;
 
-    public override ExcursionOffer Offer() =>
-        new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, ExcursionId, Facilities);
+    public override ExcursionOffer Offer() 
+        => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, ExcursionId, Facilities, ImageId);
 }
 
 public class FlightOfferRequest : OfferRequest<FlightOffer>
@@ -48,6 +50,6 @@ public class FlightOfferRequest : OfferRequest<FlightOffer>
 
     public List<FlightFacility> Facilities { get; set; } = null!;
 
-    public override FlightOffer Offer() =>
-        new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, FlightId, Facilities);
+    public override FlightOffer Offer() 
+        => new(Name, Availability, Description, Price, StartDate, EndDate, AgencyId, FlightId, Facilities, ImageId);
 }

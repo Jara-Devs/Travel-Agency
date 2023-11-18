@@ -8,5 +8,5 @@ public class ImageRequest
 {
     public IFormFile File { get; set; } = null!;
 
-    public Image Image(string url) => new(url);
+    public static Image Image(string url) => new(url);
 }
