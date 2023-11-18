@@ -106,7 +106,7 @@ namespace Travel_Agency_Logic.Offers
 
         private async Task<bool> CheckDependency(int id)
         {
-            if (await this._context.Reserves.Include(r => r.Package)
+            if (await this._context.Reserves.Include(r => r.Package).ThenInclude(p => p.Offers)
                 .AnyAsync(r => r.Package.Offers.Select(o => o.Id).Contains(id)))
                 return false;
 
