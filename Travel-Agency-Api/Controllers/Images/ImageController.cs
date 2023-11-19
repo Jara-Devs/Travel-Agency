@@ -18,6 +18,11 @@ public class ImageController : TravelAgencyController
         _imageService = imageService;
     }
 
+    public async Task<IActionResult> GetRandomImages()
+    {
+        return ToResponse(await _imageService.GetRandomImages());
+    }
+
     [HttpPost]
     public async Task<IActionResult> UploadImage([FromForm] ImageRequest image)
     {

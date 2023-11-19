@@ -9,4 +9,6 @@ namespace Travel_Agency_Logic.Core;
 public interface IImageService
 {
     Task<ApiResponse<Image>> UploadImage(ImageRequest imageRequest);
+
+    Task<ApiResponse<ICollection<Image>>> GetRandomImages();
 }

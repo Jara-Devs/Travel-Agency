@@ -1,6 +1,7 @@
 using System.Net;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
@@ -23,6 +24,42 @@ namespace Travel_Agency_Logic.Images
             _configuration = configuration;
         }
 
+        public async Task<ApiResponse<ICollection<Image>>> GetRandomImages()
+        {
+            var count = await _context.Images.CountAsync();
+            var list = GenerateRandom(count);
+
+            var images = await _context.Images.Where(x => list.Contains(x.Id)).ToListAsync();
+
+            return new ApiResponse<ICollection<Image>>(images);
+        }
+
+        private IEnumerable<int> GenerateRandom(int count)
+        {
+            const int cant = 11;
+            var cantIter = 100000;
+
+            var set = new HashSet<int>();
+
+            if (count <= cant)
+            {
+                for (var i = 1; i <= count; i++)
+                    set.Add(i);
+
+                return set;
+            }
+
+            var rnd = new Random();
+            while (set.Count != cant && cantIter != 0)
+            {
+                var value = rnd.Next(1, count + 1);
+                set.Add(value);
+                cantIter--;
+            }
+
+            return set;
+        }
+
         public async Task<ApiResponse<Image>> UploadImage(ImageRequest imageRequest)
         {
             try
@@ -30,7 +67,7 @@ namespace Travel_Agency_Logic.Images
                 var cloud = _configuration["Cloudinary:Cloud"];
                 var apiKey = _configuration["Cloudinary:ApiKey"];
                 var apiSecret = _configuration["Cloudinary:ApiSecret"];
-                
+
                 var cloudinary = new Cloudinary(
                     new Account(cloud, apiKey, apiSecret));
 
