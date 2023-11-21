@@ -7,8 +7,6 @@ public class RegisterUserAgencyRequest
     public string Password { get; set; } = null!;
 
     public string Name { get; set; } = null!;
-
-    public int AgencyId { get; set; } = 0;
-
+    
     public string Role { get; set; } = null!;
 }

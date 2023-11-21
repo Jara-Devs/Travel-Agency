@@ -22,6 +22,6 @@ public class UserAgencyQuery : IQueryEntity<UserAgency>
         var admin = await this._context.UserAgencies.FindAsync(userBasic.Id);
 
         return new ApiResponse<IQueryable<UserAgency>>(
-            this._context.UserAgencies.AsNoTracking().Where(x =>x.AgencyId == admin!.AgencyId));
+            this._context.UserAgencies.AsNoTracking().Where(x => x.AgencyId == admin!.AgencyId && x.Id != admin.Id));
     }
 }

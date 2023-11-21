@@ -79,9 +79,7 @@ public class AuthenticationService : IAuthenticationService
             return new Unauthorized<IdResponse>("You are not an admin of this agency");
 
         var admin = await this._context.UserAgencies.FindAsync(user.Id);
-        if (admin!.Id != userAgencyRequest.AgencyId)
-            return new Unauthorized<IdResponse>("You are not an admin of this agency");
-
+        
         if (userAgencyRequest.Role != Roles.EmployeeAgency && userAgencyRequest.Role != Roles.ManagerAgency)
             return new BadRequest<IdResponse>("Invalid role");
 
@@ -90,7 +88,7 @@ public class AuthenticationService : IAuthenticationService
 
         var entity = new UserAgency(userAgencyRequest.Name, userAgencyRequest.Email,
             SecurityService.EncryptPassword(userAgencyRequest.Password), userAgencyRequest.Role,
-            userAgencyRequest.AgencyId);
+            admin!.AgencyId);
 
         this._context.Add(entity);
         await this._context.SaveChangesAsync();
