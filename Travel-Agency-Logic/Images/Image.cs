@@ -26,38 +26,20 @@ namespace Travel_Agency_Logic.Images
 
         public async Task<ApiResponse<ICollection<Image>>> GetRandomImages()
         {
-            var count = await _context.Images.CountAsync();
-            var list = GenerateRandom(count);
+            const int cantPlaces = 8;
+            const int cantActivities = 8;
 
-            var images = await _context.Images.Where(x => list.Contains(x.Id)).ToListAsync();
+            var imagesPlaces = await _context.TouristPlaces.Include(x => x.Image).Select(x => x.Image)
+                .OrderBy(x => EF.Functions.Random() > x.Id).Take(cantPlaces).ToListAsync();
 
-            return new ApiResponse<ICollection<Image>>(images);
-        }
+            var imagesActivities = await _context.TouristActivities.Include(x => x.Image).Select(x => x.Image)
+                .OrderBy(x => EF.Functions.Random() > x.Id).Take(cantActivities).ToListAsync();
 
-        private IEnumerable<int> GenerateRandom(int count)
-        {
-            const int cant = 11;
-            var cantIter = 100000;
-
-            var set = new HashSet<int>();
-
-            if (count <= cant)
-            {
-                for (var i = 1; i <= count; i++)
-                    set.Add(i);
-
-                return set;
-            }
+            var images = imagesPlaces.Concat(imagesActivities).ToList();
 
             var rnd = new Random();
-            while (set.Count != cant && cantIter != 0)
-            {
-                var value = rnd.Next(1, count + 1);
-                set.Add(value);
-                cantIter--;
-            }
-
-            return set;
+            images.Sort((_, _) => rnd.Next(3) - 1);
+            return new ApiResponse<ICollection<Image>>(images);
         }
 
         public async Task<ApiResponse<Image>> UploadImage(ImageRequest imageRequest)
