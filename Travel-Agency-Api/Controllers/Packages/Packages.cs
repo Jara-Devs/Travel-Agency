@@ -63,7 +63,7 @@ public class PackageController : TravelAgencyController
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteExcursionOffer(int id)
+    public async Task<IActionResult> DeletePackage(int id)
     {
         var user = GetUser().Value;
         return ToResponse(await _packageService.RemovePackage(id, user!));

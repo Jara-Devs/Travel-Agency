@@ -1,6 +1,7 @@
 using Travel_Agency_Core;
 using Travel_Agency_Domain.Images;
 using Travel_Agency_Domain.Packages;
+using Travel_Agency_Domain.Reactions;
 
 namespace Travel_Agency_Domain.Offers;
 
@@ -36,4 +37,6 @@ public class Offer : Entity
     }
     
     public ICollection<Package> Packages { get; set; } = null!;
+
+    public ICollection<Reaction> Reactions { get; set; } = null!;
 }
