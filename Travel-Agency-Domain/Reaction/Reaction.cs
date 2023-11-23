@@ -2,7 +2,7 @@ using Travel_Agency_Core;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Users;
 
-namespace Travel_Agency_Domain.Reaction;
+namespace Travel_Agency_Domain.Reactions;
 
 public class Reaction : Entity
 {

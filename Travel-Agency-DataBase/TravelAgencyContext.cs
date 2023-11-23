@@ -4,6 +4,7 @@ using Travel_Agency_Domain.Images;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Packages;
 using Travel_Agency_Domain.Payments;
+using Travel_Agency_Domain.Reactions;
 using Travel_Agency_Domain.Services;
 using Travel_Agency_Domain.Users;
 
@@ -66,4 +67,6 @@ public class TravelAgencyContext : DbContext
     public DbSet<PaymentTicket> PaymentTickets { get; set; } = null!;
 
     public DbSet<Image> Images { get; set; } = null!;
+
+    public DbSet<Reaction> Reactions { get; set; } = null!;
 }
