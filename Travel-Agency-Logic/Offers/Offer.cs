@@ -48,15 +48,13 @@ namespace Travel_Agency_Logic.Offers
 
         public async Task<ApiResponse> UpdateOffer(int id, OfferRequest<T> offerRequest, UserBasic user)
         {
-            var check = await CheckPermissions(user);
-            if (!check.Ok)
-                return check.ConvertApiResponse();
-
-            var agencyId = check.Value;
-
             var offer = await _context.Set<T>().FindAsync(id);
             if (offer is null)
                 return new NotFound("Offer not found");
+
+            var check = await CheckPermissions(user, offer.AgencyId);
+            if (!check.Ok)
+                return check.ConvertApiResponse();
 
             if (!CheckValidity(offerRequest))
                 return new BadRequest("The offer is not valid");
@@ -64,8 +62,7 @@ namespace Travel_Agency_Logic.Offers
             if (!await CheckDependency(id))
                 return new BadRequest("The offer is in use");
 
-            var newOffer = offerRequest.Offer(agencyId);
-            newOffer.Id = id;
+            var newOffer = offerRequest.Offer(offer.AgencyId, offer);
 
             _context.Update(newOffer);
             await _context.SaveChangesAsync();
@@ -80,7 +77,7 @@ namespace Travel_Agency_Logic.Offers
             if (offer is null)
                 return new NotFound("Offer not found");
 
-            var check = await CheckPermissions(user);
+            var check = await CheckPermissions(user, offer.AgencyId);
             if (!check.Ok)
                 return check.ConvertApiResponse();
 
@@ -93,7 +90,7 @@ namespace Travel_Agency_Logic.Offers
             return new ApiResponse();
         }
 
-        private async Task<ApiResponse<int>> CheckPermissions(UserBasic user)
+        private async Task<ApiResponse<int>> CheckPermissions(UserBasic user, int agencyId = -1)
         {
             if (!(user.Role == Roles.AdminAgency || user.Role == Roles.ManagerAgency))
                 return new Unauthorized<int>("You don't have permissions");
@@ -101,6 +98,9 @@ namespace Travel_Agency_Logic.Offers
             var fullUser = await _context.UserAgencies.FindAsync(user.Id);
 
             if (fullUser is null) return new Unauthorized<int>("You don't have permissions");
+
+            if (agencyId != -1 && fullUser.AgencyId != agencyId)
+                return new Unauthorized<int>("You don't have permissions");
 
             return new ApiResponse<int>(fullUser.AgencyId);
         }
