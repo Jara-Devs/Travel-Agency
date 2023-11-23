@@ -22,19 +22,19 @@ namespace Travel_Agency_Logic.Offers
 
         public async Task<ApiResponse<IdResponse>> CreateOffer(OfferRequest<T> offer, UserBasic user)
         {
-            if (!await CheckPermissions(user, offer.AgencyId))
-                return new Unauthorized<IdResponse>("You don't have permissions");
+            var check = await CheckPermissions(user);
+            if (!check.Ok)
+                return check.ConvertApiResponse<IdResponse>();
+
+            var agencyId = check.Value;
 
             if (await _context.Set<T>().AnyAsync(o => o.Name == offer.Name))
                 return new BadRequest<IdResponse>("The offer already exists");
 
-            if (!await _context.Agencies.AnyAsync(a => a.Id == offer.AgencyId))
-                return new BadRequest<IdResponse>("The agency don't exists");
-
             if (!CheckValidity(offer))
                 return new BadRequest<IdResponse>("The offer is not valid");
 
-            var entity = offer.Offer();
+            var entity = offer.Offer(agencyId);
             _context.Set<T>().Add(entity);
             await _context.SaveChangesAsync();
 
@@ -48,8 +48,11 @@ namespace Travel_Agency_Logic.Offers
 
         public async Task<ApiResponse> UpdateOffer(int id, OfferRequest<T> offerRequest, UserBasic user)
         {
-            if (!await CheckPermissions(user, offerRequest.AgencyId))
-                return new Unauthorized("You don't have permissions");
+            var check = await CheckPermissions(user);
+            if (!check.Ok)
+                return check.ConvertApiResponse();
+
+            var agencyId = check.Value;
 
             var offer = await _context.Set<T>().FindAsync(id);
             if (offer is null)
@@ -61,7 +64,7 @@ namespace Travel_Agency_Logic.Offers
             if (!await CheckDependency(id))
                 return new BadRequest("The offer is in use");
 
-            var newOffer = offerRequest.Offer(offer);
+            var newOffer = offerRequest.Offer(agencyId);
             newOffer.Id = id;
 
             _context.Update(newOffer);
@@ -77,9 +80,10 @@ namespace Travel_Agency_Logic.Offers
             if (offer is null)
                 return new NotFound("Offer not found");
 
-            if (!await CheckPermissions(user, offer.AgencyId))
-                return new Unauthorized("You don't have permissions");
-            
+            var check = await CheckPermissions(user);
+            if (!check.Ok)
+                return check.ConvertApiResponse();
+
             if (!await CheckDependency(id))
                 return new BadRequest("The offer is in use");
 
@@ -89,15 +93,16 @@ namespace Travel_Agency_Logic.Offers
             return new ApiResponse();
         }
 
-        private async Task<bool> CheckPermissions(UserBasic user, int agencyId)
+        private async Task<ApiResponse<int>> CheckPermissions(UserBasic user)
         {
-            if (!(user.Role == Roles.AdminAgency || user.Role == Roles.ManagerAgency)) return false;
+            if (!(user.Role == Roles.AdminAgency || user.Role == Roles.ManagerAgency))
+                return new Unauthorized<int>("You don't have permissions");
 
             var fullUser = await _context.UserAgencies.FindAsync(user.Id);
 
-            if (fullUser is null) return false;
+            if (fullUser is null) return new Unauthorized<int>("You don't have permissions");
 
-            return fullUser.AgencyId == agencyId;
+            return new ApiResponse<int>(fullUser.AgencyId);
         }
 
 
@@ -108,7 +113,7 @@ namespace Travel_Agency_Logic.Offers
         private async Task<bool> CheckDependency(int id)
         {
             if (await this._context.Reserves.Include(r => r.Package).ThenInclude(p => p.Offers)
-                .AnyAsync(r => r.Package.Offers.Select(o => o.Id).Contains(id)))
+                    .AnyAsync(r => r.Package.Offers.Select(o => o.Id).Contains(id)))
                 return false;
 
             return true;
