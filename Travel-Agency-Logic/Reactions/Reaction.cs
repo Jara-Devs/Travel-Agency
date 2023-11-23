@@ -7,11 +7,11 @@ using Travel_Agency_Logic.Response;
 
 namespace Travel_Agency_Logic.Reactions
 {
-    public class ReactionServkice : IReactionService
+    public class ReactionService : IReactionService
     {
         private readonly TravelAgencyContext _context;
 
-        public ReactionServkice(TravelAgencyContext context)
+        public ReactionService(TravelAgencyContext context)
         {
             _context = context;
         }

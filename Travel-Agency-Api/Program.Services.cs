@@ -23,6 +23,8 @@ using Travel_Agency_Domain.Users;
 using Travel_Agency_Logic.Packages;
 using Travel_Agency_Domain.Payments;
 using Travel_Agency_Logic.Images;
+using Travel_Agency_Domain.Reactions;
+using Travel_Agency_Logic.Reactions;
 
 namespace Travel_Agency_Api;
 
@@ -45,6 +47,7 @@ public static class ProgramServices
         services.AddScoped<IQueryEntity<ReserveTicket>, ReserveQuery<ReserveTicket>>();
         services.AddScoped<IQueryEntity<ReserveTourist>, ReserveQuery<ReserveTourist>>();
         services.AddScoped<IQueryEntity<Flight>, PublicQuery<Flight>>();
+        services.AddScoped<IQueryEntity<Reaction>, PublicQuery<Reaction>>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -62,6 +65,7 @@ public static class ProgramServices
         services.AddScoped<IReserveService<ReserveTourist, PaymentOnline>, ReserveTouristService>();
         services.AddScoped<IFlightService, FlightService>();
         services.AddScoped<IImageService, ImageService>();
+        services.AddScoped<IReactionService, ReactionService>();
 
         services.AddScoped<SecurityService>();
     }
@@ -135,6 +139,7 @@ public static class ProgramServices
         builder.EntitySet<ReserveTourist>("ReserveTourist");
         builder.EntitySet<Flight>("Flight");
         builder.EntitySet<Image>("Image");
+        builder.EntitySet<Reaction>("Reaction");
 
         return builder.GetEdmModel();
     }
