@@ -27,13 +27,12 @@ public class AuthenticationService : IAuthenticationService
         if (response.Ok) return response;
 
         var user = await this._context.Users.Where(u => u.Email == request.Email).SingleOrDefaultAsync();
-        if (user is null) return new NotFound<LoginResponse>("Incorrect email");
+        if (user is null) return new NotFound<LoginResponse>("Incorrect email or password");
 
         if (!SecurityService.CheckPassword(user.Password, request.Password))
-            return new BadRequest<LoginResponse>("Incorrect password");
+            return new BadRequest<LoginResponse>("Incorrect password or password");
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(user.Name,
-            this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
+        return await LoginResponse(user.Id, user.Name, user.Role);
     }
 
     public async Task<ApiResponse<LoginResponse>> RegisterTourist(RegisterTouristRequest touristRequest)
@@ -79,7 +78,7 @@ public class AuthenticationService : IAuthenticationService
             return new Unauthorized<IdResponse>("You are not an admin of this agency");
 
         var admin = await this._context.UserAgencies.FindAsync(user.Id);
-        
+
         if (userAgencyRequest.Role != Roles.EmployeeAgency && userAgencyRequest.Role != Roles.ManagerAgency)
             return new BadRequest<IdResponse>("Invalid role");
 
@@ -153,10 +152,9 @@ public class AuthenticationService : IAuthenticationService
         return new ApiResponse();
     }
 
-    public ApiResponse<LoginResponse> Renew(UserBasic user)
+    public async Task<ApiResponse<LoginResponse>> Renew(UserBasic user)
     {
-        return new ApiResponse<LoginResponse>(new LoginResponse(user.Name,
-            this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
+        return await LoginResponse(user.Id, user.Name, user.Role);
     }
 
     public async Task<ApiResponse> ChangePassword(ChangePasswordRequest request, UserBasic userRequest)
@@ -191,5 +189,26 @@ public class AuthenticationService : IAuthenticationService
 
         return new ApiResponse<LoginResponse>(new LoginResponse("Admin",
             this._securityService.JwtAuth(0, "admin", Roles.AdminApp), Roles.AdminApp));
+    }
+
+    private async Task<ApiResponse<LoginResponse>> LoginResponse(int id, string name, string role)
+    {
+        var token = this._securityService.JwtAuth(id, name, role);
+
+        if (role == Roles.Tourist)
+        {
+            var user = await this._context.Tourists.FindAsync(id);
+            return new ApiResponse<LoginResponse>(new LoginResponseTourist(name, token, role, user!.Nationality));
+        }
+
+        if (role == Roles.AdminAgency || role == Roles.ManagerAgency || role == Roles.EmployeeAgency)
+        {
+            var user = await this._context.UserAgencies.Include(x => x.Agency).SingleOrDefaultAsync(x => x.Id == id);
+            return new ApiResponse<LoginResponse>(new LoginResponseAgency(name, token, role, user!.AgencyId,
+                user!.Agency.Name, user!.Agency.FaxNumber));
+        }
+
+        return new ApiResponse<LoginResponse>(new LoginResponse(name,
+            this._securityService.JwtAuth(id, name, role), role));
     }
 }

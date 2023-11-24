@@ -24,5 +24,5 @@ public interface IAuthenticationService
 
     Task<ApiResponse> ChangePassword(ChangePasswordRequest request, UserBasic user);
 
-    ApiResponse<LoginResponse> Renew(UserBasic user);
+    Task<ApiResponse<LoginResponse>> Renew(UserBasic user);
 }

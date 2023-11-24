@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Travel_Agency_Api.Core;
 using Travel_Agency_Core;
+using Travel_Agency_Domain.Users;
 using Travel_Agency_Logic.Request;
 using Travel_Agency_Logic.Core;
+using Travel_Agency_Logic.Response;
 
 namespace Travel_Agency_Api.Controllers.Auth;
 
@@ -19,8 +21,9 @@ public class AuthController : TravelAgencyController
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest request) => ToResponse(await this._authService.Login(request));
-    
+    public async Task<IActionResult> Login(LoginRequest request) =>
+        LoginResponse(await this._authService.Login(request));
+
     [HttpPost("register/tourist")]
     public async Task<IActionResult> RegisterTourist([FromBody] RegisterTouristRequest request) =>
         ToResponse(await this._authService.RegisterTourist(request));
@@ -39,9 +42,21 @@ public class AuthController : TravelAgencyController
 
     [HttpPost("renew")]
     [Authorize]
-    public IActionResult Renew()
+    public async Task<IActionResult> Renew()
     {
         var user = GetUser().Value!;
-        return ToResponse(this._authService.Renew(user));
+        return LoginResponse(await this._authService.Renew(user));
+    }
+
+    private IActionResult LoginResponse(ApiResponse<LoginResponse> response)
+    {
+        if (!response.Ok) return ToResponse(response);
+
+        if (response.Value!.Role == Roles.AdminAgency || response.Value.Role == Roles.ManagerAgency ||
+            response.Value.Role == Roles.EmployeeAgency)
+            return ToResponse(new ApiResponse<LoginResponseAgency>((response.Value as LoginResponseAgency)!));
+        if (response.Value!.Role == Roles.Tourist)
+            return ToResponse(new ApiResponse<LoginResponseTourist>((response.Value as LoginResponseTourist)!));
+        return ToResponse(response);
     }
 }
