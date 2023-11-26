@@ -99,7 +99,7 @@ namespace Travel_Agency_Logic.Offers
 
             if (fullUser is null) return new Unauthorized<Guid>("You don't have permissions");
 
-            if (agencyId is null && fullUser.AgencyId != agencyId)
+            if (agencyId is not null && fullUser.AgencyId != agencyId)
                 return new Unauthorized<Guid>("You don't have permissions");
 
             return new ApiResponse<Guid>(fullUser.AgencyId);
