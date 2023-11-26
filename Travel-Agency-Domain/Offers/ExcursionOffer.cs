@@ -9,11 +9,11 @@ public class ExcursionOffer : Offer
 
     public Excursion Excursion { get; set; } = null!;
 
-    public List<ExcursionFacility> Facilities { get; set; } = null!;
+    public List<ExcursionFacility> Facilities { get; set; }
 
     public ExcursionOffer(string name, int availability, string description, double price, long startDate,
         long endDate, int agencyId, int excursionId, List<ExcursionFacility> facilities, int imageId)
-        : base(description, price, name, availability, startDate, endDate, agencyId, imageId)
+        : base(description, price, name, availability, startDate, endDate, agencyId, imageId, OfferType.Excursion)
     {
         this.ExcursionId = excursionId;
         this.Facilities = facilities;

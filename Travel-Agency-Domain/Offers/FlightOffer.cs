@@ -9,11 +9,11 @@ public class FlightOffer : Offer
 
     public Flight Flight { get; set; } = null!;
 
-    public List<FlightFacility> Facilities { get; set; } = null!;
+    public List<FlightFacility> Facilities { get; set; }
 
     public FlightOffer(string name, int availability, string description, double price, long startDate,
         long endDate, int agencyId, int flightId, List<FlightFacility> facilities, int imageId)
-        : base(description, price, name, availability, startDate, endDate, agencyId, imageId)
+        : base(description, price, name, availability, startDate, endDate, agencyId, imageId, OfferType.Flight)
     {
         this.FlightId = flightId;
         this.Facilities = facilities;

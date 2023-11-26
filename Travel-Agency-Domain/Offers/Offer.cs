@@ -1,4 +1,5 @@
 using Travel_Agency_Core;
+using Travel_Agency_Core.Enums;
 using Travel_Agency_Domain.Images;
 using Travel_Agency_Domain.Packages;
 using Travel_Agency_Domain.Reactions;
@@ -25,7 +26,11 @@ public class Offer : Entity
 
     public int ImageId { get; set; }
 
-    public Offer(string description, double price, string name, int availability, long startDate, long endDate, int agencyId, int imageId) {
+    public OfferType Type { get; set; }
+
+    public Offer(string description, double price, string name, int availability, long startDate, long endDate,
+        int agencyId, int imageId, OfferType type)
+    {
         this.Description = description;
         this.Price = price;
         this.Name = name;
@@ -34,8 +39,9 @@ public class Offer : Entity
         this.EndDate = endDate;
         this.AgencyId = agencyId;
         this.ImageId = imageId;
+        this.Type = type;
     }
-    
+
     public ICollection<Package> Packages { get; set; } = null!;
 
     public ICollection<Reaction> Reactions { get; set; } = null!;
