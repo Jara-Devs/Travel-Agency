@@ -1,4 +1,5 @@
 using Travel_Agency_Core;
+using Travel_Agency_Core.Enums;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Users;
 
@@ -6,9 +7,7 @@ namespace Travel_Agency_Domain.Reactions;
 
 public class Reaction : Entity
 {
-
-    public bool Liked { get; set; }
-    public string? Comment { get; set; }
+    public ReactionState ReactionState { get; set; } = ReactionState.NotSet;
 
     public int TouristId { get; set; }
     public Tourist Tourist { get; set; } = null!;
@@ -16,11 +15,10 @@ public class Reaction : Entity
     public int OfferId { get; set; }
     public Offer Offer { get; set; } = null!;
 
-    public Reaction(bool liked, int touristId, int offerId, string? comment = null)
+    public Reaction(ReactionState reactionState, int touristId, int offerId)
     {
-        Liked = liked;
+        ReactionState = reactionState;
         TouristId = touristId;
         OfferId = offerId;
-        Comment = comment;
     }
 }
