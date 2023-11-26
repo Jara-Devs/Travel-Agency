@@ -9,7 +9,7 @@ public class TouristActivityRequest
 
     public string Description { get; set; } = null!;
 
-    public int ImageId { get; set; }
+    public Guid ImageId { get; set; }
 
     public TouristActivity TouristActivity(TouristActivity? touristActivity = null)
     {

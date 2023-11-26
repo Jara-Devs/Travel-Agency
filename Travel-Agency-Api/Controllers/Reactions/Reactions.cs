@@ -39,7 +39,7 @@ public class ReactionController : TravelAgencyController
 
     [HttpGet("{key}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<Reaction> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<Reaction> options)
     {
         var user = GetUser().Value!;
         var response = await this._query.Get(user);
@@ -56,14 +56,14 @@ public class ReactionController : TravelAgencyController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateReaction(int id, [FromBody] ReactionRequest request)
+    public async Task<IActionResult> UpdateReaction(Guid id, [FromBody] ReactionRequest request)
     {
         var user = GetUser().Value;
         return ToResponse(await _reactionService.UpdateReaction(id, request, user!));
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteReaction(int id)
+    public async Task<IActionResult> DeleteReaction(Guid id)
     {
         var user = GetUser().Value;
         return ToResponse(await _reactionService.DeleteReaction(id, user!));

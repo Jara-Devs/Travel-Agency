@@ -12,5 +12,6 @@ public class ExcursionConfiguration : EntityConfiguration<Excursion>
         builder.HasMany(e => e.Places).WithMany(p => p.Excursions);
         builder.HasMany(e => e.Activities).WithMany(t => t.Excursions);
         builder.HasOne(e => e.Image).WithMany().HasForeignKey(e => e.ImageId);
+        builder.HasOne(e => e.Hotel).WithMany(h => h.OverNightExcursions).HasForeignKey(e => e.HotelId);
     }
 }

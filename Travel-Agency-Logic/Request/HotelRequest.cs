@@ -9,9 +9,9 @@ public class HotelRequest
 
     public HotelCategory Category { get; set; }
 
-    public int TouristPlaceId { get; set; }
+    public Guid TouristPlaceId { get; set; }
 
-    public int ImageId { get; set; }
+    public Guid ImageId { get; set; }
 
     public Hotel Hotel(Hotel? hotel = null) 
     {

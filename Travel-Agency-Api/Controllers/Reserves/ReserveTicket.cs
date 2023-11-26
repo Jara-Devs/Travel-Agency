@@ -39,7 +39,7 @@ public class ReserveTicketController : TravelAgencyController
 
     [HttpGet("{key}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<ReserveTicket> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<ReserveTicket> options)
     {
         var user = GetUser().Value!;
         var response = await this._query.Get(user);

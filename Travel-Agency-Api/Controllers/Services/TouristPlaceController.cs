@@ -38,7 +38,7 @@ public class TouristPlaceController : TravelAgencyController
 
     [HttpGet("{key}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<TouristPlace> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<TouristPlace> options)
     {
         var user = GetUser().Value!;
         var response = await this._query.Get(user);
@@ -54,14 +54,14 @@ public class TouristPlaceController : TravelAgencyController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateTouristPlace(int id, [FromBody] TouristPlaceRequest touristPlace)
+    public async Task<IActionResult> UpdateTouristPlace(Guid id, [FromBody] TouristPlaceRequest touristPlace)
     {
         var user = GetUser().Value;
         return ToResponse(await _touristPlaceService.UpdateTouristPlace(id, touristPlace, user!));
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteTouristPlace(int id)
+    public async Task<IActionResult> DeleteTouristPlace(Guid id)
     {
         var user = GetUser().Value;
         return ToResponse(await _touristPlaceService.DeleteTouristPlace(id, user!));

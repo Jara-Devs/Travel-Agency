@@ -38,7 +38,7 @@ public class HotelController : TravelAgencyController
 
     [HttpGet("{key}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<Hotel> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<Hotel> options)
     {
         var user = GetUser().Value!;
         var response = await this._query.Get(user);
@@ -54,14 +54,14 @@ public class HotelController : TravelAgencyController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateHotel(int id, [FromBody] HotelRequest hotel)
+    public async Task<IActionResult> UpdateHotel(Guid id, [FromBody] HotelRequest hotel)
     {
         var user = GetUser().Value;
         return ToResponse(await _hotelService.UpdateHotel(id, hotel, user!));
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteHotel(int id)
+    public async Task<IActionResult> DeleteHotel(Guid id)
     {
         var user = GetUser().Value;
         return ToResponse(await _hotelService.DeleteHotel(id, user!));

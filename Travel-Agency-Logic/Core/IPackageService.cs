@@ -8,7 +8,7 @@ public interface IPackageService
 {
     Task<ApiResponse<IdResponse>> CreatePackage(PackageRequest request, UserBasic userBasic);
 
-    Task<ApiResponse> UpdatePackage(int id, PackageRequest request, UserBasic userBasic);
+    Task<ApiResponse> UpdatePackage(Guid id, PackageRequest request, UserBasic userBasic);
 
-    Task<ApiResponse> RemovePackage(int id, UserBasic userBasic);
+    Task<ApiResponse> RemovePackage(Guid id, UserBasic userBasic);
 }

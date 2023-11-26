@@ -11,15 +11,15 @@ public class Hotel : Entity
 
     public HotelCategory Category { get; set; }
 
-    public int TouristPlaceId { get; set; }
+    public Guid TouristPlaceId { get; set; }
 
     public TouristPlace TouristPlace { get; set; } = null!;
 
     public Image Image { get; set; } = null!;
 
-    public int ImageId { get; set; }
+    public Guid ImageId { get; set; }
 
-    public Hotel(string name, HotelCategory category, int touristPlaceId, int imageId)
+    public Hotel(string name, HotelCategory category, Guid touristPlaceId, Guid imageId)
     {
         this.Name = name;
         this.Category = category;
@@ -29,5 +29,5 @@ public class Hotel : Entity
 
     public ICollection<HotelOffer> Offers { get; set; } = null!;
 
-    public ICollection<OverNightExcursion> OverNightExcursions { get; set; } = null!;
+    public ICollection<Excursion> OverNightExcursions { get; set; } = null!;
 }

@@ -36,7 +36,6 @@ public static class ProgramServices
         services.AddScoped<IQueryEntity<UserAgency>, UserAgencyQuery>();
         services.AddScoped<IQueryEntity<User>, UserAppQuery>();
         services.AddScoped<IQueryEntity<Excursion>, PublicQuery<Excursion>>();
-        services.AddScoped<IQueryEntity<OverNightExcursion>, PublicQuery<OverNightExcursion>>();
         services.AddScoped<IQueryEntity<Hotel>, PublicQuery<Hotel>>();
         services.AddScoped<IQueryEntity<TouristActivity>, PublicQuery<TouristActivity>>();
         services.AddScoped<IQueryEntity<TouristPlace>, PublicQuery<TouristPlace>>();
@@ -52,7 +51,6 @@ public static class ProgramServices
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IExcursionService, ExcursionService>();
-        services.AddScoped<IOverNightExcursionService, OverNightExcursionService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<ITouristPlaceService, TouristPlaceService>();
         services.AddScoped<IOfferService<HotelOffer>, OfferService<HotelOffer>>();
@@ -134,7 +132,6 @@ public static class ProgramServices
         builder.EntitySet<ExcursionOffer>("ExcursionOffer");
         builder.EntitySet<FlightOffer>("FlightOffer");
         builder.EntitySet<Package>("Package");
-        builder.EntitySet<OverNightExcursion>("OverNightExcursion");
         builder.EntitySet<ReserveTicket>("ReserveTicket");
         builder.EntitySet<ReserveTourist>("ReserveTourist");
         builder.EntitySet<Flight>("Flight");

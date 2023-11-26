@@ -34,7 +34,7 @@ public class PackageService : IPackageService
         return new ApiResponse<IdResponse>(new IdResponse { Id = package.Id });
     }
 
-    public async Task<ApiResponse> UpdatePackage(int id, PackageRequest request, UserBasic userBasic)
+    public async Task<ApiResponse> UpdatePackage(Guid id, PackageRequest request, UserBasic userBasic)
     {
         var responsePermissions = await CheckPermissions(userBasic, id);
         if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse();
@@ -54,7 +54,7 @@ public class PackageService : IPackageService
         return new ApiResponse();
     }
 
-    public async Task<ApiResponse> RemovePackage(int id, UserBasic userBasic)
+    public async Task<ApiResponse> RemovePackage(Guid id, UserBasic userBasic)
     {
         var responsePermissions = await CheckPermissions(userBasic, id);
         if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse();
@@ -68,25 +68,25 @@ public class PackageService : IPackageService
         return new ApiResponse();
     }
 
-    private async Task<ApiResponse<int>> CheckPermissions(UserBasic userBasic, int id = -1)
+    private async Task<ApiResponse<Guid>> CheckPermissions(UserBasic userBasic, Guid? id = null)
     {
         if (userBasic.Role != Roles.AdminAgency && userBasic.Role != Roles.ManagerAgency)
-            return new Unauthorized<int>("You don't have permissions");
+            return new Unauthorized<Guid>("You don't have permissions");
 
         var agencyId = await _context.UserAgencies.Where(u => u.Id == userBasic.Id).Select(u => u.AgencyId)
             .FirstOrDefaultAsync();
 
-        if (id == -1) return new ApiResponse<int>(agencyId);
+        if (id is null) return new ApiResponse<Guid>(agencyId);
 
         var package = await _context.Packages.Include(p => p.Offers).Where(p => p.Id == id).FirstOrDefaultAsync();
-        if (package is null) return new NotFound<int>("Package not found");
+        if (package is null) return new NotFound<Guid>("Package not found");
 
         return package.Offers.Any(o => o.AgencyId != agencyId)
-            ? new Unauthorized<int>("You don't have permissions")
-            : new ApiResponse<int>(agencyId);
+            ? new Unauthorized<Guid>("You don't have permissions")
+            : new ApiResponse<Guid>(agencyId);
     }
 
-    private async Task<ApiResponse<Package>> CheckRequest(PackageRequest request, int agencyId, Package? package = null)
+    private async Task<ApiResponse<Package>> CheckRequest(PackageRequest request, Guid agencyId, Package? package = null)
     {
         if (request.Offers.Count == 0) return new BadRequest<Package>("You must add at least one offer");
         if (request.Discount is > 100 or < 0)

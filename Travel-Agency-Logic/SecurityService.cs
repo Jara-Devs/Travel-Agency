@@ -31,7 +31,7 @@ public class SecurityService
         this._configuration = configuration;
     }
 
-    public string JwtAuth(int id, string name, string role)
+    public string JwtAuth(Guid id, string name, string role)
     {
         var claims = new[]
         {
@@ -98,7 +98,7 @@ public class SecurityService
 
         try
         {
-            return new ApiResponse<UserBasic>(new UserBasic(int.Parse(idClaim.Value), nameClaim.Value,
+            return new ApiResponse<UserBasic>(new UserBasic(Guid.Parse(idClaim.Value), nameClaim.Value,
                 roleClaim.Value));
         }
         catch

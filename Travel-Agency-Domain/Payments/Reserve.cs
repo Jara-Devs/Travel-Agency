@@ -7,9 +7,9 @@ namespace Travel_Agency_Domain.Payments;
 
 public class Reserve : Entity
 {
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     
-    public int PackageId { get; set; }
+    public Guid PackageId { get; set; }
 
     public Package Package { get; set; } = null!;
 
@@ -19,7 +19,7 @@ public class Reserve : Entity
     {
     }
 
-    public Reserve(int packageId, ICollection<UserIdentity> userIdentities)
+    public Reserve(Guid packageId, ICollection<UserIdentity> userIdentities)
     {
         this.PackageId = packageId;
         this.UserIdentities = userIdentities;

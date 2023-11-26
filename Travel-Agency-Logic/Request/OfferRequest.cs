@@ -17,18 +17,18 @@ public abstract class OfferRequest<T> where T : Offer
 
     public long EndDate { get; set; } = 0;
 
-    public int ImageId { get; set; } = 0;
+    public Guid ImageId { get; set; }
 
-    public abstract T Offer(int agencyId,T? offer = null);
+    public abstract T Offer(Guid agencyId, T? offer = null);
 }
 
 public class HotelOfferRequest : OfferRequest<HotelOffer>
 {
-    public int HotelId { get; set; } = 0;
+    public Guid HotelId { get; set; }
 
     public List<HotelFacility> Facilities { get; set; } = null!;
     
-    public override HotelOffer Offer(int agencyId,HotelOffer? hotelOffer = null)
+    public override HotelOffer Offer(Guid agencyId,HotelOffer? hotelOffer = null)
     {
         hotelOffer ??= new(Name, Availability, Description, Price, StartDate, EndDate, agencyId, HotelId, Facilities, ImageId);
         hotelOffer.Name = this.Name;
@@ -47,11 +47,11 @@ public class HotelOfferRequest : OfferRequest<HotelOffer>
 
 public class ExcursionOfferRequest : OfferRequest<ExcursionOffer>
 {
-    public int ExcursionId { get; set; } = 0;
+    public Guid ExcursionId { get; set; }
 
     public List<ExcursionFacility> Facilities { get; set; } = null!;
 
-    public override ExcursionOffer Offer(int agencyId,ExcursionOffer? excursionOffer = null) 
+    public override ExcursionOffer Offer(Guid agencyId,ExcursionOffer? excursionOffer = null) 
     {
         excursionOffer ??= new(Name, Availability, Description, Price, StartDate, EndDate, agencyId, ExcursionId, Facilities, ImageId);
         excursionOffer.Name = this.Name;
@@ -70,11 +70,11 @@ public class ExcursionOfferRequest : OfferRequest<ExcursionOffer>
 
 public class FlightOfferRequest : OfferRequest<FlightOffer>
 {
-    public int FlightId { get; set; } = 0;
+    public Guid FlightId { get; set; }
 
     public List<FlightFacility> Facilities { get; set; } = null!;
 
-    public override FlightOffer Offer(int agencyId,FlightOffer? flightOffer = null)
+    public override FlightOffer Offer(Guid agencyId,FlightOffer? flightOffer = null)
     {
         flightOffer ??= new(Name, Availability, Description, Price, StartDate, EndDate, agencyId, FlightId, Facilities, ImageId);
         flightOffer.Name = this.Name;

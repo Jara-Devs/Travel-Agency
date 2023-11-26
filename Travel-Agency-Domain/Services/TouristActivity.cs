@@ -11,9 +11,9 @@ public class TouristActivity : Entity
 
     public Image Image { get; set; } = null!;  
 
-    public int ImageId { get; set; }
+    public Guid ImageId { get; set; }
 
-    public TouristActivity(string name, string description, int imageId)
+    public TouristActivity(string name, string description, Guid imageId)
     {
         this.Name = name;
         this.Description = description;
