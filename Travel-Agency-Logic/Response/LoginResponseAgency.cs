@@ -8,8 +8,8 @@ public class LoginResponseAgency : LoginResponse
 
     public long FaxNumber { get; set; }
 
-    public LoginResponseAgency(string name, string token, string role, int agencyId, string agencyName, long faxNumber)
-        : base(name, token, role)
+    public LoginResponseAgency(int id,string name, string token, string role, int agencyId, string agencyName, long faxNumber)
+        : base(id,name, token, role)
     {
         this.AgencyId = agencyId;
         this.AgencyName = agencyName;

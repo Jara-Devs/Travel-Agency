@@ -47,7 +47,7 @@ public class AuthenticationService : IAuthenticationService
 
         var user = await this._context.Users.Where(u => u.Email == touristRequest.Email).SingleOrDefaultAsync();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Name,
+        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Id, user.Name,
             this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
@@ -67,7 +67,7 @@ public class AuthenticationService : IAuthenticationService
 
         var user = await this._context.Users.Where(u => u.Email == agencyRequest.Email).SingleOrDefaultAsync();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Name,
+        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Id, user.Name,
             this._securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
     }
 
@@ -187,7 +187,7 @@ public class AuthenticationService : IAuthenticationService
 
         if (user != request.Email || password != request.Password) return new BadRequest<LoginResponse>();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse("Admin",
+        return new ApiResponse<LoginResponse>(new LoginResponse(-1, "Admin",
             this._securityService.JwtAuth(0, "admin", Roles.AdminApp), Roles.AdminApp));
     }
 
@@ -198,17 +198,17 @@ public class AuthenticationService : IAuthenticationService
         if (role == Roles.Tourist)
         {
             var user = await this._context.Tourists.FindAsync(id);
-            return new ApiResponse<LoginResponse>(new LoginResponseTourist(name, token, role, user!.Nationality));
+            return new ApiResponse<LoginResponse>(new LoginResponseTourist(id, name, token, role, user!.Nationality));
         }
 
         if (role == Roles.AdminAgency || role == Roles.ManagerAgency || role == Roles.EmployeeAgency)
         {
             var user = await this._context.UserAgencies.Include(x => x.Agency).SingleOrDefaultAsync(x => x.Id == id);
-            return new ApiResponse<LoginResponse>(new LoginResponseAgency(name, token, role, user!.AgencyId,
+            return new ApiResponse<LoginResponse>(new LoginResponseAgency(id, name, token, role, user!.AgencyId,
                 user!.Agency.Name, user!.Agency.FaxNumber));
         }
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(name,
+        return new ApiResponse<LoginResponse>(new LoginResponse(id, name,
             this._securityService.JwtAuth(id, name, role), role));
     }
 }

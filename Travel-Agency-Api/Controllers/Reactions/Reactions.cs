@@ -13,7 +13,7 @@ namespace Travel_Agency_Api.Controllers.Reactions;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles.Tourist)]
+[Authorize(Roles = Roles.Tourist)]
 public class ReactionController : TravelAgencyController
 {
     private readonly IReactionService _reactionService;
@@ -49,7 +49,7 @@ public class ReactionController : TravelAgencyController
 
 
     [HttpPost]
-    public async Task<IActionResult> CreateReaction([FromBody]  ReactionRequest request)
+    public async Task<IActionResult> CreateReaction([FromBody] ReactionRequest request)
     {
         var user = GetUser().Value;
         return ToResponse(await _reactionService.CreateReaction(request, user!));
