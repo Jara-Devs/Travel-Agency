@@ -7,8 +7,6 @@ public class FlightRequest
 {
     public string Company { get; set; } = null!;
 
-    public FlightCategory FlightCategory { get; set; }
-
     public long Duration { get; set; } = 0;
 
     public int OriginId { get; set; } = 0;
@@ -17,9 +15,8 @@ public class FlightRequest
 
     public Flight Flight(Flight? flight = null) 
     {
-        flight ??= new Flight(this.Company, this.FlightCategory, this.Duration, this.OriginId, this.DestinationId);
+        flight ??= new Flight(this.Company, this.Duration, this.OriginId, this.DestinationId);
         flight.Company = this.Company;
-        flight.FlightCategory = this.FlightCategory;
         flight.Duration = this.Duration;
         flight.OriginId = this.OriginId;
         flight.DestinationId = this.DestinationId;

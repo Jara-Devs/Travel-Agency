@@ -110,7 +110,6 @@ namespace Travel_Agency_Logic.Services
         private async Task<bool> CheckIfFlightExists(FlightRequest flight) 
             => await _context.Flights.AnyAsync(f =>
                 f.Company == flight.Company &&
-                f.FlightCategory == flight.FlightCategory &&
                 f.OriginId == flight.OriginId &&
                 f.DestinationId == flight.DestinationId
             );
