@@ -1,4 +1,5 @@
 using Travel_Agency_Core;
+using Travel_Agency_Core.Enums;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Payments;
 
@@ -6,6 +7,8 @@ namespace Travel_Agency_Domain.Packages;
 
 public class Package : Entity
 {
+    public ReactionState ReactionState { get; set; }
+
     public double Price() => this.Offers.Sum(o => o.Price) * (100 - this.Discount) / 100;
 
     public long StartDate() => this.Offers.Min(o => o.StartDate);
@@ -18,8 +21,9 @@ public class Package : Entity
 
     public ICollection<Offer> Offers { get; set; } = null!;
 
-    public Package(string description, double discount = 0)
+    public Package(ReactionState reactionState, string description, double discount = 0)
     {
+        this.ReactionState = reactionState;
         this.Description = description;
         this.Discount = discount;
     }

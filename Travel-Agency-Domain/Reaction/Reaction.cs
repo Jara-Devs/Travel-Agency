@@ -7,7 +7,7 @@ namespace Travel_Agency_Domain.Reactions;
 
 public class Reaction : Entity
 {
-    public ReactionState ReactionState { get; set; } = ReactionState.NotSet;
+    public ReactionState ReactionState { get; set; }
 
     public int TouristId { get; set; }
     public Tourist Tourist { get; set; } = null!;
