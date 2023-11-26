@@ -7,8 +7,8 @@ namespace Travel_Agency_Logic.Request;
 public class ReactionRequest
 {
     public ReactionState ReactionState { get; set; }
-    public int TouristId { get; set; }
-    public int OfferId { get; set; }
+    public Guid TouristId { get; set; }
+    public Guid OfferId { get; set; }
 
     public Reaction Reaction(Reaction? reaction = null) 
     {

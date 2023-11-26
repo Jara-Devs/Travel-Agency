@@ -11,7 +11,7 @@ public class TouristPlaceRequest
 
     public Address Address { get; set; } = null!;
     
-    public int ImageId { get; set; }
+    public Guid ImageId { get; set; }
 
     public TouristPlace TouristPlace(TouristPlace? touristPlace = null) 
     {

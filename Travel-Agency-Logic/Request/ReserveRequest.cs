@@ -5,9 +5,9 @@ namespace Travel_Agency_Logic.Request;
 
 public abstract class ReserveRequest<T1, T2> where T1 : Reserve where T2 : Payment
 {
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public int PackageId { get; set; }
+    public Guid PackageId { get; set; }
 
     public ICollection<UserIdentity> UserIdentities { get; set; } = null!;
 
@@ -17,7 +17,7 @@ public abstract class ReserveRequest<T1, T2> where T1 : Reserve where T2 : Payme
 
     public abstract T2 Payment(double price);
 
-    public abstract T1 Reserve(int paymentId);
+    public abstract T1 Reserve(Guid paymentId);
 }
 
 public class ReserveTouristRequest : ReserveRequest<ReserveTourist, PaymentOnline>
@@ -26,12 +26,12 @@ public class ReserveTouristRequest : ReserveRequest<ReserveTourist, PaymentOnlin
 
     public override PaymentOnline Payment(double price) => new (new(Name, IdentityDocument), price, CreditCard);
 
-    public override ReserveTourist Reserve(int paymentId) => new (PackageId, UserIdentities, UserId, paymentId);
+    public override ReserveTourist Reserve(Guid paymentId) => new (PackageId, UserIdentities, UserId, paymentId);
 }
 
 public class ReserveTicketRequest : ReserveRequest<ReserveTicket, PaymentTicket>
 {
     public override PaymentTicket Payment(double price)=> new (new(Name, IdentityDocument), price);
 
-    public override ReserveTicket Reserve(int paymentId) => new (PackageId, UserIdentities, UserId, paymentId);
+    public override ReserveTicket Reserve(Guid paymentId) => new (PackageId, UserIdentities, UserId, paymentId);
 }

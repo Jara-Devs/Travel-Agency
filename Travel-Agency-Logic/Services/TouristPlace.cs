@@ -32,7 +32,7 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateTouristPlace(int id, TouristPlaceRequest touristPlaceRequest, UserBasic user)
+        public async Task<ApiResponse> UpdateTouristPlace(Guid id, TouristPlaceRequest touristPlaceRequest, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
@@ -55,7 +55,7 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse();
         }
 
-        public async Task<ApiResponse> DeleteTouristPlace(int id, UserBasic user)
+        public async Task<ApiResponse> DeleteTouristPlace(Guid id, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
@@ -75,7 +75,7 @@ namespace Travel_Agency_Logic.Services
         private static bool CheckPermissions(UserBasic user) =>
             user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
 
-        private async Task<ApiResponse> CheckDependency(int id)
+        private async Task<ApiResponse> CheckDependency(Guid id)
         {
             if (await this._context.Hotels.AnyAsync(h => h.TouristPlaceId == id))
                 return new BadRequest("There is an hotel for this tourist place");

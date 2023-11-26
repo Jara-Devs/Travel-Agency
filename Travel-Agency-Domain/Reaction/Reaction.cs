@@ -9,13 +9,13 @@ public class Reaction : Entity
 {
     public ReactionState ReactionState { get; set; }
 
-    public int TouristId { get; set; }
+    public Guid TouristId { get; set; }
     public Tourist Tourist { get; set; } = null!;
 
-    public int OfferId { get; set; }
+    public Guid OfferId { get; set; }
     public Offer Offer { get; set; } = null!;
 
-    public Reaction(ReactionState reactionState, int touristId, int offerId)
+    public Reaction(ReactionState reactionState, Guid touristId, Guid offerId)
     {
         ReactionState = reactionState;
         TouristId = touristId;

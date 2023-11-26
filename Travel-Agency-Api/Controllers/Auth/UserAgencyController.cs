@@ -36,7 +36,7 @@ public class UserAgencyController : TravelAgencyController
     }
 
     [HttpGet("{key}")]
-    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<UserAgency> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<UserAgency> options)
     {
         var user = GetUser().Value!;
         var response = await this._query.Get(user);
@@ -52,7 +52,7 @@ public class UserAgencyController : TravelAgencyController
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteUser(int id)
+    public async Task<IActionResult> DeleteUser(Guid id)
     {
         var user = GetUser().Value!;
         return ToResponse(await this._authService.RemoveUserAgency(id, user));

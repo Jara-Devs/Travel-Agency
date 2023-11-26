@@ -8,6 +8,6 @@ namespace Travel_Agency_Logic.Core;
 public interface IExcursionService
 {
     Task<ApiResponse<IdResponse>> CreateExcursion(ExcursionRequest excursion, UserBasic user);
-    Task<ApiResponse> UpdateExcursion(int id, ExcursionRequest excursion, UserBasic user);
-    Task<ApiResponse> DeleteExcursion(int id, UserBasic user);
+    Task<ApiResponse> UpdateExcursion(Guid id, ExcursionRequest excursion, UserBasic user);
+    Task<ApiResponse> DeleteExcursion(Guid id, UserBasic user);
 }

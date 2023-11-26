@@ -10,15 +10,15 @@ public class Flight : Entity
 
     public long Duration { get; set; }
 
-    public int OriginId { get; set; }
+    public Guid OriginId { get; set; }
     
     public TouristPlace Origin { get; set; } = null!;
 
-    public int DestinationId { get; set; }
+    public Guid DestinationId { get; set; }
 
     public TouristPlace Destination { get; set; } = null!;
 
-    public Flight(string company, long duration, int originId, int destinationId)
+    public Flight(string company, long duration, Guid originId, Guid destinationId)
     {
         this.Company = company;
         this.Duration = duration;

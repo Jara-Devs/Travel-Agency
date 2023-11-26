@@ -35,7 +35,7 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateFlight(int id, FlightRequest flightRequest, UserBasic user)
+        public async Task<ApiResponse> UpdateFlight(Guid id, FlightRequest flightRequest, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
@@ -62,7 +62,7 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse();
         }
 
-        public async Task<ApiResponse> DeleteFlight(int id, UserBasic user)
+        public async Task<ApiResponse> DeleteFlight(Guid id, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
@@ -83,7 +83,7 @@ namespace Travel_Agency_Logic.Services
         private static bool CheckPermissions(UserBasic user) =>
             user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
 
-        private async Task<ApiResponse> CheckDependency(int id)
+        private async Task<ApiResponse> CheckDependency(Guid id)
         {
             if (await this._context.FlightOffers.AnyAsync(o => o.FlightId == id))
                 return new BadRequest("There is an offer for this flight");

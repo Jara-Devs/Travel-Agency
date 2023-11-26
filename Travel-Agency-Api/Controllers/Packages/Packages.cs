@@ -39,7 +39,7 @@ public class PackageController : TravelAgencyController
 
     [HttpGet("{key}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<Package> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<Package> options)
     {
         var user = GetUser().Value!;
         var response = await this._query.Get(user);
@@ -56,14 +56,14 @@ public class PackageController : TravelAgencyController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdatePackage(int id, [FromBody] PackageRequest request)
+    public async Task<IActionResult> UpdatePackage(Guid id, [FromBody] PackageRequest request)
     {
         var user = GetUser().Value;
         return ToResponse(await _packageService.UpdatePackage(id, request, user!));
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeletePackage(int id)
+    public async Task<IActionResult> DeletePackage(Guid id)
     {
         var user = GetUser().Value;
         return ToResponse(await _packageService.RemovePackage(id, user!));

@@ -15,12 +15,12 @@ public interface IAuthenticationService
     Task<ApiResponse<IdResponse>> RegisterUserAgency(RegisterUserAgencyRequest userAgencyRequest,
         UserBasic user);
 
-    Task<ApiResponse> RemoveUserAgency(int id, UserBasic userBasic);
+    Task<ApiResponse> RemoveUserAgency(Guid id, UserBasic userBasic);
 
     Task<ApiResponse<IdResponse>> RegisterUserApp(RegisterUserAppRequest userAppRequest,
         UserBasic user);
 
-    Task<ApiResponse> RemoveUserApp(int id, UserBasic userBasic);
+    Task<ApiResponse> RemoveUserApp(Guid id, UserBasic userBasic);
 
     Task<ApiResponse> ChangePassword(ChangePasswordRequest request, UserBasic user);
 

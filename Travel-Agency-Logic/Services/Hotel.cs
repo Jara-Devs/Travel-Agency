@@ -35,7 +35,7 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateHotel(int id, HotelRequest hotelRequest, UserBasic user)
+        public async Task<ApiResponse> UpdateHotel(Guid id, HotelRequest hotelRequest, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
@@ -62,7 +62,7 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse();
         }
 
-        public async Task<ApiResponse> DeleteHotel(int id, UserBasic user)
+        public async Task<ApiResponse> DeleteHotel(Guid id, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
@@ -94,11 +94,11 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<Hotel>(hotel);
         }
 
-        private async Task<ApiResponse> CheckDependency(int id)
+        private async Task<ApiResponse> CheckDependency(Guid id)
         {
             if (await this._context.HotelOffers.AnyAsync(o => o.HotelId == id))
                 return new BadRequest("There is an offer for this hotel");
-            if (await this._context.OverNightExcursions.AnyAsync(h => h.HotelId == id))
+            if (await this._context.Excursions.AnyAsync(h => h.HotelId == id))
                 return new BadRequest("There is an over night excursion for this hotel");
 
             return new ApiResponse();

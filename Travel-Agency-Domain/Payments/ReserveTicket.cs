@@ -8,7 +8,7 @@ public class ReserveTicket : Reserve
 
     public UserAgency User { get; set; } = null!;
 
-    public int PaymentId { get; set; }
+    public Guid PaymentId { get; set; }
 
     public PaymentTicket Payment { get; set; } = null!;
 
@@ -16,7 +16,7 @@ public class ReserveTicket : Reserve
     {
     }
 
-    public ReserveTicket(int packageId, ICollection<UserIdentity> userIdentities, int userId, int paymentId) : base(
+    public ReserveTicket(Guid packageId, ICollection<UserIdentity> userIdentities, Guid userId, Guid paymentId) : base(
         packageId,
         userIdentities)
     {

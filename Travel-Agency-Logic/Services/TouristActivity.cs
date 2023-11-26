@@ -32,7 +32,7 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateTouristActivity(int id, TouristActivityRequest touristActivityRequest,
+        public async Task<ApiResponse> UpdateTouristActivity(Guid id, TouristActivityRequest touristActivityRequest,
             UserBasic user)
         {
             if (!CheckPermissions(user))
@@ -56,7 +56,7 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse();
         }
 
-        public async Task<ApiResponse> DeleteTouristActivity(int id, UserBasic user)
+        public async Task<ApiResponse> DeleteTouristActivity(Guid id, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
@@ -76,7 +76,7 @@ namespace Travel_Agency_Logic.Services
         private static bool CheckPermissions(UserBasic user) =>
             user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
 
-        private async Task<ApiResponse> CheckDependency(int id) =>
+        private async Task<ApiResponse> CheckDependency(Guid id) =>
             await this._context.Excursions.Include(e => e.Activities).AnyAsync(e => e.Activities.Any(a => a.Id == id))
                 ? new BadRequest("There is an excursion for this activity")
                 : new ApiResponse();

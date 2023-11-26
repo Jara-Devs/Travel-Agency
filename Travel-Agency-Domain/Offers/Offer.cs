@@ -12,7 +12,7 @@ public class Offer : Entity
 
     public int Availability { get; set; }
 
-    public int AgencyId { get; set; }
+    public Guid AgencyId { get; set; }
 
     public string Description { get; set; }
 
@@ -24,12 +24,12 @@ public class Offer : Entity
 
     public Image Image { get; set; } = null!;
 
-    public int ImageId { get; set; }
+    public Guid ImageId { get; set; }
 
     public OfferType Type { get; set; }
 
     public Offer(string description, double price, string name, int availability, long startDate, long endDate,
-        int agencyId, int imageId, OfferType type)
+        Guid agencyId, Guid imageId, OfferType type)
     {
         this.Description = description;
         this.Price = price;

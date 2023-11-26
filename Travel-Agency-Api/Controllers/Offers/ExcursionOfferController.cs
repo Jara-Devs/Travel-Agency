@@ -39,7 +39,7 @@ public class ExcursionOfferController : TravelAgencyController
 
     [HttpGet("{key}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<ExcursionOffer> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<ExcursionOffer> options)
     {
         var user = GetUser().Value!;
         var response = await this._query.Get(user);
@@ -56,14 +56,14 @@ public class ExcursionOfferController : TravelAgencyController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateExcursionOffer(int id, [FromBody] ExcursionOfferRequest excursionOffer)
+    public async Task<IActionResult> UpdateExcursionOffer(Guid id, [FromBody] ExcursionOfferRequest excursionOffer)
     {
         var user = GetUser().Value;
         return ToResponse(await _excursionOfferService.UpdateOffer(id, excursionOffer, user!));
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteExcursionOffer(int id)
+    public async Task<IActionResult> DeleteExcursionOffer(Guid id)
     {
         var user = GetUser().Value;
         return ToResponse(await _excursionOfferService.DeleteOffer(id, user!));

@@ -37,16 +37,16 @@ namespace Travel_Agency_Logic.Offers
             var entity = offer.Offer(agencyId);
             _context.Set<T>().Add(entity);
             await _context.SaveChangesAsync();
-
+          
             var package = new PackageRequest
-                { Description = offer.Description, Discount = 0, Offers = new List<int> { entity.Id } };
+                { Description = offer.Description, Discount = 0, Offers =new List<Guid>(){entity.Id} };
 
             await _packageService.CreatePackage(package, user);
 
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateOffer(int id, OfferRequest<T> offerRequest, UserBasic user)
+        public async Task<ApiResponse> UpdateOffer(Guid id, OfferRequest<T> offerRequest, UserBasic user)
         {
             var offer = await _context.Set<T>().FindAsync(id);
             if (offer is null)
@@ -70,7 +70,7 @@ namespace Travel_Agency_Logic.Offers
             return new ApiResponse();
         }
 
-        public async Task<ApiResponse> DeleteOffer(int id, UserBasic user)
+        public async Task<ApiResponse> DeleteOffer(Guid id, UserBasic user)
         {
             var offer = await _context.Set<T>().FindAsync(id);
 
@@ -90,19 +90,19 @@ namespace Travel_Agency_Logic.Offers
             return new ApiResponse();
         }
 
-        private async Task<ApiResponse<int>> CheckPermissions(UserBasic user, int agencyId = -1)
+        private async Task<ApiResponse<Guid>> CheckPermissions(UserBasic user, Guid? agencyId = null)
         {
             if (!(user.Role == Roles.AdminAgency || user.Role == Roles.ManagerAgency))
-                return new Unauthorized<int>("You don't have permissions");
+                return new Unauthorized<Guid>("You don't have permissions");
 
             var fullUser = await _context.UserAgencies.FindAsync(user.Id);
 
-            if (fullUser is null) return new Unauthorized<int>("You don't have permissions");
+            if (fullUser is null) return new Unauthorized<Guid>("You don't have permissions");
 
-            if (agencyId != -1 && fullUser.AgencyId != agencyId)
-                return new Unauthorized<int>("You don't have permissions");
+            if (agencyId is null && fullUser.AgencyId != agencyId)
+                return new Unauthorized<Guid>("You don't have permissions");
 
-            return new ApiResponse<int>(fullUser.AgencyId);
+            return new ApiResponse<Guid>(fullUser.AgencyId);
         }
 
 
@@ -110,7 +110,7 @@ namespace Travel_Agency_Logic.Offers
             offer.Availability >= 0 && offer.Price >= 0 && offer.StartDate <= offer.EndDate &&
             Helpers.ValidDate(offer.StartDate);
 
-        private async Task<bool> CheckDependency(int id)
+        private async Task<bool> CheckDependency(Guid id)
         {
             if (await this._context.Reserves.Include(r => r.Package).ThenInclude(p => p.Offers)
                     .AnyAsync(r => r.Package.Offers.Select(o => o.Id).Contains(id)))

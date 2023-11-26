@@ -39,7 +39,7 @@ public class ReserveTouristController : TravelAgencyController
 
     [HttpGet("{key}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<ReserveTourist> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<ReserveTourist> options)
     {
         var user = GetUser().Value!;
         var response = await this._query.Get(user);

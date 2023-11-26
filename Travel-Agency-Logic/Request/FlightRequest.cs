@@ -9,9 +9,9 @@ public class FlightRequest
 
     public long Duration { get; set; } = 0;
 
-    public int OriginId { get; set; } = 0;
+    public Guid OriginId { get; set; }
 
-    public int DestinationId { get; set; } = 0;
+    public Guid DestinationId { get; set; }
 
     public Flight Flight(Flight? flight = null) 
     {

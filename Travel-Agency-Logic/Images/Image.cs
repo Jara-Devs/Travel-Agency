@@ -30,10 +30,10 @@ namespace Travel_Agency_Logic.Images
             const int cantActivities = 8;
 
             var imagesPlaces = await _context.TouristPlaces.Include(x => x.Image).Select(x => x.Image)
-                .OrderBy(x => EF.Functions.Random() > x.Id).Take(cantPlaces).ToListAsync();
+                .OrderBy(x => Guid.NewGuid() > x.Id).Take(cantPlaces).ToListAsync();
 
             var imagesActivities = await _context.TouristActivities.Include(x => x.Image).Select(x => x.Image)
-                .OrderBy(x => EF.Functions.Random() > x.Id).Take(cantActivities).ToListAsync();
+                .OrderBy(x => Guid.NewGuid() > x.Id).Take(cantActivities).ToListAsync();
 
             var images = imagesPlaces.Concat(imagesActivities).ToList();
 

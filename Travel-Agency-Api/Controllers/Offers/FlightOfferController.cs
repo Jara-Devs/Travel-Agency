@@ -38,7 +38,7 @@ public class FlightOfferController : TravelAgencyController
 
     [HttpGet("{key}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get([FromODataUri] int key, ODataQueryOptions<FlightOffer> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<FlightOffer> options)
     {
         var user = GetUser().Value!;
         var response = await _query.Get(user);
@@ -55,14 +55,14 @@ public class FlightOfferController : TravelAgencyController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateFlightOffer(int id, [FromBody] FlightOfferRequest flightOffer)
+    public async Task<IActionResult> UpdateFlightOffer(Guid id, [FromBody] FlightOfferRequest flightOffer)
     {
         var user = GetUser().Value;
         return ToResponse(await _flightOfferService.UpdateOffer(id, flightOffer, user!));
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteFlightOffer(int id)
+    public async Task<IActionResult> DeleteFlightOffer(Guid id)
     {
         var user = GetUser().Value;
         return ToResponse(await _flightOfferService.DeleteOffer(id, user!));

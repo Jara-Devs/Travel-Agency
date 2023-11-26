@@ -95,7 +95,7 @@ public class AuthenticationService : IAuthenticationService
         return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
     }
 
-    public async Task<ApiResponse> RemoveUserAgency(int id, UserBasic userBasic)
+    public async Task<ApiResponse> RemoveUserAgency(Guid id, UserBasic userBasic)
     {
         if (userBasic.Role != Roles.AdminAgency)
             return new Unauthorized("You are not an admin of this agency");
@@ -135,7 +135,7 @@ public class AuthenticationService : IAuthenticationService
         return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
     }
 
-    public async Task<ApiResponse> RemoveUserApp(int id, UserBasic userBasic)
+    public async Task<ApiResponse> RemoveUserApp(Guid id, UserBasic userBasic)
     {
         if (userBasic.Role != Roles.AdminApp)
             return new Unauthorized("You are not an admin of app");
@@ -187,11 +187,11 @@ public class AuthenticationService : IAuthenticationService
 
         if (user != request.Email || password != request.Password) return new BadRequest<LoginResponse>();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(-1, "Admin",
-            this._securityService.JwtAuth(0, "admin", Roles.AdminApp), Roles.AdminApp));
+        return new ApiResponse<LoginResponse>(new LoginResponse(Guid.NewGuid(), "Admin",
+            this._securityService.JwtAuth(Guid.NewGuid(), "admin", Roles.AdminApp), Roles.AdminApp));
     }
 
-    private async Task<ApiResponse<LoginResponse>> LoginResponse(int id, string name, string role)
+    private async Task<ApiResponse<LoginResponse>> LoginResponse(Guid id, string name, string role)
     {
         var token = this._securityService.JwtAuth(id, name, role);
 

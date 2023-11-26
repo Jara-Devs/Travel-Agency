@@ -10,18 +10,23 @@ public class Excursion : Entity
 
     public bool IsOverNight { get; set; }
 
+    public Guid? HotelId { get; set; }
+
+    public Hotel? Hotel { get; set; }
+
     public ICollection<TouristPlace> Places { get; set; }
 
     public ICollection<TouristActivity> Activities { get; set; }
 
     public Image Image { get; set; } = null!;
 
-    public int ImageId { get; set; }
+    public Guid ImageId { get; set; }
 
-    public Excursion(string name, int imageId, bool isOverNight = false)
+    public Excursion(string name, Guid imageId, Guid? hotelId = null)
     {
         this.Name = name;
-        this.IsOverNight = isOverNight;
+        this.HotelId = hotelId;
+        this.IsOverNight = hotelId != null;
         this.ImageId = imageId;
         this.Activities = new List<TouristActivity>();
         this.Places = new List<TouristPlace>();

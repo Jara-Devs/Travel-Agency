@@ -5,14 +5,14 @@ namespace Travel_Agency_Domain.Offers;
 
 public class HotelOffer : Offer
 {
-    public int HotelId { get; set; }
+    public Guid HotelId { get; set; }
 
     public Hotel Hotel { get; set; } = null!;
 
     public List<HotelFacility> Facilities { get; set; }
 
     public HotelOffer(string name, int availability, string description, double price, long startDate,
-        long endDate, int agencyId, int hotelId, List<HotelFacility> facilities, int imageId)
+        long endDate, Guid agencyId, Guid hotelId, List<HotelFacility> facilities, Guid imageId)
         : base(description, price, name, availability, startDate, endDate, agencyId, imageId, OfferType.Hotel)
     {
         this.HotelId = hotelId;

@@ -6,15 +6,17 @@ public class ExcursionRequest
 {
     public string Name { get; set; } = null!;
 
-    public int ImageId { get; set; }
+    public Guid ImageId { get; set; }
 
-    public ICollection<int> Places { get; set; } = null!;
+    public Guid? HotelId { get; set; }
 
-    public ICollection<int> Activities { get; set; } = null!;
+    public ICollection<Guid> Places { get; set; } = null!;
+
+    public ICollection<Guid> Activities { get; set; } = null!;
 
     public virtual Excursion Excursion(Excursion? excursion = null)
     {
-        excursion ??= new (this.Name, this.ImageId, false);
+        excursion ??= new (this.Name, this.ImageId, this.HotelId);
         excursion.Name = this.Name;
         excursion.ImageId = this.ImageId;
        

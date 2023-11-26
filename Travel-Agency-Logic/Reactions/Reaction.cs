@@ -41,7 +41,7 @@ namespace Travel_Agency_Logic.Reactions
             return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
         }
 
-        public async Task<ApiResponse> UpdateReaction(int id, ReactionRequest reaction, UserBasic user)
+        public async Task<ApiResponse> UpdateReaction(Guid id, ReactionRequest reaction, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
@@ -68,7 +68,7 @@ namespace Travel_Agency_Logic.Reactions
             return new ApiResponse();
         }
 
-        public async Task<ApiResponse> DeleteReaction(int id, UserBasic user)
+        public async Task<ApiResponse> DeleteReaction(Guid id, UserBasic user)
         {
             if (!CheckPermissions(user))
                 return new Unauthorized("You don't have permissions");
