@@ -112,6 +112,12 @@ namespace Travel_Agency_Logic.Services
                 excursion.Activities.Add(activity);
             }
 
+            if (request.HotelId is not null)
+            {
+                var hotel = await this._context.Hotels.FindAsync(request.HotelId);
+                if (hotel is null) return new BadRequest<Excursion>("Not found hotel");
+            }
+
             return new ApiResponse<Excursion>(excursion);
         }
 
