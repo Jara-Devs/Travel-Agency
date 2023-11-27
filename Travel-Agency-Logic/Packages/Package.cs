@@ -78,35 +78,69 @@ public class PackageService : IPackageService
 
         if (id is null) return new ApiResponse<Guid>(agencyId);
 
-        var package = await _context.Packages.Include(p => p.Offers).Where(p => p.Id == id).FirstOrDefaultAsync();
+        var package = await _context.Packages.Where(p => p.Id == id).FirstOrDefaultAsync();
         if (package is null) return new NotFound<Guid>("Package not found");
 
-        return package.Offers.Any(o => o.AgencyId != agencyId)
+        return (package.HotelOffers.Any(h => h.AgencyId != agencyId)
+            && package.ExcursionOffers.Any(e => e.AgencyId != agencyId
+            && package.FlightOffers.Any(f => f.AgencyId != agencyId)))
             ? new Unauthorized<Guid>("You don't have permissions")
             : new ApiResponse<Guid>(agencyId);
     }
 
     private async Task<ApiResponse<Package>> CheckRequest(PackageRequest request, Guid agencyId, Package? package = null)
     {
-        if (request.Offers.Count == 0) return new BadRequest<Package>("You must add at least one offer");
+        if (request.HotelOffers.Count == 0
+            && request.ExcursionOffers.Count == 0
+            && request.FlightOffers.Count == 0) 
+            return new BadRequest<Package>("You must add at least one offer");
+
         if (request.Discount is > 100 or < 0)
             return new BadRequest<Package>("Discount must be between 0 and 100");
 
-        var offers = new List<Offer>();
+        var hotelOffers = new List<HotelOffer>();
 
-        foreach (var item in request.Offers)
+        foreach (var item in request.HotelOffers)
         {
-            var offer = await _context.Offers.FindAsync(item);
-            if (offer is null) return new NotFound<Package>("Offer not found");
+            var offer = await _context.HotelOffers.FindAsync(item);
+            if (offer is null) return new NotFound<Package>("Hotel offer not found");
             if (offer.AgencyId != agencyId) return new Unauthorized<Package>("You don't have permissions");
 
             if (!Helpers.ValidDate(offer.StartDate)) return new BadRequest<Package>("The offer has expired");
 
-            offers.Add(offer);
+            hotelOffers.Add(offer);
+        }
+
+        var excursionOffers = new List<ExcursionOffer>();
+
+        foreach (var item in request.ExcursionOffers)
+        {
+            var offer = await _context.ExcursionOffers.FindAsync(item);
+            if (offer is null) return new NotFound<Package>("Excursion offer not found");
+            if (offer.AgencyId != agencyId) return new Unauthorized<Package>("You don't have permissions");
+
+            if (!Helpers.ValidDate(offer.StartDate)) return new BadRequest<Package>("The offer has expired");
+
+            excursionOffers.Add(offer);
+        }
+
+        var flightOffers = new List<FlightOffer>();
+
+        foreach (var item in request.FlightOffers)
+        {
+            var offer = await _context.FlightOffers.FindAsync(item);
+            if (offer is null) return new NotFound<Package>("Flight offer not found");
+            if (offer.AgencyId != agencyId) return new Unauthorized<Package>("You don't have permissions");
+
+            if (!Helpers.ValidDate(offer.StartDate)) return new BadRequest<Package>("The offer has expired");
+
+            flightOffers.Add(offer);
         }
 
         package = request.Package(package);
-        package.Offers = offers;
+        package.HotelOffers = hotelOffers;
+        package.ExcursionOffers = excursionOffers;
+        package.FlightOffers = flightOffers;
 
         return new ApiResponse<Package>(package);
     }
