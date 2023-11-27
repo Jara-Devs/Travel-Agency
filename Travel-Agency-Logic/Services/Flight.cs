@@ -107,11 +107,11 @@ namespace Travel_Agency_Logic.Services
             return new ApiResponse();
         }
 
-        private async Task<bool> CheckIfFlightExists(FlightRequest flight) 
+        private async Task<bool> CheckIfFlightExists(FlightRequest flight, Guid? id = null)
             => await _context.Flights.AnyAsync(f =>
                 f.Company == flight.Company &&
                 f.OriginId == flight.OriginId &&
-                f.DestinationId == flight.DestinationId
+                f.DestinationId == flight.DestinationId && (id != null && id == f.Id)
             );
     }
 }
