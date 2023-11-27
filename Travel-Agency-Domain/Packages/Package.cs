@@ -35,6 +35,8 @@ public class Package : Entity
 
         return values.Max();
     }
+
+    public string Name { get; set; }
     public double Discount { get; set; }
 
     public string Description { get; set; }
@@ -45,8 +47,9 @@ public class Package : Entity
 
     public ICollection<FlightOffer> FlightOffers { get; set; } = null!;
 
-    public Package(string description, double discount = 0)
+    public Package(string name, string description, double discount = 0)
     {
+        this.Name = name;
         this.Description = description;
         this.Discount = discount;
     }
