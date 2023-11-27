@@ -1,4 +1,5 @@
 using Travel_Agency_Core.Enums;
+using Travel_Agency_Domain.Packages;
 using Travel_Agency_Domain.Services;
 
 namespace Travel_Agency_Domain.Offers;
@@ -18,4 +19,6 @@ public class ExcursionOffer : Offer
         this.ExcursionId = excursionId;
         this.Facilities = facilities;
     }
+
+    public ICollection<Package> Packages { get; set; } = null!;
 }
