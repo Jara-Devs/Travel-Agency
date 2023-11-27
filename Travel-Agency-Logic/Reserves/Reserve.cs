@@ -46,9 +46,23 @@ namespace Travel_Agency_Logic.Offers
 
         private async Task<bool> CheckAvailability(Package package)
         {
-            foreach (Offer offer in package.Offers)
+            foreach (Offer offer in package.HotelOffers)
             {
-                var count = await _context.Reserves.Where(r => r.Package.Offers
+                var count = await _context.Reserves.Where(r => r.Package.HotelOffers
+                    .Select(o => o.Id).Contains(offer.Id)).CountAsync();
+                if (count >= offer.Availability) return false;
+            }
+
+            foreach (Offer offer in package.ExcursionOffers)
+            {
+                var count = await _context.Reserves.Where(r => r.Package.ExcursionOffers
+                    .Select(o => o.Id).Contains(offer.Id)).CountAsync();
+                if (count >= offer.Availability) return false;
+            }
+
+            foreach (Offer offer in package.FlightOffers)
+            {
+                var count = await _context.Reserves.Where(r => r.Package.FlightOffers
                     .Select(o => o.Id).Contains(offer.Id)).CountAsync();
                 if (count >= offer.Availability) return false;
             }

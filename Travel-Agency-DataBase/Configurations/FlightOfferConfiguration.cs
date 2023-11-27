@@ -13,6 +13,7 @@ public class FlightOfferConfiguration : EntityConfiguration<FlightOffer>
 
     public override void ConfigureEntity(EntityTypeBuilder<FlightOffer> builder)
     {
+        builder.HasMany(o => o.Packages).WithMany(p => p.FlightOffers);
         builder.HasOne(o => o.Flight).WithMany(f => f.Offers).HasForeignKey(o => o.FlightId);
         builder.Property(o => o.Facilities).HasConversion(f => JsonConvert.SerializeObject(f),
             f => JsonConvert.DeserializeObject<List<FlightFacility>>(f)!,

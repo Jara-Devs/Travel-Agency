@@ -1,7 +1,6 @@
 using Travel_Agency_Core;
 using Travel_Agency_DataBase.Core;
 using Travel_Agency_Domain.Payments;
-using Travel_Agency_Domain.Users;
 
 namespace Travel_Agency_DataBase.Queries.Users;
 
@@ -21,7 +20,7 @@ public class ReserveQuery<T> : IQueryEntity<T> where T : Reserve
                 this._context.Set<T>().Where(x => x.UserId == userBasic.Id)));
         else if (userBasic.Role == Roles.AdminAgency) 
             return Task.FromResult(new ApiResponse<IQueryable<T>>(
-                this._context.Set<T>().Where(x => x.Package.Offers.First().AgencyId == userBasic.Id)));
+                this._context.Set<T>().Where(x => x.Package.HotelOffers.First().AgencyId == userBasic.Id)));
         else if (userBasic.Role == Roles.AdminApp)
             return Task.FromResult(new ApiResponse<IQueryable<T>>(this._context.Set<T>()));
         else

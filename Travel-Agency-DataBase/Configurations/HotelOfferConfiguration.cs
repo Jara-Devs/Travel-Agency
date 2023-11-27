@@ -13,6 +13,7 @@ public class HotelOfferConfiguration : EntityConfiguration<HotelOffer>
 
     public override void ConfigureEntity(EntityTypeBuilder<HotelOffer> builder)
     {
+        builder.HasMany(o => o.Packages).WithMany(p => p.HotelOffers);
         builder.HasOne(o => o.Hotel).WithMany(h => h.Offers).HasForeignKey(o => o.HotelId);
         builder.Property(o => o.Facilities).HasConversion(f => JsonConvert.SerializeObject(f),
             f => JsonConvert.DeserializeObject<List<HotelFacility>>(f)!,

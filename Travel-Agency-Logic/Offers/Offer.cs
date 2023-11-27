@@ -37,9 +37,15 @@ namespace Travel_Agency_Logic.Offers
             var entity = offer.Offer(agencyId);
             _context.Set<T>().Add(entity);
             await _context.SaveChangesAsync();
-          
-            var package = new PackageRequest
-                { Description = offer.Description, Discount = 0, Offers =new List<Guid>(){entity.Id} };
+
+            PackageRequest package;
+
+            if (offer is HotelOfferRequest) package = new PackageRequest
+                { Description = offer.Description, Discount = 0, HotelOffers = new List<Guid>(){entity.Id} };
+            else if (offer is ExcursionOfferRequest) package = new PackageRequest
+                { Description = offer.Description, Discount = 0, ExcursionOffers = new List<Guid>(){entity.Id} };
+            else package = new PackageRequest
+                { Description = offer.Description, Discount = 0, FlightOffers = new List<Guid>(){entity.Id} };
 
             await _packageService.CreatePackage(package, user);
 
@@ -112,8 +118,14 @@ namespace Travel_Agency_Logic.Offers
 
         private async Task<bool> CheckDependency(Guid id)
         {
-            if (await this._context.Reserves.Include(r => r.Package).ThenInclude(p => p.Offers)
-                    .AnyAsync(r => r.Package.Offers.Select(o => o.Id).Contains(id)))
+            if (await this._context.Reserves.Include(r => r.Package).ThenInclude(p => p.HotelOffers)
+                    .AnyAsync(r => r.Package.HotelOffers.Select(o => o.Id).Contains(id)))
+                return false;
+            if (await this._context.Reserves.Include(r => r.Package).ThenInclude(p => p.ExcursionOffers)
+                    .AnyAsync(r => r.Package.ExcursionOffers.Select(o => o.Id).Contains(id)))
+                return false;
+            if (await this._context.Reserves.Include(r => r.Package).ThenInclude(p => p.FlightOffers)
+                    .AnyAsync(r => r.Package.FlightOffers.Select(o => o.Id).Contains(id)))
                 return false;
 
             return true;
