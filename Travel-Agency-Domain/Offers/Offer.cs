@@ -42,7 +42,5 @@ public class Offer : Entity
         this.Type = type;
     }
 
-    public ICollection<Package> Packages { get; set; } = null!;
-
     public ICollection<Reaction> Reactions { get; set; } = null!;
 }

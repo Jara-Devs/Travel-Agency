@@ -13,6 +13,7 @@ public class ExcursionOfferConfiguration : EntityConfiguration<ExcursionOffer>
 
     public override void ConfigureEntity(EntityTypeBuilder<ExcursionOffer> builder)
     {
+        builder.HasMany(o => o.Packages).WithMany(p => p.ExcursionOffers);
         builder.HasOne(o => o.Excursion).WithMany(e => e.Offers).HasForeignKey(o => o.ExcursionId);
         builder.Property(o => o.Facilities).HasConversion(f => JsonConvert.SerializeObject(f),
             f => JsonConvert.DeserializeObject<List<ExcursionFacility>>(f)!,

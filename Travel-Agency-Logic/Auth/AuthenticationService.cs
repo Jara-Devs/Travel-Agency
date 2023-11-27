@@ -53,6 +53,9 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<ApiResponse<LoginResponse>> RegisterAgency(RegisterAgencyRequest agencyRequest)
     {
+        if (await this._context.Agencies.CountAsync(a => a.Name == agencyRequest.NameAgency) != 0)
+            return new BadRequest<LoginResponse>("There is already an agency with same name");
+
         var check = await CheckRegister(agencyRequest.Email, agencyRequest.Password);
         if (!check.Ok) return check.ConvertApiResponse<LoginResponse>();
 
@@ -178,7 +181,7 @@ public class AuthenticationService : IAuthenticationService
         if (await this._context.Users.CountAsync(u => u.Email == email) != 0)
             return new BadRequest("There is already a user with same email");
 
-        return password.Length <= 5 ? new BadRequest("The password is very short") : new ApiResponse();
+        return password.Length <= 5 ? new BadRequest("The password is too short") : new ApiResponse();
     }
 
     private ApiResponse<LoginResponse> LoginAdmin(LoginRequest request)

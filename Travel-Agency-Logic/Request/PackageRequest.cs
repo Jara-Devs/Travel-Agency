@@ -8,7 +8,9 @@ public class PackageRequest
 
     public string Description { get; set; } = null!;
 
-    public ICollection<Guid> Offers { get; set; } = null!;
+    public ICollection<Guid> HotelOffers { get; set; } = null!;
+    public ICollection<Guid> ExcursionOffers { get; set; } = null!;
+    public ICollection<Guid> FlightOffers { get; set; } = null!;
 
     public Package Package(Package? package = null)
     {
