@@ -38,14 +38,20 @@ namespace Travel_Agency_Logic.Offers
             _context.Set<T>().Add(entity);
             await _context.SaveChangesAsync();
 
-            PackageRequest package;
+            var hotelOffers = new List<Guid>();
+            var excursionOffers = new List<Guid>();
+            var flightOffers = new List<Guid>();
 
-            if (offer is HotelOfferRequest) package = new PackageRequest
-                { Description = offer.Description, Discount = 0, HotelOffers = new List<Guid>(){entity.Id} };
-            else if (offer is ExcursionOfferRequest) package = new PackageRequest
-                { Description = offer.Description, Discount = 0, ExcursionOffers = new List<Guid>(){entity.Id} };
-            else package = new PackageRequest
-                { Description = offer.Description, Discount = 0, FlightOffers = new List<Guid>(){entity.Id} };
+            if (offer is HotelOfferRequest)
+                hotelOffers.Add(entity.Id);
+            else if (offer is ExcursionOfferRequest)
+                excursionOffers.Add(entity.Id);
+            else
+                flightOffers.Add(entity.Id);
+
+            var package = new PackageRequest
+                { Description = offer.Description, Discount = 0, Name = offer.Name,
+                HotelOffers = hotelOffers, ExcursionOffers = excursionOffers, FlightOffers = flightOffers };
 
             await _packageService.CreatePackage(package, user);
 

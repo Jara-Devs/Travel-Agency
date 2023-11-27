@@ -14,6 +14,8 @@ public class Offer : Entity
 
     public Guid AgencyId { get; set; }
 
+    public Agency Agency { get; set; } = null!;
+
     public string Description { get; set; }
 
     public double Price { get; set; }
