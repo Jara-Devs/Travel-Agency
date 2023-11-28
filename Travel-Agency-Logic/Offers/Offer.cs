@@ -50,8 +50,10 @@ namespace Travel_Agency_Logic.Offers
                 flightOffers.Add(entity.Id);
 
             var package = new PackageRequest
-                { Description = offer.Description, Discount = 0, Name = offer.Name,
-                HotelOffers = hotelOffers, ExcursionOffers = excursionOffers, FlightOffers = flightOffers };
+            {
+                Description = offer.Description, Discount = 0, Name = offer.Name,
+                HotelOffers = hotelOffers, ExcursionOffers = excursionOffers, FlightOffers = flightOffers
+            };
 
             await _packageService.CreatePackage(package, user);
 
@@ -67,6 +69,9 @@ namespace Travel_Agency_Logic.Offers
             var check = await CheckPermissions(user, offer.AgencyId);
             if (!check.Ok)
                 return check.ConvertApiResponse();
+
+            if (await _context.Set<T>().AnyAsync(o => o.Name == offer.Name && o.Id != offer.Id))
+                return new BadRequest("The offer already exists");
 
             if (!CheckValidity(offerRequest))
                 return new BadRequest("The offer is not valid");

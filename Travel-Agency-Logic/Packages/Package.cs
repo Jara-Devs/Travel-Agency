@@ -23,6 +23,9 @@ public class PackageService : IPackageService
         var responsePermissions = await CheckPermissions(userBasic);
         if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse<IdResponse>();
 
+        if (await _context.Packages.AnyAsync(x => x.Name == request.Name))
+            return new BadRequest<IdResponse>("The package already exists");
+
         var response = await CheckRequest(request, responsePermissions.Value);
         if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
 
@@ -42,11 +45,16 @@ public class PackageService : IPackageService
         var package = await _context.Packages.FindAsync(id);
         if (package is null) return new NotFound("Package not found");
 
-        var response = await CheckRequest(request, responsePermissions.Value);
+        var inUse = await CheckDependency(id);
+        if (!inUse.Ok) return inUse;
+
+        if (await _context.Packages.AnyAsync(x => x.Name == request.Name && x.Id != id))
+            return new BadRequest("The package already exists");
+
+        var response = await CheckRequest(request, responsePermissions.Value, package);
         if (!response.Ok) return response.ConvertApiResponse();
 
         var newPackage = response.Value!;
-        newPackage.Id = package.Id;
 
         _context.Packages.Update(newPackage);
         await _context.SaveChangesAsync();
@@ -62,8 +70,19 @@ public class PackageService : IPackageService
         var oldPackage = await _context.Packages.FindAsync(id);
         if (oldPackage is null) return new NotFound("Package not found");
 
+        var inUse = await CheckDependency(id);
+        if (!inUse.Ok) return inUse;
+
         _context.Packages.Remove(oldPackage);
         await _context.SaveChangesAsync();
+
+        return new ApiResponse();
+    }
+
+    private async Task<ApiResponse> CheckDependency(Guid id)
+    {
+        var reservations = await _context.Reserves.Include(x => x.Package).Where(x => x.Package.Id == id).CountAsync();
+        if (reservations > 0) return new BadRequest("The package is in use");
 
         return new ApiResponse();
     }

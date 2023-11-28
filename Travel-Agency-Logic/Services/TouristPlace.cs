@@ -66,7 +66,7 @@ namespace Travel_Agency_Logic.Services
             var touristPlace = await _context.TouristPlaces.FindAsync(id);
             if (touristPlace is null) return new NotFound("Tourist place not found");
 
-            _context.TouristPlaces.Remove(touristPlace!);
+            _context.TouristPlaces.Remove(touristPlace);
             await _context.SaveChangesAsync();
 
             return new ApiResponse();
