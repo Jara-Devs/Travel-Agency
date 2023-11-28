@@ -19,6 +19,21 @@ namespace Travel_Agency_DataBase.Migrations
                 .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("ExcursionHotel", b =>
+                {
+                    b.Property<Guid>("HotelsId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("OverNightExcursionsId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("HotelsId", "OverNightExcursionsId");
+
+                    b.HasIndex("OverNightExcursionsId");
+
+                    b.ToTable("ExcursionHotel");
+                });
+
             modelBuilder.Entity("ExcursionOfferPackage", b =>
                 {
                     b.Property<Guid>("ExcursionOffersId")
@@ -312,22 +327,14 @@ namespace Travel_Agency_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("HotelId")
-                        .HasColumnType("char(36)");
-
                     b.Property<Guid>("ImageId")
                         .HasColumnType("char(36)");
-
-                    b.Property<bool>("IsOverNight")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HotelId");
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -640,6 +647,21 @@ namespace Travel_Agency_DataBase.Migrations
                     b.HasDiscriminator().HasValue("UserAgency");
                 });
 
+            modelBuilder.Entity("ExcursionHotel", b =>
+                {
+                    b.HasOne("Travel_Agency_Domain.Services.Hotel", null)
+                        .WithMany()
+                        .HasForeignKey("HotelsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Travel_Agency_Domain.Services.Excursion", null)
+                        .WithMany()
+                        .HasForeignKey("OverNightExcursionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ExcursionOfferPackage", b =>
                 {
                     b.HasOne("Travel_Agency_Domain.Offers.ExcursionOffer", null)
@@ -820,17 +842,11 @@ namespace Travel_Agency_DataBase.Migrations
 
             modelBuilder.Entity("Travel_Agency_Domain.Services.Excursion", b =>
                 {
-                    b.HasOne("Travel_Agency_Domain.Services.Hotel", "Hotel")
-                        .WithMany("OverNightExcursions")
-                        .HasForeignKey("HotelId");
-
                     b.HasOne("Travel_Agency_Domain.Images.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Hotel");
 
                     b.Navigation("Image");
                 });
@@ -1033,8 +1049,6 @@ namespace Travel_Agency_DataBase.Migrations
             modelBuilder.Entity("Travel_Agency_Domain.Services.Hotel", b =>
                 {
                     b.Navigation("Offers");
-
-                    b.Navigation("OverNightExcursions");
                 });
 
             modelBuilder.Entity("Travel_Agency_Domain.Services.TouristPlace", b =>

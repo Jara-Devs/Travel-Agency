@@ -98,7 +98,8 @@ namespace Travel_Agency_Logic.Services
         {
             if (await this._context.HotelOffers.AnyAsync(o => o.HotelId == id))
                 return new BadRequest("There is an offer for this hotel");
-            if (await this._context.Excursions.AnyAsync(h => h.HotelId == id))
+            if (await this._context.Hotels.Include(x => x.OverNightExcursions).Select(x => x.OverNightExcursions)
+                    .CountAsync() != 0)
                 return new BadRequest("There is an over night excursion for this hotel");
 
             return new ApiResponse();

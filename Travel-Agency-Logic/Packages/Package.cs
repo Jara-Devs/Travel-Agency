@@ -78,21 +78,23 @@ public class PackageService : IPackageService
 
         if (id is null) return new ApiResponse<Guid>(agencyId);
 
-        var package = await _context.Packages.Where(p => p.Id == id).FirstOrDefaultAsync();
+        var package = await _context.Packages.Include(x => x.FlightOffers).Include(x => x.HotelOffers)
+            .Include(x => x.ExcursionOffers).Where(p => p.Id == id).FirstOrDefaultAsync();
         if (package is null) return new NotFound<Guid>("Package not found");
 
         return (package.HotelOffers.Any(h => h.AgencyId != agencyId)
-            && package.ExcursionOffers.Any(e => e.AgencyId != agencyId
-            && package.FlightOffers.Any(f => f.AgencyId != agencyId)))
+                && package.ExcursionOffers.Any(e => e.AgencyId != agencyId
+                                                    && package.FlightOffers.Any(f => f.AgencyId != agencyId)))
             ? new Unauthorized<Guid>("You don't have permissions")
             : new ApiResponse<Guid>(agencyId);
     }
 
-    private async Task<ApiResponse<Package>> CheckRequest(PackageRequest request, Guid agencyId, Package? package = null)
+    private async Task<ApiResponse<Package>> CheckRequest(PackageRequest request, Guid agencyId,
+        Package? package = null)
     {
         if (request.HotelOffers.Count == 0
             && request.ExcursionOffers.Count == 0
-            && request.FlightOffers.Count == 0) 
+            && request.FlightOffers.Count == 0)
             return new BadRequest<Package>("You must add at least one offer");
 
         if (request.Discount is > 100 or < 0)

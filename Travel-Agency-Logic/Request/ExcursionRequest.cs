@@ -8,7 +8,7 @@ public class ExcursionRequest
 
     public Guid ImageId { get; set; }
 
-    public Guid? HotelId { get; set; }
+    public ICollection<Guid> Hotels { get; set; } = null!;
 
     public ICollection<Guid> Places { get; set; } = null!;
 
@@ -16,10 +16,10 @@ public class ExcursionRequest
 
     public virtual Excursion Excursion(Excursion? excursion = null)
     {
-        excursion ??= new (this.Name, this.ImageId, this.HotelId);
+        excursion ??= new(this.Name, this.ImageId);
         excursion.Name = this.Name;
         excursion.ImageId = this.ImageId;
-       
+
         return excursion;
     }
 }

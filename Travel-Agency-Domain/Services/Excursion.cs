@@ -8,11 +8,7 @@ public class Excursion : Entity
 {
     public string Name { get; set; }
 
-    public bool IsOverNight { get; set; }
-
-    public Guid? HotelId { get; set; }
-
-    public Hotel? Hotel { get; set; }
+    public ICollection<Hotel> Hotels { get; set; }
 
     public ICollection<TouristPlace> Places { get; set; }
 
@@ -22,12 +18,11 @@ public class Excursion : Entity
 
     public Guid ImageId { get; set; }
 
-    public Excursion(string name, Guid imageId, Guid? hotelId = null)
+    public Excursion(string name, Guid imageId)
     {
         this.Name = name;
-        this.HotelId = hotelId;
-        this.IsOverNight = hotelId != null;
         this.ImageId = imageId;
+        this.Hotels = new List<Hotel>();
         this.Activities = new List<TouristActivity>();
         this.Places = new List<TouristPlace>();
     }

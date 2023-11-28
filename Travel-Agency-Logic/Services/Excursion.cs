@@ -44,6 +44,7 @@ namespace Travel_Agency_Logic.Services
                 return new Unauthorized("You don't have permissions");
 
             var excursion = await _context.Excursions.Include(x => x.Activities).Include(x => x.Places)
+                .Include(x => x.Hotels)
                 .Where(x => x.Id == id).FirstOrDefaultAsync();
             if (excursion is null) return new NotFound("Excursion not found");
 
@@ -60,7 +61,7 @@ namespace Travel_Agency_Logic.Services
             if (!response.Ok) return response.ConvertApiResponse();
 
             var newExcursion = response.Value!;
-          
+
             _context.Update(newExcursion);
             await _context.SaveChangesAsync();
 
@@ -93,6 +94,7 @@ namespace Travel_Agency_Logic.Services
             excursion = request.Excursion(excursion);
             excursion.Activities.Clear();
             excursion.Places.Clear();
+            excursion.Hotels.Clear();
 
             foreach (var item in request.Places)
             {
@@ -112,10 +114,13 @@ namespace Travel_Agency_Logic.Services
                 excursion.Activities.Add(activity);
             }
 
-            if (request.HotelId is not null)
+            foreach (var item in request.Hotels)
             {
-                var hotel = await this._context.Hotels.FindAsync(request.HotelId);
-                if (hotel is null) return new BadRequest<Excursion>("Not found hotel");
+                var hotel = await this._context.Hotels.FindAsync(item);
+                if (hotel is null)
+                    return new BadRequest<Excursion>("Not found hotel");
+
+                excursion.Hotels.Add(hotel);
             }
 
             return new ApiResponse<Excursion>(excursion);
