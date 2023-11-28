@@ -4,52 +4,62 @@ namespace Travel_Agency_Core;
 
 public class ApiResponse<T>
 {
-    public HttpStatusCode Status { get; private set; }
+    public ApiResponse(HttpStatusCode status, string message = "")
+    {
+        Message = message;
+        Status = status;
+    }
 
-    public string Message { get; private set; }
+    public ApiResponse(T value)
+    {
+        Value = value;
+        Message = "Ok";
+        Status = HttpStatusCode.Accepted;
+    }
+
+    public HttpStatusCode Status { get; }
+
+    public string Message { get; }
 
     public T? Value { get; set; }
 
     public bool Ok => HttpStatusCode.Accepted == Status;
 
-    public ApiResponse(HttpStatusCode status, string message = "")
+    public ApiResponse<T1> ConvertApiResponse<T1>()
     {
-        this.Message = message;
-        this.Status = status;
+        return new ApiResponse<T1>(Status, Message);
     }
 
-    public ApiResponse(T value)
+    public ApiResponse ConvertApiResponse()
     {
-        this.Value = value;
-        this.Message = "Ok";
-        this.Status = HttpStatusCode.Accepted;
+        return new ApiResponse(Status, Message);
     }
-
-    public ApiResponse<T1> ConvertApiResponse<T1>() => new(this.Status, this.Message);
-    public ApiResponse ConvertApiResponse() => new(this.Status, this.Message);
 }
 
 public class ApiResponse
 {
-    public HttpStatusCode Status { get; private set; }
-
-    public string Message { get; private set; }
-
-    public bool Ok => HttpStatusCode.Accepted == Status;
-
     public ApiResponse(HttpStatusCode status, string message = "")
     {
-        this.Message = message;
-        this.Status = status;
+        Message = message;
+        Status = status;
     }
 
     public ApiResponse()
     {
-        this.Status = HttpStatusCode.Accepted;
-        this.Message = "Ok";
+        Status = HttpStatusCode.Accepted;
+        Message = "Ok";
     }
 
-    public ApiResponse<T> ConvertApiResponse<T>() => new(this.Status, this.Message);
+    public HttpStatusCode Status { get; }
+
+    public string Message { get; }
+
+    public bool Ok => HttpStatusCode.Accepted == Status;
+
+    public ApiResponse<T> ConvertApiResponse<T>()
+    {
+        return new ApiResponse<T>(Status, Message);
+    }
 }
 
 public class NotFound : ApiResponse

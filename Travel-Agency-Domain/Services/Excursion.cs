@@ -6,6 +6,15 @@ namespace Travel_Agency_Domain.Services;
 
 public class Excursion : Entity
 {
+    public Excursion(string name, Guid imageId)
+    {
+        Name = name;
+        ImageId = imageId;
+        Hotels = new List<Hotel>();
+        Activities = new List<TouristActivity>();
+        Places = new List<TouristPlace>();
+    }
+
     public string Name { get; set; }
 
     public ICollection<Hotel> Hotels { get; set; }
@@ -17,15 +26,6 @@ public class Excursion : Entity
     public Image Image { get; set; } = null!;
 
     public Guid ImageId { get; set; }
-
-    public Excursion(string name, Guid imageId)
-    {
-        this.Name = name;
-        this.ImageId = imageId;
-        this.Hotels = new List<Hotel>();
-        this.Activities = new List<TouristActivity>();
-        this.Places = new List<TouristPlace>();
-    }
 
     public ICollection<ExcursionOffer> Offers { get; set; } = null!;
 }

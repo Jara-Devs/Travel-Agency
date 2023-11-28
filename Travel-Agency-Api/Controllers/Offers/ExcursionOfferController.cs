@@ -32,7 +32,7 @@ public class ExcursionOfferController : TravelAgencyController
     public async Task<IActionResult> Get(ODataQueryOptions<ExcursionOffer> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataResponse(response, options);
     }
@@ -42,7 +42,7 @@ public class ExcursionOfferController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<ExcursionOffer> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);
     }

@@ -4,7 +4,7 @@ using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_DataBase.Configurations;
 
-public class ReserveTicketConfiguration:EntityConfiguration<ReserveTicket>
+public class ReserveTicketConfiguration : EntityConfiguration<ReserveTicket>
 {
     protected override bool ConfigureKey => false;
 

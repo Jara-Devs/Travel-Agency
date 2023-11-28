@@ -16,15 +16,14 @@ namespace Travel_Agency_Api.Controllers.Services;
 [Authorize(Policy = Policies.App)]
 public class TouristActivityController : TravelAgencyController
 {
-    private readonly ITouristActivityService _touristActivityService;
-
     private readonly IQueryEntity<TouristActivity> _query;
+    private readonly ITouristActivityService _touristActivityService;
 
     public TouristActivityController(ITouristActivityService touristActivityService,
         IQueryEntity<TouristActivity> query)
     {
-        this._touristActivityService = touristActivityService;
-        this._query = query;
+        _touristActivityService = touristActivityService;
+        _query = query;
     }
 
     [HttpGet]
@@ -32,7 +31,7 @@ public class TouristActivityController : TravelAgencyController
     public async Task<IActionResult> Get(ODataQueryOptions<TouristActivity> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataResponse(response, options);
     }
@@ -42,7 +41,7 @@ public class TouristActivityController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<TouristActivity> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);
     }

@@ -10,21 +10,20 @@ public class ReserveQuery<T> : IQueryEntity<T> where T : Reserve
 
     public ReserveQuery(TravelAgencyContext context)
     {
-        this._context = context;
+        _context = context;
     }
 
     public Task<ApiResponse<IQueryable<T>>> Get(UserBasic userBasic)
     {
         if (userBasic.Role == Roles.Tourist || userBasic.Role == Roles.EmployeeAgency)
             return Task.FromResult(new ApiResponse<IQueryable<T>>(
-                this._context.Set<T>().Where(x => x.UserId == userBasic.Id)));
-        else if (userBasic.Role == Roles.AdminAgency) 
+                _context.Set<T>().Where(x => x.UserId == userBasic.Id)));
+        if (userBasic.Role == Roles.AdminAgency)
             return Task.FromResult(new ApiResponse<IQueryable<T>>(
-                this._context.Set<T>().Where(x => x.Package.HotelOffers.First().AgencyId == userBasic.Id)));
-        else if (userBasic.Role == Roles.AdminApp)
-            return Task.FromResult(new ApiResponse<IQueryable<T>>(this._context.Set<T>()));
-        else
-            return Task.FromResult(new Unauthorized<IQueryable<T>>("You are not allowed to see these reserves")
-                as ApiResponse<IQueryable<T>>);
+                _context.Set<T>().Where(x => x.Package.HotelOffers.First().AgencyId == userBasic.Id)));
+        if (userBasic.Role == Roles.AdminApp)
+            return Task.FromResult(new ApiResponse<IQueryable<T>>(_context.Set<T>()));
+        return Task.FromResult(new Unauthorized<IQueryable<T>>("You are not allowed to see these reserves")
+            as ApiResponse<IQueryable<T>>);
     }
 }

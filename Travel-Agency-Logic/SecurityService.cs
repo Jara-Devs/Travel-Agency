@@ -28,7 +28,7 @@ public class SecurityService
 
     public SecurityService(IConfiguration configuration)
     {
-        this._configuration = configuration;
+        _configuration = configuration;
     }
 
     public string JwtAuth(Guid id, string name, string role)
@@ -137,7 +137,10 @@ public class SecurityService
 
             token = authHeader.Substring("Bearer ".Length).Trim();
         }
-        else token = authHeader;
+        else
+        {
+            token = authHeader;
+        }
 
         var handler = new JwtSecurityTokenHandler();
         return new ApiResponse<JwtSecurityToken>(handler.ReadJwtToken(token));
@@ -221,12 +224,8 @@ public class SecurityService
         var hashPass = pbkdf2.GetBytes(20);
 
         for (var i = 0; i < 20; i++)
-        {
             if (hash[i] != hashPass[i])
-            {
                 return false;
-            }
-        }
 
         return true;
     }
@@ -241,10 +240,7 @@ public class SecurityService
             alphabet.Add(((char)('a' + i)).ToString());
         }
 
-        for (var i = 0; i < 10; i++)
-        {
-            alphabet.Add(i.ToString());
-        }
+        for (var i = 0; i < 10; i++) alphabet.Add(i.ToString());
 
         var result = "";
         var rnd = new Random();

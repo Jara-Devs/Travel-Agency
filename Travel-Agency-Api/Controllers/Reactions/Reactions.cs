@@ -16,9 +16,8 @@ namespace Travel_Agency_Api.Controllers.Reactions;
 [Authorize(Roles = Roles.Tourist)]
 public class ReactionController : TravelAgencyController
 {
-    private readonly IReactionService _reactionService;
-
     private readonly IQueryEntity<Reaction> _query;
+    private readonly IReactionService _reactionService;
 
     public ReactionController(IReactionService reactionService,
         IQueryEntity<Reaction> query)
@@ -32,7 +31,7 @@ public class ReactionController : TravelAgencyController
     public async Task<IActionResult> Get(ODataQueryOptions<Reaction> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataResponse(response, options);
     }
@@ -42,7 +41,7 @@ public class ReactionController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<Reaction> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);
     }

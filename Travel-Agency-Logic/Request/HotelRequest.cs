@@ -13,13 +13,13 @@ public class HotelRequest
 
     public Guid ImageId { get; set; }
 
-    public Hotel Hotel(Hotel? hotel = null) 
+    public Hotel Hotel(Hotel? hotel = null)
     {
-        hotel ??= new Hotel(this.Name, this.Category, this.TouristPlaceId, this.ImageId);
-        hotel.Name = this.Name;
-        hotel.Category = this.Category;
-        hotel.TouristPlaceId = this.TouristPlaceId;
-        hotel.ImageId = this.ImageId;
+        hotel ??= new Hotel(Name, Category, TouristPlaceId, ImageId);
+        hotel.Name = Name;
+        hotel.Category = Category;
+        hotel.TouristPlaceId = TouristPlaceId;
+        hotel.ImageId = ImageId;
 
         return hotel;
     }

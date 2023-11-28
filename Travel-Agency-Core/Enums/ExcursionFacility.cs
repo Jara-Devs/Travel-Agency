@@ -12,5 +12,5 @@ public enum ExcursionFacility
     FreeTime = 7,
     Communication = 8,
     EnvironmentalEducation = 9,
-    SafetyAndFirstAid = 10,
+    SafetyAndFirstAid = 10
 }

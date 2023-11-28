@@ -101,9 +101,9 @@ public class PackageService : IPackageService
             .Include(x => x.ExcursionOffers).Where(p => p.Id == id).FirstOrDefaultAsync();
         if (package is null) return new NotFound<Guid>("Package not found");
 
-        return (package.HotelOffers.Any(h => h.AgencyId != agencyId)
-                && package.ExcursionOffers.Any(e => e.AgencyId != agencyId
-                                                    && package.FlightOffers.Any(f => f.AgencyId != agencyId)))
+        return package.HotelOffers.Any(h => h.AgencyId != agencyId)
+               && package.ExcursionOffers.Any(e => e.AgencyId != agencyId
+                                                   && package.FlightOffers.Any(f => f.AgencyId != agencyId))
             ? new Unauthorized<Guid>("You don't have permissions")
             : new ApiResponse<Guid>(agencyId);
     }

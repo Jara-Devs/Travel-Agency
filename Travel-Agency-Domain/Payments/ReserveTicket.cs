@@ -5,13 +5,6 @@ namespace Travel_Agency_Domain.Payments;
 
 public class ReserveTicket : Reserve
 {
-
-    public UserAgency User { get; set; } = null!;
-
-    public Guid PaymentId { get; set; }
-
-    public PaymentTicket Payment { get; set; } = null!;
-
     public ReserveTicket()
     {
     }
@@ -20,7 +13,13 @@ public class ReserveTicket : Reserve
         packageId,
         userIdentities)
     {
-        this.UserId = userId;
-        this.PaymentId = paymentId;
+        UserId = userId;
+        PaymentId = paymentId;
     }
+
+    public UserAgency User { get; set; } = null!;
+
+    public Guid PaymentId { get; set; }
+
+    public PaymentTicket Payment { get; set; } = null!;
 }

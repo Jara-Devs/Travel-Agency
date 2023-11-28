@@ -1,4 +1,3 @@
-using System.Data.SqlTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Travel_Agency_Core;

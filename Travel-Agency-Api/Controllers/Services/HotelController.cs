@@ -22,8 +22,8 @@ public class HotelController : TravelAgencyController
 
     public HotelController(IHotelService hotelService, IQueryEntity<Hotel> query)
     {
-        this._hotelService = hotelService;
-        this._query = query;
+        _hotelService = hotelService;
+        _query = query;
     }
 
     [HttpGet]
@@ -31,7 +31,7 @@ public class HotelController : TravelAgencyController
     public async Task<IActionResult> Get(ODataQueryOptions<Hotel> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataResponse(response, options);
     }
@@ -41,7 +41,7 @@ public class HotelController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<Hotel> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);
     }

@@ -17,7 +17,7 @@ public class FlightOfferConfiguration : EntityConfiguration<FlightOffer>
         builder.HasOne(o => o.Flight).WithMany(f => f.Offers).HasForeignKey(o => o.FlightId);
         builder.Property(o => o.Facilities).HasConversion(f => JsonConvert.SerializeObject(f),
             f => JsonConvert.DeserializeObject<List<FlightFacility>>(f)!,
-            new ValueComparer<List<FlightFacility>>((f1, f2) => (f1 != null && f2 != null) && f1.SequenceEqual(f2),
+            new ValueComparer<List<FlightFacility>>((f1, f2) => f1 != null && f2 != null && f1.SequenceEqual(f2),
                 f => f.Aggregate(0, (a, v) => HashCode.Combine(a, f.GetHashCode())),
                 f => f.ToList()));
     }

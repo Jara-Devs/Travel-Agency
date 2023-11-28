@@ -32,7 +32,7 @@ public class PackageController : TravelAgencyController
     public async Task<IActionResult> Get(ODataQueryOptions<Package> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataResponse(response, options);
     }
@@ -42,14 +42,14 @@ public class PackageController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<Package> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);
     }
 
 
     [HttpPost]
-    public async Task<IActionResult> CreatePackage([FromBody]  PackageRequest request)
+    public async Task<IActionResult> CreatePackage([FromBody] PackageRequest request)
     {
         var user = GetUser().Value;
         return ToResponse(await _packageService.CreatePackage(request, user!));

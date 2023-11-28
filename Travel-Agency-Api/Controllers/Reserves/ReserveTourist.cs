@@ -16,23 +16,22 @@ namespace Travel_Agency_Api.Controllers.Offers;
 [Authorize(Roles.Tourist)]
 public class ReserveTouristController : TravelAgencyController
 {
+    private readonly IQueryEntity<ReserveTourist> _query;
     private readonly IReserveService<ReserveTourist, PaymentOnline> _reserveTouristService;
 
-    private readonly IQueryEntity<ReserveTourist> _query;
-
     public ReserveTouristController
-        (IReserveService<ReserveTourist, PaymentOnline> reserveTouristService,IQueryEntity<ReserveTourist> query)
+        (IReserveService<ReserveTourist, PaymentOnline> reserveTouristService, IQueryEntity<ReserveTourist> query)
     {
         _reserveTouristService = reserveTouristService;
         _query = query;
     }
-    
+
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> Get(ODataQueryOptions<ReserveTourist> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataResponse(response, options);
     }
@@ -42,7 +41,7 @@ public class ReserveTouristController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<ReserveTourist> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);
     }

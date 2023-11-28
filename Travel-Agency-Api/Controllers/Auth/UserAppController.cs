@@ -22,15 +22,15 @@ public class UserAppController : TravelAgencyController
 
     public UserAppController(IAuthenticationService authService, IQueryEntity<User> query)
     {
-        this._authService = authService;
-        this._query = query;
+        _authService = authService;
+        _query = query;
     }
 
     [HttpGet]
     public async Task<IActionResult> Get(ODataQueryOptions<User> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataResponse(response, options);
     }
@@ -39,7 +39,7 @@ public class UserAppController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<User> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);
     }
@@ -49,13 +49,13 @@ public class UserAppController : TravelAgencyController
     public async Task<IActionResult> RegisterUser([FromBody] RegisterUserAppRequest request)
     {
         var user = GetUser().Value!;
-        return ToResponse(await this._authService.RegisterUserApp(request, user));
+        return ToResponse(await _authService.RegisterUserApp(request, user));
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var user = GetUser().Value!;
-        return ToResponse(await this._authService.RemoveUserApp(id, user));
+        return ToResponse(await _authService.RemoveUserApp(id, user));
     }
 }

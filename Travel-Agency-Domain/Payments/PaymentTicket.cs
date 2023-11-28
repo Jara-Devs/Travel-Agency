@@ -1,5 +1,4 @@
 using Travel_Agency_Domain.Others;
-using Travel_Agency_Domain.Users;
 
 namespace Travel_Agency_Domain.Payments;
 

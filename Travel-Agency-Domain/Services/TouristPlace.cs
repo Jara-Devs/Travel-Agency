@@ -6,6 +6,18 @@ namespace Travel_Agency_Domain.Services;
 
 public class TouristPlace : Entity
 {
+    public TouristPlace()
+    {
+    }
+
+    public TouristPlace(string name, string description, Address address, Guid imageId)
+    {
+        Name = name;
+        Description = description;
+        Address = address;
+        ImageId = imageId;
+    }
+
     public string Name { get; set; } = null!;
 
     public string Description { get; set; } = null!;
@@ -15,18 +27,6 @@ public class TouristPlace : Entity
     public Image Image { get; set; } = null!;
 
     public Guid ImageId { get; set; }
-
-    public TouristPlace()
-    {
-    }
-
-    public TouristPlace(string name, string description, Address address, Guid imageId)
-    {
-        this.Name = name;
-        this.Description = description;
-        this.Address = address;
-        this.ImageId = imageId;
-    }
 
     public ICollection<Excursion> Excursions { get; set; } = null!;
 

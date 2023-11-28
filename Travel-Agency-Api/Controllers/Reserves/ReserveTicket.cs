@@ -16,23 +16,22 @@ namespace Travel_Agency_Api.Controllers.Offers;
 [Authorize(Roles.EmployeeAgency)]
 public class ReserveTicketController : TravelAgencyController
 {
+    private readonly IQueryEntity<ReserveTicket> _query;
     private readonly IReserveService<ReserveTicket, PaymentTicket> _reserveTicketService;
 
-    private readonly IQueryEntity<ReserveTicket> _query;
-
     public ReserveTicketController
-        (IReserveService<ReserveTicket, PaymentTicket> reserveTicketService,IQueryEntity<ReserveTicket> query)
+        (IReserveService<ReserveTicket, PaymentTicket> reserveTicketService, IQueryEntity<ReserveTicket> query)
     {
         _reserveTicketService = reserveTicketService;
         _query = query;
     }
-    
+
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> Get(ODataQueryOptions<ReserveTicket> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataResponse(response, options);
     }
@@ -42,7 +41,7 @@ public class ReserveTicketController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<ReserveTicket> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);
     }

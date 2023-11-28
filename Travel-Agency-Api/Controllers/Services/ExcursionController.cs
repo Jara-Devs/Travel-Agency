@@ -22,8 +22,8 @@ public class ExcursionController : TravelAgencyController
 
     public ExcursionController(IExcursionService excursionService, IQueryEntity<Excursion> query)
     {
-        this._excursionService = excursionService;
-        this._query = query;
+        _excursionService = excursionService;
+        _query = query;
     }
 
     [HttpGet]
@@ -31,7 +31,7 @@ public class ExcursionController : TravelAgencyController
     public async Task<IActionResult> Get(ODataQueryOptions<Excursion> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataResponse(response, options);
     }
@@ -41,7 +41,7 @@ public class ExcursionController : TravelAgencyController
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<Excursion> options)
     {
         var user = GetUser().Value!;
-        var response = await this._query.Get(user);
+        var response = await _query.Get(user);
 
         return OdataSingleResponse(response, options, x => x.Id == key);
     }

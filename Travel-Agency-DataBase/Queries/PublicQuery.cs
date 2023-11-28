@@ -4,15 +4,17 @@ using Travel_Agency_DataBase.Core;
 
 namespace Travel_Agency_DataBase.Queries;
 
-public class PublicQuery<T>:IQueryEntity<T> where T:Entity
+public class PublicQuery<T> : IQueryEntity<T> where T : Entity
 {
     private readonly TravelAgencyContext _context;
 
     public PublicQuery(TravelAgencyContext context)
     {
-        this._context = context;
+        _context = context;
     }
 
-    public Task<ApiResponse<IQueryable<T>>> Get(UserBasic _) =>
-        Task.FromResult(new ApiResponse<IQueryable<T>>(this._context.Set<T>().AsNoTracking()));
+    public Task<ApiResponse<IQueryable<T>>> Get(UserBasic _)
+    {
+        return Task.FromResult(new ApiResponse<IQueryable<T>>(_context.Set<T>().AsNoTracking()));
+    }
 }

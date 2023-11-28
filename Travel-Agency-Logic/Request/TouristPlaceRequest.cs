@@ -10,17 +10,17 @@ public class TouristPlaceRequest
     public string Description { get; set; } = null!;
 
     public Address Address { get; set; } = null!;
-    
+
     public Guid ImageId { get; set; }
 
-    public TouristPlace TouristPlace(TouristPlace? touristPlace = null) 
+    public TouristPlace TouristPlace(TouristPlace? touristPlace = null)
     {
-        touristPlace ??= new TouristPlace(this.Name, this.Description, this.Address, ImageId);
-        touristPlace.Name = this.Name;
-        touristPlace.Description = this.Description;
-        touristPlace.Address = this.Address;
-        touristPlace.ImageId = this.ImageId;
-      
+        touristPlace ??= new TouristPlace(Name, Description, Address, ImageId);
+        touristPlace.Name = Name;
+        touristPlace.Description = Description;
+        touristPlace.Address = Address;
+        touristPlace.ImageId = ImageId;
+
         return touristPlace;
     }
 }

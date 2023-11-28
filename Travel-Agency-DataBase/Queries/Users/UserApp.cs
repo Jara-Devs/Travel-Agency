@@ -11,7 +11,7 @@ public class UserAppQuery : IQueryEntity<User>
 
     public UserAppQuery(TravelAgencyContext context)
     {
-        this._context = context;
+        _context = context;
     }
 
     public Task<ApiResponse<IQueryable<User>>> Get(UserBasic userBasic)
@@ -21,6 +21,6 @@ public class UserAppQuery : IQueryEntity<User>
                 new Unauthorized<IQueryable<User>>("You are not an admin app") as ApiResponse<IQueryable<User>>);
 
         return Task.FromResult(new ApiResponse<IQueryable<User>>(
-            this._context.Users.AsNoTracking().Where(x => x.Role == Roles.EmployeeApp)));
+            _context.Users.AsNoTracking().Where(x => x.Role == Roles.EmployeeApp)));
     }
 }

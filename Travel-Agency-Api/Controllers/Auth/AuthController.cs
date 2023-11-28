@@ -2,9 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Travel_Agency_Api.Core;
 using Travel_Agency_Core;
-using Travel_Agency_Domain.Users;
-using Travel_Agency_Logic.Request;
 using Travel_Agency_Logic.Core;
+using Travel_Agency_Logic.Request;
 using Travel_Agency_Logic.Response;
 
 namespace Travel_Agency_Api.Controllers.Auth;
@@ -17,27 +16,33 @@ public class AuthController : TravelAgencyController
 
     public AuthController(IAuthenticationService authService)
     {
-        this._authService = authService;
+        _authService = authService;
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest request) =>
-        LoginResponse(await this._authService.Login(request));
+    public async Task<IActionResult> Login(LoginRequest request)
+    {
+        return LoginResponse(await _authService.Login(request));
+    }
 
     [HttpPost("register/tourist")]
-    public async Task<IActionResult> RegisterTourist([FromBody] RegisterTouristRequest request) =>
-        ToResponse(await this._authService.RegisterTourist(request));
+    public async Task<IActionResult> RegisterTourist([FromBody] RegisterTouristRequest request)
+    {
+        return ToResponse(await _authService.RegisterTourist(request));
+    }
 
     [HttpPost("register/agency")]
-    public async Task<IActionResult> RegisterAgency([FromBody] RegisterAgencyRequest request) =>
-        ToResponse(await this._authService.RegisterAgency(request));
+    public async Task<IActionResult> RegisterAgency([FromBody] RegisterAgencyRequest request)
+    {
+        return ToResponse(await _authService.RegisterAgency(request));
+    }
 
     [HttpPost("changePassword")]
     [Authorize]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
     {
         var user = GetUser().Value!;
-        return ToResponse(await this._authService.ChangePassword(request, user));
+        return ToResponse(await _authService.ChangePassword(request, user));
     }
 
     [HttpPost("renew")]
@@ -45,7 +50,7 @@ public class AuthController : TravelAgencyController
     public async Task<IActionResult> Renew()
     {
         var user = GetUser().Value!;
-        return LoginResponse(await this._authService.Renew(user));
+        return LoginResponse(await _authService.Renew(user));
     }
 
     private IActionResult LoginResponse(ApiResponse<LoginResponse> response)

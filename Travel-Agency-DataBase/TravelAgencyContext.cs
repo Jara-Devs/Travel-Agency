@@ -16,14 +16,6 @@ public class TravelAgencyContext : DbContext
     {
     }
 
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(TravelAgencyContext).Assembly);
-    }
-
     public DbSet<User> Users { get; set; } = null!;
 
     public DbSet<Tourist> Tourists { get; set; } = null!;
@@ -67,4 +59,12 @@ public class TravelAgencyContext : DbContext
     public DbSet<Image> Images { get; set; } = null!;
 
     public DbSet<Reaction> Reactions { get; set; } = null!;
+
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(TravelAgencyContext).Assembly);
+    }
 }

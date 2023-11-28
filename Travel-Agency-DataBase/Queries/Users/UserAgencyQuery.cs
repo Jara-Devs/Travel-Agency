@@ -11,7 +11,7 @@ public class UserAgencyQuery : IQueryEntity<UserAgency>
 
     public UserAgencyQuery(TravelAgencyContext context)
     {
-        this._context = context;
+        _context = context;
     }
 
     public async Task<ApiResponse<IQueryable<UserAgency>>> Get(UserBasic userBasic)
@@ -19,9 +19,9 @@ public class UserAgencyQuery : IQueryEntity<UserAgency>
         if (userBasic.Role != Roles.AdminAgency)
             return new Unauthorized<IQueryable<UserAgency>>("You are not an admin of this agency");
 
-        var admin = await this._context.UserAgencies.FindAsync(userBasic.Id);
+        var admin = await _context.UserAgencies.FindAsync(userBasic.Id);
 
         return new ApiResponse<IQueryable<UserAgency>>(
-            this._context.UserAgencies.AsNoTracking().Where(x => x.AgencyId == admin!.AgencyId && x.Id != admin.Id));
+            _context.UserAgencies.AsNoTracking().Where(x => x.AgencyId == admin!.AgencyId && x.Id != admin.Id));
     }
 }

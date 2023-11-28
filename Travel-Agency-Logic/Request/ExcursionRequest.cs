@@ -16,9 +16,9 @@ public class ExcursionRequest
 
     public virtual Excursion Excursion(Excursion? excursion = null)
     {
-        excursion ??= new(this.Name, this.ImageId);
-        excursion.Name = this.Name;
-        excursion.ImageId = this.ImageId;
+        excursion ??= new Excursion(Name, ImageId);
+        excursion.Name = Name;
+        excursion.ImageId = ImageId;
 
         return excursion;
     }

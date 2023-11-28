@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Travel_Agency_Logic;
 using Travel_Agency_Core;
+using Travel_Agency_Logic;
 
 namespace Travel_Agency_Api.Core;
 
@@ -25,12 +25,16 @@ public abstract class TravelAgencyController : ControllerBase
     }
 
     protected IActionResult OdataResponse<T>(ApiResponse<IQueryable<T>> response, ODataQueryOptions<T> options,
-        Expression<Func<T, bool>>? filter = null) =>
-        OdataResponse(response, options, filter, false);
+        Expression<Func<T, bool>>? filter = null)
+    {
+        return OdataResponse(response, options, filter, false);
+    }
 
     protected IActionResult OdataSingleResponse<T>(ApiResponse<IQueryable<T>> response, ODataQueryOptions<T> options,
-        Expression<Func<T, bool>>? filter = null) =>
-        OdataResponse(response, options, filter, true);
+        Expression<Func<T, bool>>? filter = null)
+    {
+        return OdataResponse(response, options, filter, true);
+    }
 
     private IActionResult OdataResponse<T>(ApiResponse<IQueryable<T>> response, ODataQueryOptions<T> options,
         Expression<Func<T, bool>>? filter, bool single)

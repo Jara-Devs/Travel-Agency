@@ -9,70 +9,68 @@ using Travel_Agency_Domain.Images;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
 
-namespace Travel_Agency_Logic.Images
+namespace Travel_Agency_Logic.Images;
+
+public class ImageService : IImageService
 {
-    public class ImageService : IImageService
+    private readonly IConfiguration _configuration;
+    private readonly TravelAgencyContext _context;
+
+
+    public ImageService(TravelAgencyContext context, IConfiguration configuration)
     {
-        private readonly TravelAgencyContext _context;
+        _context = context;
+        _configuration = configuration;
+    }
 
-        private readonly IConfiguration _configuration;
+    public async Task<ApiResponse<ICollection<Image>>> GetRandomImages()
+    {
+        const int cantPlaces = 8;
+        const int cantActivities = 8;
 
+        var imagesPlaces = await _context.TouristPlaces.Include(x => x.Image).Select(x => x.Image)
+            .OrderBy(x => Guid.NewGuid() > x.Id).Take(cantPlaces).ToListAsync();
 
-        public ImageService(TravelAgencyContext context, IConfiguration configuration)
+        var imagesActivities = await _context.TouristActivities.Include(x => x.Image).Select(x => x.Image)
+            .OrderBy(x => Guid.NewGuid() > x.Id).Take(cantActivities).ToListAsync();
+
+        var images = imagesPlaces.Concat(imagesActivities).ToList();
+
+        var rnd = new Random();
+        images.Sort((_, _) => rnd.Next(3) - 1);
+        return new ApiResponse<ICollection<Image>>(images);
+    }
+
+    public async Task<ApiResponse<Image>> UploadImage(ImageRequest imageRequest)
+    {
+        try
         {
-            _context = context;
-            _configuration = configuration;
-        }
+            var cloud = _configuration["Cloudinary:Cloud"];
+            var apiKey = _configuration["Cloudinary:ApiKey"];
+            var apiSecret = _configuration["Cloudinary:ApiSecret"];
 
-        public async Task<ApiResponse<ICollection<Image>>> GetRandomImages()
-        {
-            const int cantPlaces = 8;
-            const int cantActivities = 8;
+            var cloudinary = new Cloudinary(
+                new Account(cloud, apiKey, apiSecret));
 
-            var imagesPlaces = await _context.TouristPlaces.Include(x => x.Image).Select(x => x.Image)
-                .OrderBy(x => Guid.NewGuid() > x.Id).Take(cantPlaces).ToListAsync();
+            var file = imageRequest.File;
+            if (file is null) return new BadRequest<Image>("There is no file to upload");
 
-            var imagesActivities = await _context.TouristActivities.Include(x => x.Image).Select(x => x.Image)
-                .OrderBy(x => Guid.NewGuid() > x.Id).Take(cantActivities).ToListAsync();
-
-            var images = imagesPlaces.Concat(imagesActivities).ToList();
-
-            var rnd = new Random();
-            images.Sort((_, _) => rnd.Next(3) - 1);
-            return new ApiResponse<ICollection<Image>>(images);
-        }
-
-        public async Task<ApiResponse<Image>> UploadImage(ImageRequest imageRequest)
-        {
-            try
+            var uploadParams = new ImageUploadParams
             {
-                var cloud = _configuration["Cloudinary:Cloud"];
-                var apiKey = _configuration["Cloudinary:ApiKey"];
-                var apiSecret = _configuration["Cloudinary:ApiSecret"];
+                File = new FileDescription(file.FileName, file.OpenReadStream())
+            };
 
-                var cloudinary = new Cloudinary(
-                    new Account(cloud, apiKey, apiSecret));
+            var uploadResult = await cloudinary.UploadAsync(uploadParams);
 
-                var file = imageRequest.File;
-                if (file is null) return new BadRequest<Image>("There is no file to upload");
+            var entity = ImageRequest.Image(file.FileName, uploadResult.Url.ToString());
+            _context.Images.Add(entity);
+            await _context.SaveChangesAsync();
 
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription(file.FileName, file.OpenReadStream())
-                };
-
-                var uploadResult = await cloudinary.UploadAsync(uploadParams);
-
-                var entity = ImageRequest.Image(file.FileName, uploadResult.Url.ToString());
-                _context.Images.Add(entity);
-                await _context.SaveChangesAsync();
-
-                return new ApiResponse<Image>(entity);
-            }
-            catch
-            {
-                return new ApiResponse<Image>(HttpStatusCode.InternalServerError, "Connection error");
-            }
+            return new ApiResponse<Image>(entity);
+        }
+        catch
+        {
+            return new ApiResponse<Image>(HttpStatusCode.InternalServerError, "Connection error");
         }
     }
 }

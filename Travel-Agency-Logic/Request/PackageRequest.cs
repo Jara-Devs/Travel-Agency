@@ -16,10 +16,10 @@ public class PackageRequest
 
     public Package Package(Package? package = null)
     {
-        package ??= new Package(this.Name, this.Description, this.Discount);
-        package.Name = this.Name;
-        package.Description = this.Description;
-        package.Discount = this.Discount;
+        package ??= new Package(Name, Description, Discount);
+        package.Name = Name;
+        package.Description = Description;
+        package.Discount = Discount;
 
         return package;
     }

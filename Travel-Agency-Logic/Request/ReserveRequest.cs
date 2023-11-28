@@ -24,14 +24,26 @@ public class ReserveTouristRequest : ReserveRequest<ReserveTourist, PaymentOnlin
 {
     public int CreditCard { get; set; }
 
-    public override PaymentOnline Payment(double price) => new (new(Name, IdentityDocument), price, CreditCard);
+    public override PaymentOnline Payment(double price)
+    {
+        return new PaymentOnline(new UserIdentity(Name, IdentityDocument), price, CreditCard);
+    }
 
-    public override ReserveTourist Reserve(Guid paymentId) => new (PackageId, UserIdentities, UserId, paymentId);
+    public override ReserveTourist Reserve(Guid paymentId)
+    {
+        return new ReserveTourist(PackageId, UserIdentities, UserId, paymentId);
+    }
 }
 
 public class ReserveTicketRequest : ReserveRequest<ReserveTicket, PaymentTicket>
 {
-    public override PaymentTicket Payment(double price)=> new (new(Name, IdentityDocument), price);
+    public override PaymentTicket Payment(double price)
+    {
+        return new PaymentTicket(new UserIdentity(Name, IdentityDocument), price);
+    }
 
-    public override ReserveTicket Reserve(Guid paymentId) => new (PackageId, UserIdentities, UserId, paymentId);
+    public override ReserveTicket Reserve(Guid paymentId)
+    {
+        return new ReserveTicket(PackageId, UserIdentities, UserId, paymentId);
+    }
 }

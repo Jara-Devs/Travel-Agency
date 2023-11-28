@@ -5,16 +5,16 @@ namespace Travel_Agency_Domain.Payments;
 
 public class Payment : Entity
 {
-    public double Price { get; set; }
-    public UserIdentity UserIdentity { get; set; } = null!;
-
     public Payment()
     {
     }
 
     public Payment(UserIdentity userIdentity, double price)
     {
-        this.UserIdentity = userIdentity;
-        this.Price = price;
+        UserIdentity = userIdentity;
+        Price = price;
     }
+
+    public double Price { get; set; }
+    public UserIdentity UserIdentity { get; set; } = null!;
 }

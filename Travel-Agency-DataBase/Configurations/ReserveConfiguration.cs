@@ -4,7 +4,7 @@ using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_DataBase.Configurations;
 
-public class ReserveConfiguration:EntityConfiguration<Reserve>
+public class ReserveConfiguration : EntityConfiguration<Reserve>
 {
     public override void ConfigureEntity(EntityTypeBuilder<Reserve> builder)
     {

@@ -26,6 +26,6 @@ public class ImageController : TravelAgencyController
     [HttpPost]
     public async Task<IActionResult> UploadImage([FromForm] ImageRequest image)
     {
-         return ToResponse(await _imageService.UploadImage(image));
+        return ToResponse(await _imageService.UploadImage(image));
     }
 }
