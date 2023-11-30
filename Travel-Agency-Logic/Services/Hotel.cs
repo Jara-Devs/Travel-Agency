@@ -19,7 +19,7 @@ public class HotelService : IHotelService
 
     public async Task<ApiResponse<IdResponse>> CreateHotel(HotelRequest hotel, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized<IdResponse>("You don't have permissions");
 
         if (await _context.Hotels.AnyAsync(h => h.Name == hotel.Name))
@@ -37,7 +37,7 @@ public class HotelService : IHotelService
 
     public async Task<ApiResponse> UpdateHotel(Guid id, HotelRequest hotelRequest, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var hotel = await _context.Hotels.Include(x => x.TouristPlace).Where(x => x.Id == id).FirstOrDefaultAsync();
@@ -64,7 +64,7 @@ public class HotelService : IHotelService
 
     public async Task<ApiResponse> DeleteHotel(Guid id, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var inUse = await CheckDependency(id);
@@ -78,11 +78,6 @@ public class HotelService : IHotelService
         _context.Hotels.Remove(hotel);
         await _context.SaveChangesAsync();
         return new ApiResponse();
-    }
-
-    private static bool CheckPermissions(UserBasic user)
-    {
-        return user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
     }
 
     private async Task<ApiResponse<Hotel>> CreateHotel(HotelRequest request, Hotel? hotel = null)

@@ -19,7 +19,7 @@ public class TouristActivityService : ITouristActivityService
     public async Task<ApiResponse<IdResponse>> CreateTouristActivity(TouristActivityRequest touristActivity,
         UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized<IdResponse>("You don't have permissions");
 
         if (await _context.TouristActivities.AnyAsync(ta => ta.Name == touristActivity.Name))
@@ -35,7 +35,7 @@ public class TouristActivityService : ITouristActivityService
     public async Task<ApiResponse> UpdateTouristActivity(Guid id, TouristActivityRequest touristActivityRequest,
         UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var touristActivity = await _context.TouristActivities.FindAsync(id);
@@ -58,7 +58,7 @@ public class TouristActivityService : ITouristActivityService
 
     public async Task<ApiResponse> DeleteTouristActivity(Guid id, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var inUse = await CheckDependency(id);
@@ -71,11 +71,6 @@ public class TouristActivityService : ITouristActivityService
         await _context.SaveChangesAsync();
 
         return new ApiResponse();
-    }
-
-    private static bool CheckPermissions(UserBasic user)
-    {
-        return user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
     }
 
     private async Task<ApiResponse> CheckDependency(Guid id)

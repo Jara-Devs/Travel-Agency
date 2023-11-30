@@ -19,7 +19,7 @@ public class ExcursionService : IExcursionService
 
     public async Task<ApiResponse<IdResponse>> CreateExcursion(ExcursionRequest request, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized<IdResponse>("You don't have permissions");
 
         if (await _context.Excursions.AnyAsync(a => a.Name == request.Name))
@@ -40,7 +40,7 @@ public class ExcursionService : IExcursionService
 
     public async Task<ApiResponse> UpdateExcursion(Guid id, ExcursionRequest request, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var excursion = await _context.Excursions.Include(x => x.Activities).Include(x => x.Places)
@@ -70,7 +70,7 @@ public class ExcursionService : IExcursionService
 
     public async Task<ApiResponse> DeleteExcursion(Guid id, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var inUse = await CheckDependency(id);
@@ -83,11 +83,6 @@ public class ExcursionService : IExcursionService
         await _context.SaveChangesAsync();
 
         return new ApiResponse();
-    }
-
-    private static bool CheckPermissions(UserBasic user)
-    {
-        return user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
     }
 
     private async Task<ApiResponse<Excursion>> CreateExcursion(ExcursionRequest request,

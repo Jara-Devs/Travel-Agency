@@ -18,7 +18,7 @@ public class Facility : IFacilityService
 
     public async Task<ApiResponse<IdResponse>> CreateFacility(FacilityRequest request, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized<IdResponse>("You don't have permissions");
 
         if (await _context.Facilities.AnyAsync(a => a.Name == request.Name))
@@ -33,7 +33,7 @@ public class Facility : IFacilityService
 
     public async Task<ApiResponse> UpdateFacility(Guid id, FacilityRequest request, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var facility = await _context.Facilities.Include(x => x.Offers).Where(x => x.Id == id).FirstOrDefaultAsync();
@@ -55,7 +55,7 @@ public class Facility : IFacilityService
 
     public async Task<ApiResponse> DeleteFacility(Guid id, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var facility = await _context.Facilities.Include(x => x.Offers).Where(x => x.Id == id).FirstOrDefaultAsync();
@@ -68,10 +68,5 @@ public class Facility : IFacilityService
         await _context.SaveChangesAsync();
 
         return new ApiResponse();
-    }
-
-    private static bool CheckPermissions(UserBasic user)
-    {
-        return user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
     }
 }

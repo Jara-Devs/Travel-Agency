@@ -18,7 +18,7 @@ public class FlightService : IFlightService
 
     public async Task<ApiResponse<IdResponse>> CreateFlight(FlightRequest flight, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized<IdResponse>("You don't have permissions");
 
         if (await CheckIfFlightExists(flight))
@@ -36,7 +36,7 @@ public class FlightService : IFlightService
 
     public async Task<ApiResponse> UpdateFlight(Guid id, FlightRequest flightRequest, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var flight = await _context.Flights.FindAsync(id);
@@ -63,7 +63,7 @@ public class FlightService : IFlightService
 
     public async Task<ApiResponse> DeleteFlight(Guid id, UserBasic user)
     {
-        if (!CheckPermissions(user))
+        if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
         var inUse = await CheckDependency(id);
@@ -77,11 +77,6 @@ public class FlightService : IFlightService
         _context.Flights.Remove(flight);
         await _context.SaveChangesAsync();
         return new ApiResponse();
-    }
-
-    private static bool CheckPermissions(UserBasic user)
-    {
-        return user.Role == Roles.AdminApp || user.Role == Roles.EmployeeApp;
     }
 
     private async Task<ApiResponse> CheckDependency(Guid id)
