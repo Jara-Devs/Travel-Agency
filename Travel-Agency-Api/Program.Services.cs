@@ -25,7 +25,6 @@ using Travel_Agency_Logic.Offers;
 using Travel_Agency_Logic.Packages;
 using Travel_Agency_Logic.Reactions;
 using Travel_Agency_Logic.Services;
-using Facility = Travel_Agency_Domain.Offers.Facility;
 
 namespace Travel_Agency_Api;
 
@@ -36,35 +35,44 @@ public static class ProgramServices
         // Configure queries
         services.AddScoped<IQueryEntity<UserAgency>, UserAgencyQuery>();
         services.AddScoped<IQueryEntity<User>, UserAppQuery>();
+        
+        services.AddScoped<IQueryEntity<Flight>, PublicQuery<Flight>>();
         services.AddScoped<IQueryEntity<Excursion>, PublicQuery<Excursion>>();
         services.AddScoped<IQueryEntity<Hotel>, PublicQuery<Hotel>>();
         services.AddScoped<IQueryEntity<TouristActivity>, PublicQuery<TouristActivity>>();
         services.AddScoped<IQueryEntity<Facility>, PublicQuery<Facility>>();
         services.AddScoped<IQueryEntity<TouristPlace>, PublicQuery<TouristPlace>>();
+        
         services.AddScoped<IQueryEntity<ExcursionOffer>, PublicQuery<ExcursionOffer>>();
         services.AddScoped<IQueryEntity<HotelOffer>, PublicQuery<HotelOffer>>();
         services.AddScoped<IQueryEntity<FlightOffer>, PublicQuery<FlightOffer>>();
+        
         services.AddScoped<IQueryEntity<Package>, PublicQuery<Package>>();
+        
         services.AddScoped<IQueryEntity<ReserveTicket>, ReserveQuery<ReserveTicket>>();
         services.AddScoped<IQueryEntity<ReserveTourist>, ReserveQuery<ReserveTourist>>();
-        services.AddScoped<IQueryEntity<Flight>, PublicQuery<Flight>>();
+        
         services.AddScoped<IQueryEntity<Reaction>, PublicQuery<Reaction>>();
 
         // Configure commands
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        
         services.AddScoped<IExcursionService, ExcursionService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<ITouristPlaceService, TouristPlaceService>();
         services.AddScoped<IFlightService, FlightService>();
+        services.AddScoped<ITouristActivityService, TouristActivityService>();
+        services.AddScoped<IFacilityService, FacilityService>();
+        
         services.AddScoped<IOfferService<HotelOffer>, OfferService<HotelOffer>>();
         services.AddScoped<IOfferService<ExcursionOffer>, OfferService<ExcursionOffer>>();
         services.AddScoped<IOfferService<FlightOffer>, OfferService<FlightOffer>>();
-        services.AddScoped<ITouristActivityService, TouristActivityService>();
-        services.AddScoped<IHotelService, HotelService>();
+        
         services.AddScoped<IPackageService, PackageService>();
+        
         services.AddScoped<IReserveService<ReserveTicket, PaymentTicket>, ReserveTicketService>();
         services.AddScoped<IReserveService<ReserveTourist, PaymentOnline>, ReserveTouristService>();
-        services.AddScoped<IFlightService, FlightService>();
+        
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IReactionService, ReactionService>();
 
@@ -127,17 +135,23 @@ public static class ProgramServices
         // Configure entities
         builder.EntitySet<UserAgency>("UserAgency");
         builder.EntitySet<User>("UserApp");
+        
+        builder.EntitySet<Flight>("Flight");
         builder.EntitySet<Excursion>("Excursion");
         builder.EntitySet<Hotel>("Hotel");
         builder.EntitySet<TouristPlace>("TouristPlace");
         builder.EntitySet<TouristActivity>("TouristActivity");
+        builder.EntitySet<Facility>("Facility");
+        
         builder.EntitySet<HotelOffer>("HotelOffer");
         builder.EntitySet<ExcursionOffer>("ExcursionOffer");
         builder.EntitySet<FlightOffer>("FlightOffer");
+        
         builder.EntitySet<Package>("Package");
+        
         builder.EntitySet<ReserveTicket>("ReserveTicket");
         builder.EntitySet<ReserveTourist>("ReserveTourist");
-        builder.EntitySet<Flight>("Flight");
+        
         builder.EntitySet<Image>("Image");
         builder.EntitySet<Reaction>("Reaction");
 

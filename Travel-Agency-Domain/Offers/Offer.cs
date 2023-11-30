@@ -2,6 +2,7 @@ using Travel_Agency_Core;
 using Travel_Agency_Core.Enums;
 using Travel_Agency_Domain.Images;
 using Travel_Agency_Domain.Reactions;
+using Travel_Agency_Domain.Services;
 
 namespace Travel_Agency_Domain.Offers;
 
@@ -44,7 +45,7 @@ public class Offer : Entity
 
     public OfferType Type { get; set; }
 
-    public ICollection<Facility> Facilities { get; set; } = null!;
+    public ICollection<Facility> Facilities { get; set; }
 
     public ICollection<Reaction> Reactions { get; set; } = null!;
 }

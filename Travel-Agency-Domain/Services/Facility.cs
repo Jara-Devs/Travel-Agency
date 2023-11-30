@@ -1,7 +1,8 @@
 using Travel_Agency_Core;
 using Travel_Agency_Core.Enums;
+using Travel_Agency_Domain.Offers;
 
-namespace Travel_Agency_Domain.Offers;
+namespace Travel_Agency_Domain.Services;
 
 public class Facility : Entity
 {
@@ -14,6 +15,6 @@ public class Facility : Entity
         this.Name = name;
         this.Type = type;
     }
-    
+
     public ICollection<Offer> Offers { get; set; } = null!;
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Travel_Agency_Api.Core;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase.Core;
-using Travel_Agency_Domain.Offers;
+using Travel_Agency_Domain.Services;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
 
@@ -30,6 +30,7 @@ public class FacilityController : TravelAgencyController
     [AllowAnonymous]
     public async Task<IActionResult> Get(ODataQueryOptions<Facility> options)
     {
+        Console.WriteLine("aaa");
         var user = GetUser().Value!;
         var response = await _query.Get(user);
 

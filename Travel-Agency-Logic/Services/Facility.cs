@@ -7,11 +7,11 @@ using Travel_Agency_Logic.Response;
 
 namespace Travel_Agency_Logic.Services;
 
-public class Facility : IFacilityService
+public class FacilityService : IFacilityService
 {
     private readonly TravelAgencyContext _context;
 
-    public Facility(TravelAgencyContext context)
+    public FacilityService(TravelAgencyContext context)
     {
         _context = context;
     }

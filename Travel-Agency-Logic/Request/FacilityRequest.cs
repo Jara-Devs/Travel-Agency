@@ -1,5 +1,5 @@
 using Travel_Agency_Core.Enums;
-using Travel_Agency_Domain.Offers;
+using Travel_Agency_Domain.Services;
 
 namespace Travel_Agency_Logic.Request;
 

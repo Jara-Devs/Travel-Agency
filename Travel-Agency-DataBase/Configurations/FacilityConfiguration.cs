@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Travel_Agency_DataBase.Core;
-using Travel_Agency_Domain.Offers;
+using Travel_Agency_Domain.Services;
 
 namespace Travel_Agency_DataBase.Configurations;
 
