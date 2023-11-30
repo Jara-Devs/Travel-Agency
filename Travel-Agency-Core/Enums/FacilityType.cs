@@ -1,6 +1,6 @@
 namespace Travel_Agency_Core.Enums;
 
-public enum ExcursionFacility
+public enum FacilityType
 {
     TourGuides = 0,
     Transportation = 1,

@@ -42,6 +42,8 @@ public class TravelAgencyContext : DbContext
 
     public DbSet<ExcursionOffer> ExcursionOffers { get; set; } = null!;
 
+    public DbSet<Facility> Facilities { get; set; } = null!;
+
     public DbSet<Package> Packages { get; set; } = null!;
 
     public DbSet<Reserve> Reserves { get; set; } = null!;

@@ -10,5 +10,6 @@ public class OfferConfiguration : EntityConfiguration<Offer>
     {
         builder.HasOne(o => o.Image).WithMany().HasForeignKey(o => o.ImageId);
         builder.HasOne(o => o.Agency).WithMany().HasForeignKey(o => o.AgencyId);
+        builder.HasMany(o => o.Facilities).WithMany(f => f.Offers);
     }
 }

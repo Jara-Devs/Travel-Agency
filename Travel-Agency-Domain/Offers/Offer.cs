@@ -19,6 +19,7 @@ public class Offer : Entity
         AgencyId = agencyId;
         ImageId = imageId;
         Type = type;
+        Facilities = new List<Facility>();
     }
 
     public string Name { get; set; }
@@ -42,6 +43,8 @@ public class Offer : Entity
     public Guid ImageId { get; set; }
 
     public OfferType Type { get; set; }
+
+    public ICollection<Facility> Facilities { get; set; } = null!;
 
     public ICollection<Reaction> Reactions { get; set; } = null!;
 }
