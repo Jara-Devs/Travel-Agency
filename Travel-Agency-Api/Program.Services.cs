@@ -25,6 +25,7 @@ using Travel_Agency_Logic.Offers;
 using Travel_Agency_Logic.Packages;
 using Travel_Agency_Logic.Reactions;
 using Travel_Agency_Logic.Services;
+using Facility = Travel_Agency_Domain.Offers.Facility;
 
 namespace Travel_Agency_Api;
 
@@ -38,6 +39,7 @@ public static class ProgramServices
         services.AddScoped<IQueryEntity<Excursion>, PublicQuery<Excursion>>();
         services.AddScoped<IQueryEntity<Hotel>, PublicQuery<Hotel>>();
         services.AddScoped<IQueryEntity<TouristActivity>, PublicQuery<TouristActivity>>();
+        services.AddScoped<IQueryEntity<Facility>, PublicQuery<Facility>>();
         services.AddScoped<IQueryEntity<TouristPlace>, PublicQuery<TouristPlace>>();
         services.AddScoped<IQueryEntity<ExcursionOffer>, PublicQuery<ExcursionOffer>>();
         services.AddScoped<IQueryEntity<HotelOffer>, PublicQuery<HotelOffer>>();
@@ -53,6 +55,7 @@ public static class ProgramServices
         services.AddScoped<IExcursionService, ExcursionService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<ITouristPlaceService, TouristPlaceService>();
+        services.AddScoped<IFlightService, FlightService>();
         services.AddScoped<IOfferService<HotelOffer>, OfferService<HotelOffer>>();
         services.AddScoped<IOfferService<ExcursionOffer>, OfferService<ExcursionOffer>>();
         services.AddScoped<IOfferService<FlightOffer>, OfferService<FlightOffer>>();

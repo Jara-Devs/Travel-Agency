@@ -1,7 +1,4 @@
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
-using Travel_Agency_Core.Enums;
 using Travel_Agency_DataBase.Core;
 using Travel_Agency_Domain.Offers;
 
