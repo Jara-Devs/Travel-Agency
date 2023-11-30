@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Core;
+using Travel_Agency_Core.Enums;
 using Travel_Agency_DataBase;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Logic.Core;
@@ -34,7 +35,10 @@ public class OfferService<T> : IOfferService<T> where T : Offer
         if (!CheckValidity(offer))
             return new BadRequest<IdResponse>("The offer is not valid");
 
-        var entity = offer.Offer(agencyId);
+        var response = await BuildRequest(offer, agencyId);
+        if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
+
+        var entity = response.Value!;
         _context.Set<T>().Add(entity);
         await _context.SaveChangesAsync();
 
@@ -79,9 +83,10 @@ public class OfferService<T> : IOfferService<T> where T : Offer
         if (!await CheckDependency(id))
             return new BadRequest("The offer is in use");
 
-        var newOffer = offerRequest.Offer(offer.AgencyId, offer);
+        var response = await BuildRequest(offerRequest, offer.AgencyId, offer);
+        if (!response.Ok) return response.ConvertApiResponse();
 
-        _context.Update(newOffer);
+        _context.Update(response.Value!);
         await _context.SaveChangesAsync();
 
         return new ApiResponse();
@@ -142,5 +147,37 @@ public class OfferService<T> : IOfferService<T> where T : Offer
             return false;
 
         return true;
+    }
+
+    private async Task<ApiResponse<T>> BuildRequest(OfferRequest<T> request, Guid agencyId, T? entity = null)
+    {
+        var hotel = false;
+        var excursion = false;
+        var flight = false;
+
+        entity = request.Offer(agencyId, entity);
+        entity.Facilities.Clear();
+
+        foreach (var item in request.Facilities)
+        {
+            var facility = await _context.Facilities.FindAsync(item);
+            if (facility is null)
+                return new BadRequest<T>("Not found facility");
+
+            hotel = hotel || facility.Type == FacilityType.Hotel;
+            excursion = excursion || facility.Type == FacilityType.Excursion;
+            flight = flight || facility.Type == FacilityType.Flight;
+
+            entity.Facilities.Add(facility);
+        }
+
+        if (hotel && entity is not HotelOffer)
+            return new BadRequest<T>("The offer is not a hotel offer");
+        if (excursion && entity is not ExcursionOffer)
+            return new BadRequest<T>("The offer is not a excursion offer");
+        if (flight && entity is not FlightOffer)
+            return new BadRequest<T>("The offer is not a flight offer");
+
+        return new ApiResponse<T>(entity);
     }
 }
