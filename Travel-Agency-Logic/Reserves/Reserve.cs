@@ -23,12 +23,16 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         if (!CheckPermissions(userBasic))
             return new Unauthorized<IdResponse>("You don't have permissions");
 
-        var package = await _context.Packages.Include(x=>x.FlightOffers).Include(x=>x.HotelOffers).Include(x=>x.ExcursionOffers).FirstOrDefaultAsync(p => p.Id == request.PackageId);
+        var package = await _context.Packages.Include(x => x.FlightOffers).Include(x => x.HotelOffers)
+            .Include(x => x.ExcursionOffers).FirstOrDefaultAsync(p => p.Id == request.PackageId);
         if (package is null)
             return new NotFound<IdResponse>("Package not found");
 
-        if (!await CheckAvailability(package))
+        if (!await CheckAvailability(package, request.UserIdentities.Count))
             return new BadRequest<IdResponse>("There is no availability for this package");
+
+        if (!Helpers.ValidDate(package.StartDate()))
+            return new BadRequest<IdResponse>($"The {(package.IsSingleOffer ? "offer" : "package")} has expired");
 
         var price = package.Price();
 
@@ -43,27 +47,27 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         return new ApiResponse<IdResponse>(new IdResponse { Id = reserve.Id });
     }
 
-    private async Task<bool> CheckAvailability(Package package)
+    private async Task<bool> CheckAvailability(Package package, int cant)
     {
         foreach (var offer in package.HotelOffers)
         {
             var count = await _context.Reserves.Where(r => r.Package.HotelOffers
                 .Select(o => o.Id).Contains(offer.Id)).CountAsync();
-            if (count >= offer.Availability) return false;
+            if (count + cant > offer.Availability) return false;
         }
 
         foreach (var offer in package.ExcursionOffers)
         {
             var count = await _context.Reserves.Where(r => r.Package.ExcursionOffers
                 .Select(o => o.Id).Contains(offer.Id)).CountAsync();
-            if (count >= offer.Availability) return false;
+            if (count + cant > offer.Availability) return false;
         }
 
         foreach (var offer in package.FlightOffers)
         {
             var count = await _context.Reserves.Where(r => r.Package.FlightOffers
                 .Select(o => o.Id).Contains(offer.Id)).CountAsync();
-            if (count >= offer.Availability) return false;
+            if (count + cant > offer.Availability) return false;
         }
 
         return true;

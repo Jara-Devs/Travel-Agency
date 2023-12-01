@@ -18,6 +18,8 @@ public class Reserve : Entity
 
     public Guid UserId { get; set; }
 
+    public Guid PaymentId { get; set; }
+
     public Guid PackageId { get; set; }
 
     public Package Package { get; set; } = null!;

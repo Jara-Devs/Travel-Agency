@@ -18,8 +18,6 @@ public class ReserveTicket : Reserve
     }
 
     public UserAgency User { get; set; } = null!;
-
-    public Guid PaymentId { get; set; }
-
+    
     public PaymentTicket Payment { get; set; } = null!;
 }

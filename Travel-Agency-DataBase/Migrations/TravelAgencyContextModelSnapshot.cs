@@ -173,30 +173,6 @@ namespace Travel_Agency_DataBase.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("Travel_Agency_Domain.Offers.Facility", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Facilities");
-                });
-
             modelBuilder.Entity("Travel_Agency_Domain.Offers.Offer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -265,6 +241,9 @@ namespace Travel_Agency_DataBase.Migrations
                     b.Property<double>("Discount")
                         .HasColumnType("double");
 
+                    b.Property<bool>("IsSingleOffer")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -313,6 +292,9 @@ namespace Travel_Agency_DataBase.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<Guid>("PackageId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("PaymentId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("UserId")
@@ -384,6 +366,30 @@ namespace Travel_Agency_DataBase.Migrations
                         .IsUnique();
 
                     b.ToTable("Excursions");
+                });
+
+            modelBuilder.Entity("Travel_Agency_Domain.Services.Facility", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Facilities");
                 });
 
             modelBuilder.Entity("Travel_Agency_Domain.Services.Flight", b =>
@@ -609,9 +615,6 @@ namespace Travel_Agency_DataBase.Migrations
                 {
                     b.HasBaseType("Travel_Agency_Domain.Payments.Reserve");
 
-                    b.Property<Guid>("PaymentId")
-                        .HasColumnType("char(36)");
-
                     b.HasIndex("PaymentId");
 
                     b.HasIndex("UserId");
@@ -623,18 +626,9 @@ namespace Travel_Agency_DataBase.Migrations
                 {
                     b.HasBaseType("Travel_Agency_Domain.Payments.Reserve");
 
-                    b.Property<Guid>("PaymentId")
-                        .HasColumnType("char(36)");
-
                     b.HasIndex("PaymentId");
 
                     b.HasIndex("UserId");
-
-                    b.ToTable("Reserves", t =>
-                        {
-                            t.Property("PaymentId")
-                                .HasColumnName("ReserveTourist_PaymentId");
-                        });
 
                     b.HasDiscriminator().HasValue("ReserveTourist");
                 });
@@ -724,7 +718,7 @@ namespace Travel_Agency_DataBase.Migrations
 
             modelBuilder.Entity("FacilityOffer", b =>
                 {
-                    b.HasOne("Travel_Agency_Domain.Offers.Facility", null)
+                    b.HasOne("Travel_Agency_Domain.Services.Facility", null)
                         .WithMany()
                         .HasForeignKey("FacilitiesId")
                         .OnDelete(DeleteBehavior.Cascade)

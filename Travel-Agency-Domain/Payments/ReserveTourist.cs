@@ -18,7 +18,5 @@ public class ReserveTourist : Reserve
 
     public Tourist User { get; set; } = null!;
 
-    public Guid PaymentId { get; set; }
-
     public PaymentOnline Payment { get; set; } = null!;
 }
