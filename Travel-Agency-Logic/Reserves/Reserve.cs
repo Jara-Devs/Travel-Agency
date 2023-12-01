@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
-using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Packages;
 using Travel_Agency_Domain.Payments;
 using Travel_Agency_Logic.Core;
@@ -46,21 +45,21 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
 
     private async Task<bool> CheckAvailability(Package package)
     {
-        foreach (Offer offer in package.HotelOffers)
+        foreach (var offer in package.HotelOffers)
         {
             var count = await _context.Reserves.Where(r => r.Package.HotelOffers
                 .Select(o => o.Id).Contains(offer.Id)).CountAsync();
             if (count >= offer.Availability) return false;
         }
 
-        foreach (Offer offer in package.ExcursionOffers)
+        foreach (var offer in package.ExcursionOffers)
         {
             var count = await _context.Reserves.Where(r => r.Package.ExcursionOffers
                 .Select(o => o.Id).Contains(offer.Id)).CountAsync();
             if (count >= offer.Availability) return false;
         }
 
-        foreach (Offer offer in package.FlightOffers)
+        foreach (var offer in package.FlightOffers)
         {
             var count = await _context.Reserves.Where(r => r.Package.FlightOffers
                 .Select(o => o.Id).Contains(offer.Id)).CountAsync();

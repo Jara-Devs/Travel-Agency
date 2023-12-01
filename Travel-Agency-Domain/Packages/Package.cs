@@ -18,6 +18,8 @@ public class Package : Entity
 
     public string Description { get; set; }
 
+    public bool IsSingleOffer { get; set; }
+
     public ICollection<HotelOffer> HotelOffers { get; set; } = null!;
 
     public ICollection<ExcursionOffer> ExcursionOffers { get; set; } = null!;

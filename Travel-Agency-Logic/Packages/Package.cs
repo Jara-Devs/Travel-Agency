@@ -18,7 +18,8 @@ public class PackageService : IPackageService
         _context = context;
     }
 
-    public async Task<ApiResponse<IdResponse>> CreatePackage(PackageRequest request, UserBasic userBasic)
+    public async Task<ApiResponse<IdResponse>> CreatePackage(PackageRequest request, UserBasic userBasic,
+        bool isSingleOffer = false)
     {
         var responsePermissions = await CheckPermissions(userBasic);
         if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse<IdResponse>();
@@ -30,6 +31,7 @@ public class PackageService : IPackageService
         if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
 
         var package = response.Value!;
+        package.IsSingleOffer = isSingleOffer;
 
         _context.Packages.Add(package);
         await _context.SaveChangesAsync();

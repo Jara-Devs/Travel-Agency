@@ -59,7 +59,7 @@ public class OfferService<T> : IOfferService<T> where T : Offer
             HotelOffers = hotelOffers, ExcursionOffers = excursionOffers, FlightOffers = flightOffers
         };
 
-        await _packageService.CreatePackage(package, user);
+        await _packageService.CreatePackage(package, user, true);
 
         return new ApiResponse<IdResponse>(new IdResponse { Id = entity.Id });
     }
