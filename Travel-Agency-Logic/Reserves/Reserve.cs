@@ -8,7 +8,7 @@ using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
 using Travel_Agency_Logic.Response;
 
-namespace Travel_Agency_Logic.Offers;
+namespace Travel_Agency_Logic.Reserves;
 
 public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 : Reserve where T2 : Payment
 {
@@ -24,7 +24,7 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         if (!CheckPermissions(userBasic))
             return new Unauthorized<IdResponse>("You don't have permissions");
 
-        var package = await _context.Packages.FirstOrDefaultAsync(p => p.Id == request.PackageId);
+        var package = await _context.Packages.Include(x=>x.FlightOffers).Include(x=>x.HotelOffers).Include(x=>x.ExcursionOffers).FirstOrDefaultAsync(p => p.Id == request.PackageId);
         if (package is null)
             return new NotFound<IdResponse>("Package not found");
 
@@ -37,7 +37,7 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         _context.Set<T2>().Add(payment);
         await _context.SaveChangesAsync();
 
-        var reserve = request.Reserve(payment.Id);
+        var reserve = request.Reserve(payment.Id, userBasic.Id);
         _context.Set<T1>().Add(reserve);
         await _context.SaveChangesAsync();
 

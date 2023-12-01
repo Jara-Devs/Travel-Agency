@@ -9,7 +9,7 @@ using Travel_Agency_Domain.Payments;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
 
-namespace Travel_Agency_Api.Controllers.Offers;
+namespace Travel_Agency_Api.Controllers.Reserves;
 
 [ApiController]
 [Route("[controller]")]
