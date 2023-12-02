@@ -11,14 +11,4 @@ public class TouristSeeder : SeederBase<Tourist>
     }
 
     protected override async Task ConfigureSeed(TravelAgencyContext dbContext) => await SingleData(dbContext);
-    // {
-    //     foreach (var item in Data)
-    //     {
-    //         dbContext.Add(item.UserIdentity);
-    //     }
-    //
-    //     await dbContext.SaveChangesAsync();
-    //
-    //     await SingleData(dbContext);
-    // }
 }

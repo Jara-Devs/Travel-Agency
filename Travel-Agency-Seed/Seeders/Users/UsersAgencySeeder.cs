@@ -12,13 +12,15 @@ public class UsersAgencySeeder : SeederBase<UserAgency>
 
     protected override async Task ConfigureSeed(TravelAgencyContext dbContext)
     {
-        var agencies = await dbContext.Agencies.ToListAsync();
-
-        foreach (var (user, agency) in Data.Zip(agencies))
+        foreach (var item in Data)
         {
-            user.Agency = agency;
+            var agency = await dbContext.Agencies.Where(x => x.Name == item.Agency.Name)
+                .SingleOrDefaultAsync();
+            if (agency is null) throw new Exception($"Agency with name {item.Agency.Name} not found");
+
+            item.Agency = agency;
         }
-        
+
         dbContext.AddRange(Data);
         await dbContext.SaveChangesAsync();
     }

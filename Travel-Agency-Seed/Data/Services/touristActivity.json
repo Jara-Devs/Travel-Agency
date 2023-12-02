@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Bulbasaur",
+    "description": "There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger.",
+    "image": {
+      "name": "bulbasaur.png"
+    }
+  }
+]

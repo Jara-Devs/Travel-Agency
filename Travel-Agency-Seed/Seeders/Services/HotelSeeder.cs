@@ -16,12 +16,12 @@ public class HotelSeeder : SeederBase<Hotel>
         {
             var image = await dbContext.Images.Where(x => x.Name == item.Image.Name).SingleOrDefaultAsync();
             if (image is null)
-                throw new Exception($"Image with name {item.Name} not found");
+                throw new Exception($"Image with name {item.Image.Name} not found");
 
             var place = await dbContext.TouristPlaces.Where(x => x.Name == item.TouristPlace.Name)
                 .SingleOrDefaultAsync();
             if (place is null)
-                throw new Exception($"TouristPlace with name {item.Name} not found");
+                throw new Exception($"TouristPlace with name {item.TouristPlace.Name} not found");
 
             item.Image = image;
             item.TouristPlace = place;

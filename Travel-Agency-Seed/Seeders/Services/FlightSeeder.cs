@@ -16,12 +16,12 @@ public class FlightSeeder : SeederBase<Flight>
         {
             var origin = await dbContext.Cities.Where(x => x.Name == item.Origin.Name).SingleOrDefaultAsync();
             if (origin is null)
-                throw new Exception($"TouristPlace with name {item.Origin.Name} not found");
+                throw new Exception($"City with name {item.Origin.Name} not found");
 
             var destination = await dbContext.Cities.Where(x => x.Name == item.Destination.Name)
                 .SingleOrDefaultAsync();
             if (destination is null)
-                throw new Exception($"TouristPlace with name {item.Origin.Name} not found");
+                throw new Exception($"City with name {item.Origin.Name} not found");
 
 
             item.Origin = origin;

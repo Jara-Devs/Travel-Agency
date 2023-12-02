@@ -16,7 +16,7 @@ public class TouristActivitySeeder : SeederBase<TouristActivity>
         {
             var image = await dbContext.Images.Where(x => x.Name == item.Image.Name).SingleOrDefaultAsync();
             if (image is null)
-                throw new Exception($"Image with name {item.Name} not found");
+                throw new Exception($"Image with name {item.Image.Name} not found");
 
             item.Image = image;
         }

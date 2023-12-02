@@ -3,6 +3,9 @@
     "name": "Angel Eduardo Pedraza Ordoñez",
     "email": "angel@matcom.com",
     "password": "123456",
-    "role": "AdminAgency"
+    "role": "AdminAgency",
+    "agency": {
+      "name": "Agency"
+    }
   }
 ]
