@@ -8,5 +8,5 @@ public class RegisterTouristRequest
 
     public string Name { get; set; } = null!;
 
-    public string Nationality { get; set; } = null!;
+    public UserIdentityRequest UserIdentity { get; set; } = null!;
 }

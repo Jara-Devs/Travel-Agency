@@ -64,6 +64,8 @@ public class TravelAgencyContext : DbContext
 
     public DbSet<Reaction> Reactions { get; set; } = null!;
 
+    public DbSet<UserIdentity> UserIdentities { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

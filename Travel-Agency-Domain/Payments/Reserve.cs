@@ -1,23 +1,18 @@
 using Travel_Agency_Core;
 using Travel_Agency_Domain.Offers;
-using Travel_Agency_Domain.Others;
 using Travel_Agency_Domain.Packages;
 
 namespace Travel_Agency_Domain.Payments;
 
 public class Reserve : Entity
 {
-    public Reserve()
-    {
-    }
-
-    public Reserve(Guid packageId, ICollection<UserIdentity> userIdentities)
+    public Reserve(Guid packageId, int cant)
     {
         PackageId = packageId;
-        UserIdentities = userIdentities;
         Offers = new List<Offer>();
-        Cant = userIdentities.Count;
     }
+
+    public int Cant { get; set; }
 
     public Guid UserId { get; set; }
 
@@ -26,8 +21,6 @@ public class Reserve : Entity
     public Guid PackageId { get; set; }
 
     public Package Package { get; set; } = null!;
-
-    public int Cant { get; set; }
 
     public ICollection<UserIdentity> UserIdentities { get; set; } = null!;
 

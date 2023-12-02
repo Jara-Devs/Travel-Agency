@@ -8,7 +8,7 @@ public class ReserveConfiguration : EntityConfiguration<Reserve>
 {
     public override void ConfigureEntity(EntityTypeBuilder<Reserve> builder)
     {
-        builder.OwnsMany(r => r.UserIdentities);
+        builder.HasMany(r => r.UserIdentities).WithMany(x=>x.Reserves);
         builder.HasOne(r => r.Package).WithMany(p => p.Reserves).HasForeignKey(r => r.PackageId);
         builder.HasMany(r => r.Offers).WithMany(o => o.Reserves);
     }

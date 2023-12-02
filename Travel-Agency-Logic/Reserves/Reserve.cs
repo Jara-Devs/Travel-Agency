@@ -48,12 +48,16 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
 
         var price = package.Price();
 
-        var payment = request.Payment(price);
+        var identity = await Helpers.ManageUserIdentity(new[] { request.UserIdentity }, Context);
+        var payment = request.Payment(identity[0].Id, price);
         Context.Set<T2>().Add(payment);
         await Context.SaveChangesAsync();
 
-        var reserve = request.Reserve(package.Id, payment.Id, userBasic.Id);
+        var reserve = request.Reserve(package.Id, payment.Id, userBasic.Id, request.UserIdentities.Count);
         AddOffers(package, reserve);
+
+        var identities = await Helpers.ManageUserIdentity(request.UserIdentities, Context);
+        reserve.UserIdentities = identities;
 
         Context.Set<T1>().Add(reserve);
         await Context.SaveChangesAsync();

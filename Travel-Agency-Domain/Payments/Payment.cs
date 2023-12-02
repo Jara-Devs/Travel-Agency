@@ -1,20 +1,17 @@
 using Travel_Agency_Core;
-using Travel_Agency_Domain.Others;
 
 namespace Travel_Agency_Domain.Payments;
 
 public class Payment : Entity
 {
-    public Payment()
+    public Payment(Guid userIdentityId, double price)
     {
-    }
-
-    public Payment(UserIdentity userIdentity, double price)
-    {
-        UserIdentity = userIdentity;
+        UserIdentityId = userIdentityId;
         Price = price;
     }
 
     public double Price { get; set; }
+
+    public Guid UserIdentityId { get; set; }
     public UserIdentity UserIdentity { get; set; } = null!;
 }

@@ -40,8 +40,10 @@ public class AuthenticationService : IAuthenticationService
         var check = await CheckRegister(touristRequest.Email, touristRequest.Password);
         if (!check.Ok) return check.ConvertApiResponse<LoginResponse>();
 
+        var identity = await Helpers.ManageUserIdentity(new[] { touristRequest.UserIdentity }, _context);
+
         _context.Add(new Tourist(touristRequest.Name, touristRequest.Email,
-            SecurityService.EncryptPassword(touristRequest.Password), touristRequest.Nationality));
+            SecurityService.EncryptPassword(touristRequest.Password), identity[0].Id));
 
         await _context.SaveChangesAsync();
 
@@ -200,8 +202,8 @@ public class AuthenticationService : IAuthenticationService
 
         if (role == Roles.Tourist)
         {
-            var user = await _context.Tourists.FindAsync(id);
-            return new ApiResponse<LoginResponse>(new LoginResponseTourist(id, name, token, role, user!.Nationality));
+            var user = await _context.Tourists.Include(x => x.UserIdentity).SingleOrDefaultAsync(x => x.Id == id);
+            return new ApiResponse<LoginResponse>(new LoginResponseTourist(id, name, token, role, user!.UserIdentity));
         }
 
         if (role == Roles.AdminAgency || role == Roles.ManagerAgency || role == Roles.EmployeeAgency)

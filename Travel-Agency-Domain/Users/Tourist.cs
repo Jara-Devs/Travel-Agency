@@ -6,13 +6,15 @@ namespace Travel_Agency_Domain.Users;
 
 public class Tourist : User
 {
-    public Tourist(string name, string email, string password, string nationality) : base(name, email, password,
-        Roles.Tourist)
+    public Tourist(string name, string email, string password, Guid userIdentityId) : base(name,
+        email, password, Roles.Tourist)
     {
-        Nationality = nationality;
+        UserIdentityId = userIdentityId;
     }
 
-    public string Nationality { get; set; }
+    public Guid UserIdentityId { get; set; }
+
+    public UserIdentity UserIdentity { get; set; } = null!;
 
     public ICollection<ReserveTourist> Reserves { get; set; } = null!;
 

@@ -1,14 +1,8 @@
-using Travel_Agency_Domain.Others;
-
 namespace Travel_Agency_Domain.Payments;
 
 public class PaymentOnline : Payment
 {
-    public PaymentOnline()
-    {
-    }
-
-    public PaymentOnline(UserIdentity userIdentity, double price, long creditCard) : base(userIdentity, price)
+    public PaymentOnline(Guid userIdentityId, double price, long creditCard) : base(userIdentityId, price)
     {
         CreditCard = creditCard;
     }
