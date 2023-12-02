@@ -18,7 +18,13 @@ public class TouristPlaceSeeder : SeederBase<TouristPlace>
             if (image is null)
                 throw new Exception($"Image with name {item.Name} not found");
 
+            var city = await dbContext.Cities.Where(x => x.Name == item.City.Name && x.Country == item.City.Country)
+                .SingleOrDefaultAsync();
+            if (city is null)
+                throw new Exception($"City with name {item.City.Name} and country {item.City.Country} not found");
+
             item.Image = image;
+            item.City = city;
         }
 
         await SingleData(dbContext);

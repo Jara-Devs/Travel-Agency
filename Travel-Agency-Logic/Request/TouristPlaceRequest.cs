@@ -9,16 +9,19 @@ public class TouristPlaceRequest
 
     public string Description { get; set; } = null!;
 
-    public Address Address { get; set; } = null!;
+    public Guid CityId { get; set; }
+
+    public string Address { get; set; } = null!;
 
     public Guid ImageId { get; set; }
 
     public TouristPlace TouristPlace(TouristPlace? touristPlace = null)
     {
-        touristPlace ??= new TouristPlace(Name, Description, Address, ImageId);
+        touristPlace ??= new TouristPlace(Name, Description, Address, CityId, ImageId);
         touristPlace.Name = Name;
         touristPlace.Description = Description;
         touristPlace.Address = Address;
+        touristPlace.CityId = CityId;
         touristPlace.ImageId = ImageId;
 
         return touristPlace;

@@ -19,11 +19,11 @@ public class Flight : Entity
 
     public Guid OriginId { get; set; }
 
-    public TouristPlace Origin { get; set; } = null!;
+    public City Origin { get; set; } = null!;
 
     public Guid DestinationId { get; set; }
 
-    public TouristPlace Destination { get; set; } = null!;
+    public City Destination { get; set; } = null!;
 
     public ICollection<FlightOffer> Offers { get; set; } = null!;
 }

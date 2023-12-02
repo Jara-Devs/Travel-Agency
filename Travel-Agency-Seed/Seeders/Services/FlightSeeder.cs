@@ -14,11 +14,11 @@ public class FlightSeeder : SeederBase<Flight>
     {
         foreach (var item in Data)
         {
-            var origin = await dbContext.TouristPlaces.Where(x => x.Name == item.Origin.Name).SingleOrDefaultAsync();
+            var origin = await dbContext.Cities.Where(x => x.Name == item.Origin.Name).SingleOrDefaultAsync();
             if (origin is null)
                 throw new Exception($"TouristPlace with name {item.Origin.Name} not found");
 
-            var destination = await dbContext.TouristPlaces.Where(x => x.Name == item.Destination.Name)
+            var destination = await dbContext.Cities.Where(x => x.Name == item.Destination.Name)
                 .SingleOrDefaultAsync();
             if (destination is null)
                 throw new Exception($"TouristPlace with name {item.Origin.Name} not found");

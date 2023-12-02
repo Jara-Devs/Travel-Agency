@@ -25,6 +25,9 @@ public class TouristPlaceService : ITouristPlaceService
         if (await _context.TouristPlaces.AnyAsync(tp => tp.Name == touristPlace.Name))
             return new NotFound<IdResponse>("The tourist place with same name already exists");
 
+        if (await _context.Cities.AnyAsync(c => c.Id == touristPlace.CityId))
+            return new NotFound<IdResponse>("The city not found");
+
         var entity = touristPlace.TouristPlace();
         _context.TouristPlaces.Add(entity);
         await _context.SaveChangesAsync();
@@ -45,6 +48,9 @@ public class TouristPlaceService : ITouristPlaceService
 
         if (await _context.TouristPlaces.AnyAsync(tp => tp.Name == touristPlaceRequest.Name && tp.Id != id))
             return new NotFound("The tourist place with same name already exists");
+
+        if (await _context.Cities.AnyAsync(c => c.Id == touristPlace.CityId))
+            return new NotFound("The city not found");
 
         var newTouristPlace = touristPlaceRequest.TouristPlace(touristPlace);
         newTouristPlace.Id = id;
