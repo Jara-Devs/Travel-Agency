@@ -11,20 +11,22 @@ namespace Travel_Agency_Logic.Reserves;
 
 public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 : Reserve where T2 : Payment
 {
-    private readonly TravelAgencyContext _context;
+    protected readonly TravelAgencyContext Context;
 
     public ReserveService(TravelAgencyContext context)
     {
-        _context = context;
+        Context = context;
     }
 
     public async Task<ApiResponse<IdResponse>> CreateReserve(ReserveRequest<T1, T2> request, UserBasic userBasic)
     {
-        if (!CheckPermissions(userBasic))
-            return new Unauthorized<IdResponse>("You don't have permissions");
-
-        var package = await _context.Packages.Include(x => x.FlightOffers).Include(x => x.HotelOffers)
+        var package = await Context.Packages
+            .Include(x => x.FlightOffers)
+            .ThenInclude(o => o.Reserves)
+            .Include(x => x.HotelOffers)
+            .ThenInclude(o => o.Reserves)
             .Include(x => x.ExcursionOffers)
+            .ThenInclude(o => o.Reserves)
             .FirstOrDefaultAsync(request.IsSingleOffer
                 ? p => p.IsSingleOffer &&
                        (p.HotelOffers.Any(o => o.Id == request.Id) ||
@@ -34,7 +36,11 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         if (package is null)
             return new NotFound<IdResponse>("Package not found");
 
-        if (!await CheckAvailability(package, request.UserIdentities.Count))
+        if (!await CheckPermissions(userBasic, package))
+            return new Unauthorized<IdResponse>("You don't have permissions");
+
+
+        if (!CheckAvailability(package, request.UserIdentities.Count))
             return new BadRequest<IdResponse>("There is no availability for this package");
 
         if (!Helpers.ValidDate(package.StartDate()))
@@ -43,38 +49,35 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         var price = package.Price();
 
         var payment = request.Payment(price);
-        _context.Set<T2>().Add(payment);
-        await _context.SaveChangesAsync();
+        Context.Set<T2>().Add(payment);
+        await Context.SaveChangesAsync();
 
         var reserve = request.Reserve(package.Id, payment.Id, userBasic.Id);
         AddOffers(package, reserve);
 
-        _context.Set<T1>().Add(reserve);
-        await _context.SaveChangesAsync();
+        Context.Set<T1>().Add(reserve);
+        await Context.SaveChangesAsync();
 
         return new ApiResponse<IdResponse>(new IdResponse { Id = reserve.Id });
     }
 
-    private async Task<bool> CheckAvailability(Package package, int cant)
+    private bool CheckAvailability(Package package, int cant)
     {
         foreach (var offer in package.HotelOffers)
         {
-            var count = await _context.Reserves.Where(r => r.Package.HotelOffers
-                .Select(o => o.Id).Contains(offer.Id)).CountAsync();
+            var count = offer.Reserves.Sum(x => x.Cant);
             if (count + cant > offer.Availability) return false;
         }
 
         foreach (var offer in package.ExcursionOffers)
         {
-            var count = await _context.Reserves.Where(r => r.Package.ExcursionOffers
-                .Select(o => o.Id).Contains(offer.Id)).CountAsync();
+            var count = offer.Reserves.Sum(x => x.Cant);
             if (count + cant > offer.Availability) return false;
         }
 
         foreach (var offer in package.FlightOffers)
         {
-            var count = await _context.Reserves.Where(r => r.Package.FlightOffers
-                .Select(o => o.Id).Contains(offer.Id)).CountAsync();
+            var count = offer.Reserves.Sum(x => x.Cant);
             if (count + cant > offer.Availability) return false;
         }
 
@@ -91,5 +94,5 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
             reserve.Offers.Add(offer);
     }
 
-    internal abstract bool CheckPermissions(UserBasic user);
+    internal abstract Task<bool> CheckPermissions(UserBasic user, Package package);
 }

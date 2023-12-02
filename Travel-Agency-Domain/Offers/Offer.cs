@@ -23,6 +23,7 @@ public class Offer : Entity
         Type = type;
         Facilities = new List<Facility>();
         Reactions = new List<Reaction>();
+        Reserves = new List<Reserve>();
     }
 
     public string Name { get; set; }

@@ -1,5 +1,6 @@
 using Travel_Agency_Core;
 using Travel_Agency_DataBase;
+using Travel_Agency_Domain.Packages;
 using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_Logic.Reserves;
@@ -10,8 +11,8 @@ public class ReserveTouristService : ReserveService<ReserveTourist, PaymentOnlin
     {
     }
 
-    internal override bool CheckPermissions(UserBasic user)
+    internal override Task<bool> CheckPermissions(UserBasic user, Package _)
     {
-        return user.Role == Roles.Tourist;
+        return Task.FromResult(user.Role == Roles.Tourist);
     }
 }

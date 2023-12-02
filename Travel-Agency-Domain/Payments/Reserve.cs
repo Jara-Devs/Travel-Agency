@@ -16,6 +16,7 @@ public class Reserve : Entity
         PackageId = packageId;
         UserIdentities = userIdentities;
         Offers = new List<Offer>();
+        Cant = userIdentities.Count;
     }
 
     public Guid UserId { get; set; }
@@ -25,6 +26,8 @@ public class Reserve : Entity
     public Guid PackageId { get; set; }
 
     public Package Package { get; set; } = null!;
+
+    public int Cant { get; set; }
 
     public ICollection<UserIdentity> UserIdentities { get; set; } = null!;
 
