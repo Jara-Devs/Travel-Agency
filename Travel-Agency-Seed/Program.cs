@@ -32,13 +32,13 @@ static async Task SeedDatabase(TravelAgencyContext context)
     var tourist = new TouristSeeder();
     var userAgency = new UsersAgencySeeder();
 
-    var touristPlace = new TouristPlaceSeeder();
-    var touristActivity = new TouristActivitySeeder();
-    var hotel = new HotelSeeder();
-    var excursion = new ExcursionSeeder();
-    var flight = new FlightSeeder();
-    var facility = new FacilitySeeder();
-    var city = new CitySeeder();
+    // var touristPlace = new TouristPlaceSeeder();
+    // var touristActivity = new TouristActivitySeeder();
+    // var hotel = new HotelSeeder();
+    // var excursion = new ExcursionSeeder();
+    // var flight = new FlightSeeder();
+    // var facility = new FacilitySeeder();
+    // var city = new CitySeeder();
 
     // Execute
     await image.Execute(context);
@@ -47,11 +47,11 @@ static async Task SeedDatabase(TravelAgencyContext context)
     await tourist.Execute(context);
     await userAgency.Execute(context);
 
-    await touristPlace.Execute(context);
-    await touristActivity.Execute(context);
-    await hotel.Execute(context);
-    await flight.Execute(context);
-    await excursion.Execute(context);
-    await facility.Execute(context);
-    await city.Execute(context);
+    // await touristPlace.Execute(context);
+    // await touristActivity.Execute(context);
+    // await hotel.Execute(context);
+    // await flight.Execute(context);
+    // await excursion.Execute(context);
+    // await facility.Execute(context);
+    // await city.Execute(context);
 }

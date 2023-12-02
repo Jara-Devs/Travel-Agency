@@ -1,4 +1,3 @@
-using Travel_Agency_Domain;
 using Travel_Agency_Domain.Payments;
 
 namespace Travel_Agency_Logic.Request;
@@ -18,7 +17,7 @@ public abstract class ReserveRequest<T1, T2> where T1 : Reserve where T2 : Payme
 
 public class ReserveTouristRequest : ReserveRequest<ReserveTourist, PaymentOnline>
 {
-    public long CreditCard { get; set; }
+    public string CreditCard { get; set; } = null!;
 
     public override PaymentOnline Payment(Guid userIdentity, double price)
     {

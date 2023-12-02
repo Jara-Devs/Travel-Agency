@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -7,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Travel_Agency_DataBase.Migrations
 {
     /// <inheritdoc />
-    public partial class cambiandoaguid : Migration
+    public partial class useridentity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,6 +26,37 @@ namespace Travel_Agency_DataBase.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Agencies", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Cities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Country = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cities", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Facilities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Type = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Facilities", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -51,9 +81,12 @@ namespace Travel_Agency_DataBase.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Discount = table.Column<double>(type: "double", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsSingleOffer = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,51 +95,67 @@ namespace Travel_Agency_DataBase.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Payments",
+                name: "UserIdentities",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Price = table.Column<double>(type: "double", nullable: false),
-                    UserIdentity_Name = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserIdentity_IdentityDocument = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreditCard = table.Column<long>(type: "bigint", nullable: true)
+                    IdentityDocument = table.Column<long>(type: "bigint", nullable: false),
+                    Nationality = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.PrimaryKey("PK_UserIdentities", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Flights",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    Company = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Role = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Nationality = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    AgencyId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    Duration = table.Column<long>(type: "bigint", nullable: false),
+                    OriginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DestinationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Flights", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Agencies_AgencyId",
-                        column: x => x.AgencyId,
-                        principalTable: "Agencies",
+                        name: "FK_Flights_Cities_DestinationId",
+                        column: x => x.DestinationId,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Flights_Cities_OriginId",
+                        column: x => x.OriginId,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Excursions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Excursions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Excursions_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -144,17 +193,20 @@ namespace Travel_Agency_DataBase.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Address_Country = table.Column<string>(type: "longtext", nullable: false)
+                    Address = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Address_City = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Address_Description = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ImageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TouristPlaces", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TouristPlaces_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TouristPlaces_Images_ImageId",
                         column: x => x.ImageId,
@@ -165,152 +217,59 @@ namespace Travel_Agency_DataBase.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Reserves",
+                name: "Payments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    PackageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Price = table.Column<double>(type: "double", nullable: false),
+                    UserIdentityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Discriminator = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PaymentId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    ReserveTourist_PaymentId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    CreditCard = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reserves", x => x.Id);
+                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reserves_Packages_PackageId",
-                        column: x => x.PackageId,
-                        principalTable: "Packages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reserves_Payments_PaymentId",
-                        column: x => x.PaymentId,
-                        principalTable: "Payments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reserves_Payments_ReserveTourist_PaymentId",
-                        column: x => x.ReserveTourist_PaymentId,
-                        principalTable: "Payments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reserves_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_Payments_UserIdentities_UserIdentityId",
+                        column: x => x.UserIdentityId,
+                        principalTable: "UserIdentities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Flights",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Company = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Duration = table.Column<long>(type: "bigint", nullable: false),
-                    OriginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    DestinationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Flights", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Flights_TouristPlaces_DestinationId",
-                        column: x => x.DestinationId,
-                        principalTable: "TouristPlaces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Flights_TouristPlaces_OriginId",
-                        column: x => x.OriginId,
-                        principalTable: "TouristPlaces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Hotels",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Category = table.Column<int>(type: "int", nullable: false),
-                    TouristPlaceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ImageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Hotels", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Hotels_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Hotels_TouristPlaces_TouristPlaceId",
-                        column: x => x.TouristPlaceId,
-                        principalTable: "TouristPlaces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Reserves_UserIdentities",
-                columns: table => new
-                {
-                    ReserveId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdentityDocument = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    Email = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Password = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Role = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserIdentityId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    AgencyId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reserves_UserIdentities", x => new { x.ReserveId, x.Id });
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reserves_UserIdentities_Reserves_ReserveId",
-                        column: x => x.ReserveId,
-                        principalTable: "Reserves",
+                        name: "FK_Users_Agencies_AgencyId",
+                        column: x => x.AgencyId,
+                        principalTable: "Agencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Excursions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsOverNight = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    HotelId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    ImageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Excursions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Excursions_Hotels_HotelId",
-                        column: x => x.HotelId,
-                        principalTable: "Hotels",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Excursions_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
+                        name: "FK_Users_UserIdentities_UserIdentityId",
+                        column: x => x.UserIdentityId,
+                        principalTable: "UserIdentities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -367,6 +326,96 @@ namespace Travel_Agency_DataBase.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Hotels",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    TouristPlaceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ImageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hotels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Hotels_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Hotels_TouristPlaces_TouristPlaceId",
+                        column: x => x.TouristPlaceId,
+                        principalTable: "TouristPlaces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Reserves",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Cant = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PaymentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PackageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reserves", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reserves_Packages_PackageId",
+                        column: x => x.PackageId,
+                        principalTable: "Packages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reserves_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reserves_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ExcursionHotel",
+                columns: table => new
+                {
+                    HotelsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    OverNightExcursionsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExcursionHotel", x => new { x.HotelsId, x.OverNightExcursionsId });
+                    table.ForeignKey(
+                        name: "FK_ExcursionHotel_Excursions_OverNightExcursionsId",
+                        column: x => x.OverNightExcursionsId,
+                        principalTable: "Excursions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExcursionHotel_Hotels_HotelsId",
+                        column: x => x.HotelsId,
+                        principalTable: "Hotels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Offers",
                 columns: table => new
                 {
@@ -385,18 +434,18 @@ namespace Travel_Agency_DataBase.Migrations
                     Discriminator = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ExcursionId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    ExcursionOffer_Facilities = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     FlightId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    FlightOffer_Facilities = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    HotelId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    Facilities = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    HotelId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Offers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Offers_Agencies_AgencyId",
+                        column: x => x.AgencyId,
+                        principalTable: "Agencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Offers_Excursions_ExcursionId",
                         column: x => x.ExcursionId,
@@ -425,25 +474,150 @@ namespace Travel_Agency_DataBase.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "OfferPackage",
+                name: "ReserveUserIdentity",
                 columns: table => new
                 {
-                    OffersId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ReservesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserIdentitiesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReserveUserIdentity", x => new { x.ReservesId, x.UserIdentitiesId });
+                    table.ForeignKey(
+                        name: "FK_ReserveUserIdentity_Reserves_ReservesId",
+                        column: x => x.ReservesId,
+                        principalTable: "Reserves",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReserveUserIdentity_UserIdentities_UserIdentitiesId",
+                        column: x => x.UserIdentitiesId,
+                        principalTable: "UserIdentities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ExcursionOfferPackage",
+                columns: table => new
+                {
+                    ExcursionOffersId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     PackagesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OfferPackage", x => new { x.OffersId, x.PackagesId });
+                    table.PrimaryKey("PK_ExcursionOfferPackage", x => new { x.ExcursionOffersId, x.PackagesId });
                     table.ForeignKey(
-                        name: "FK_OfferPackage_Offers_OffersId",
+                        name: "FK_ExcursionOfferPackage_Offers_ExcursionOffersId",
+                        column: x => x.ExcursionOffersId,
+                        principalTable: "Offers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExcursionOfferPackage_Packages_PackagesId",
+                        column: x => x.PackagesId,
+                        principalTable: "Packages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "FacilityOffer",
+                columns: table => new
+                {
+                    FacilitiesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    OffersId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FacilityOffer", x => new { x.FacilitiesId, x.OffersId });
+                    table.ForeignKey(
+                        name: "FK_FacilityOffer_Facilities_FacilitiesId",
+                        column: x => x.FacilitiesId,
+                        principalTable: "Facilities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FacilityOffer_Offers_OffersId",
+                        column: x => x.OffersId,
+                        principalTable: "Offers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "FlightOfferPackage",
+                columns: table => new
+                {
+                    FlightOffersId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PackagesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlightOfferPackage", x => new { x.FlightOffersId, x.PackagesId });
+                    table.ForeignKey(
+                        name: "FK_FlightOfferPackage_Offers_FlightOffersId",
+                        column: x => x.FlightOffersId,
+                        principalTable: "Offers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FlightOfferPackage_Packages_PackagesId",
+                        column: x => x.PackagesId,
+                        principalTable: "Packages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "HotelOfferPackage",
+                columns: table => new
+                {
+                    HotelOffersId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PackagesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelOfferPackage", x => new { x.HotelOffersId, x.PackagesId });
+                    table.ForeignKey(
+                        name: "FK_HotelOfferPackage_Offers_HotelOffersId",
+                        column: x => x.HotelOffersId,
+                        principalTable: "Offers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HotelOfferPackage_Packages_PackagesId",
+                        column: x => x.PackagesId,
+                        principalTable: "Packages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "OfferReserve",
+                columns: table => new
+                {
+                    OffersId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ReservesId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OfferReserve", x => new { x.OffersId, x.ReservesId });
+                    table.ForeignKey(
+                        name: "FK_OfferReserve_Offers_OffersId",
                         column: x => x.OffersId,
                         principalTable: "Offers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OfferPackage_Packages_PackagesId",
-                        column: x => x.PackagesId,
-                        principalTable: "Packages",
+                        name: "FK_OfferReserve_Reserves_ReservesId",
+                        column: x => x.ReservesId,
+                        principalTable: "Reserves",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -489,9 +663,26 @@ namespace Travel_Agency_DataBase.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Excursions_HotelId",
-                table: "Excursions",
-                column: "HotelId");
+                name: "IX_Cities_Id",
+                table: "Cities",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cities_Name_Country",
+                table: "Cities",
+                columns: new[] { "Name", "Country" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExcursionHotel_OverNightExcursionsId",
+                table: "ExcursionHotel",
+                column: "OverNightExcursionsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExcursionOfferPackage_PackagesId",
+                table: "ExcursionOfferPackage",
+                column: "PackagesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Excursions_Id",
@@ -521,6 +712,28 @@ namespace Travel_Agency_DataBase.Migrations
                 column: "PlacesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Facilities_Id",
+                table: "Facilities",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Facilities_Name",
+                table: "Facilities",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FacilityOffer_OffersId",
+                table: "FacilityOffer",
+                column: "OffersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlightOfferPackage_PackagesId",
+                table: "FlightOfferPackage",
+                column: "PackagesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Flights_DestinationId",
                 table: "Flights",
                 column: "DestinationId");
@@ -535,6 +748,11 @@ namespace Travel_Agency_DataBase.Migrations
                 name: "IX_Flights_OriginId",
                 table: "Flights",
                 column: "OriginId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotelOfferPackage_PackagesId",
+                table: "HotelOfferPackage",
+                column: "PackagesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hotels_Id",
@@ -571,9 +789,14 @@ namespace Travel_Agency_DataBase.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_OfferPackage_PackagesId",
-                table: "OfferPackage",
-                column: "PackagesId");
+                name: "IX_OfferReserve_ReservesId",
+                table: "OfferReserve",
+                column: "ReservesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Offers_AgencyId",
+                table: "Offers",
+                column: "AgencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Offers_ExcursionId",
@@ -614,6 +837,11 @@ namespace Travel_Agency_DataBase.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_UserIdentityId",
+                table: "Payments",
+                column: "UserIdentityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reactions_Id",
                 table: "Reactions",
                 column: "Id",
@@ -647,14 +875,14 @@ namespace Travel_Agency_DataBase.Migrations
                 column: "PaymentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reserves_ReserveTourist_PaymentId",
-                table: "Reserves",
-                column: "ReserveTourist_PaymentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reserves_UserId",
                 table: "Reserves",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReserveUserIdentity_UserIdentitiesId",
+                table: "ReserveUserIdentity",
+                column: "UserIdentitiesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TouristActivities_Id",
@@ -674,6 +902,11 @@ namespace Travel_Agency_DataBase.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_TouristPlaces_CityId",
+                table: "TouristPlaces",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TouristPlaces_Id",
                 table: "TouristPlaces",
                 column: "Id",
@@ -687,6 +920,18 @@ namespace Travel_Agency_DataBase.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_TouristPlaces_Name",
                 table: "TouristPlaces",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserIdentities_Id",
+                table: "UserIdentities",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserIdentities_Name",
+                table: "UserIdentities",
                 column: "Name",
                 unique: true);
 
@@ -706,11 +951,23 @@ namespace Travel_Agency_DataBase.Migrations
                 table: "Users",
                 column: "Id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserIdentityId",
+                table: "Users",
+                column: "UserIdentityId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ExcursionHotel");
+
+            migrationBuilder.DropTable(
+                name: "ExcursionOfferPackage");
+
             migrationBuilder.DropTable(
                 name: "ExcursionTouristActivity");
 
@@ -718,16 +975,28 @@ namespace Travel_Agency_DataBase.Migrations
                 name: "ExcursionTouristPlace");
 
             migrationBuilder.DropTable(
-                name: "OfferPackage");
+                name: "FacilityOffer");
+
+            migrationBuilder.DropTable(
+                name: "FlightOfferPackage");
+
+            migrationBuilder.DropTable(
+                name: "HotelOfferPackage");
+
+            migrationBuilder.DropTable(
+                name: "OfferReserve");
 
             migrationBuilder.DropTable(
                 name: "Reactions");
 
             migrationBuilder.DropTable(
-                name: "Reserves_UserIdentities");
+                name: "ReserveUserIdentity");
 
             migrationBuilder.DropTable(
                 name: "TouristActivities");
+
+            migrationBuilder.DropTable(
+                name: "Facilities");
 
             migrationBuilder.DropTable(
                 name: "Offers");
@@ -742,6 +1011,9 @@ namespace Travel_Agency_DataBase.Migrations
                 name: "Flights");
 
             migrationBuilder.DropTable(
+                name: "Hotels");
+
+            migrationBuilder.DropTable(
                 name: "Packages");
 
             migrationBuilder.DropTable(
@@ -751,13 +1023,16 @@ namespace Travel_Agency_DataBase.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Hotels");
+                name: "TouristPlaces");
 
             migrationBuilder.DropTable(
                 name: "Agencies");
 
             migrationBuilder.DropTable(
-                name: "TouristPlaces");
+                name: "UserIdentities");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Images");

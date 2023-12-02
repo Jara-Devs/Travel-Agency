@@ -91,14 +91,14 @@ public class FlightService : IFlightService
     {
         if (flight.OriginId == flight.DestinationId)
             return new BadRequest("Origin and destination can't be the same");
-        var origin = await _context.TouristPlaces.FindAsync(flight.OriginId);
+        var origin = await _context.Cities.FindAsync(flight.OriginId);
         if (origin is null)
             return new NotFound("Origin not found");
-        var destination = await _context.TouristPlaces.FindAsync(flight.DestinationId);
+        var destination = await _context.Cities.FindAsync(flight.DestinationId);
         if (destination is null)
             return new NotFound("Destination not found");
-        if (flight.Duration < 0)
-            return new BadRequest("Duration can't be negative");
+        if (flight.Duration <= 0)
+            return new BadRequest("Duration can't be less than 0");
 
         return new ApiResponse();
     }

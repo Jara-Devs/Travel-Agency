@@ -139,6 +139,21 @@ namespace Travel_Agency_DataBase.Migrations
                     b.ToTable("OfferReserve");
                 });
 
+            modelBuilder.Entity("ReserveUserIdentity", b =>
+                {
+                    b.Property<Guid>("ReservesId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserIdentitiesId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("ReservesId", "UserIdentitiesId");
+
+                    b.HasIndex("UserIdentitiesId");
+
+                    b.ToTable("ReserveUserIdentity");
+                });
+
             modelBuilder.Entity("Travel_Agency_Domain.Agency", b =>
                 {
                     b.Property<Guid>("Id")
@@ -161,6 +176,36 @@ namespace Travel_Agency_DataBase.Migrations
                         .IsUnique();
 
                     b.ToTable("Agencies");
+                });
+
+            modelBuilder.Entity("Travel_Agency_Domain.City", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("Name", "Country")
+                        .IsUnique();
+
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Travel_Agency_Domain.Images.Image", b =>
@@ -284,10 +329,15 @@ namespace Travel_Agency_DataBase.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("double");
 
+                    b.Property<Guid>("UserIdentityId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
+
+                    b.HasIndex("UserIdentityId");
 
                     b.ToTable("Payments");
 
@@ -511,6 +561,13 @@ namespace Travel_Agency_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("CityId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -524,6 +581,8 @@ namespace Travel_Agency_DataBase.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.HasIndex("Id")
                         .IsUnique();
 
@@ -533,6 +592,35 @@ namespace Travel_Agency_DataBase.Migrations
                         .IsUnique();
 
                     b.ToTable("TouristPlaces");
+                });
+
+            modelBuilder.Entity("Travel_Agency_Domain.UserIdentity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("IdentityDocument")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("UserIdentities");
                 });
 
             modelBuilder.Entity("Travel_Agency_Domain.Users.User", b =>
@@ -616,8 +704,9 @@ namespace Travel_Agency_DataBase.Migrations
                 {
                     b.HasBaseType("Travel_Agency_Domain.Payments.Payment");
 
-                    b.Property<long>("CreditCard")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CreditCard")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasDiscriminator().HasValue("PaymentOnline");
                 });
@@ -655,9 +744,11 @@ namespace Travel_Agency_DataBase.Migrations
                 {
                     b.HasBaseType("Travel_Agency_Domain.Users.User");
 
-                    b.Property<string>("Nationality")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<Guid>("UserIdentityId")
+                        .HasColumnType("char(36)");
+
+                    b.HasIndex("UserIdentityId")
+                        .IsUnique();
 
                     b.HasDiscriminator().HasValue("Tourist");
                 });
@@ -794,6 +885,32 @@ namespace Travel_Agency_DataBase.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ReserveUserIdentity", b =>
+                {
+                    b.HasOne("Travel_Agency_Domain.Payments.Reserve", null)
+                        .WithMany()
+                        .HasForeignKey("ReservesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Travel_Agency_Domain.UserIdentity", null)
+                        .WithMany()
+                        .HasForeignKey("UserIdentitiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Travel_Agency_Domain.City", b =>
+                {
+                    b.HasOne("Travel_Agency_Domain.Images.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
+                });
+
             modelBuilder.Entity("Travel_Agency_Domain.Offers.Offer", b =>
                 {
                     b.HasOne("Travel_Agency_Domain.Agency", "Agency")
@@ -815,29 +932,13 @@ namespace Travel_Agency_DataBase.Migrations
 
             modelBuilder.Entity("Travel_Agency_Domain.Payments.Payment", b =>
                 {
-                    b.OwnsOne("Travel_Agency_Domain.Others.UserIdentity", "UserIdentity", b1 =>
-                        {
-                            b1.Property<Guid>("PaymentId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<string>("IdentityDocument")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.HasKey("PaymentId");
-
-                            b1.ToTable("Payments");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PaymentId");
-                        });
-
-                    b.Navigation("UserIdentity")
+                    b.HasOne("Travel_Agency_Domain.UserIdentity", "UserIdentity")
+                        .WithMany()
+                        .HasForeignKey("UserIdentityId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("UserIdentity");
                 });
 
             modelBuilder.Entity("Travel_Agency_Domain.Payments.Reserve", b =>
@@ -848,34 +949,7 @@ namespace Travel_Agency_DataBase.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("Travel_Agency_Domain.Others.UserIdentity", "UserIdentities", b1 =>
-                        {
-                            b1.Property<Guid>("ReserveId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            b1.Property<string>("IdentityDocument")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.HasKey("ReserveId", "Id");
-
-                            b1.ToTable("Reserves_UserIdentities");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ReserveId");
-                        });
-
                     b.Navigation("Package");
-
-                    b.Navigation("UserIdentities");
                 });
 
             modelBuilder.Entity("Travel_Agency_Domain.Reactions.Reaction", b =>
@@ -910,13 +984,13 @@ namespace Travel_Agency_DataBase.Migrations
 
             modelBuilder.Entity("Travel_Agency_Domain.Services.Flight", b =>
                 {
-                    b.HasOne("Travel_Agency_Domain.Services.TouristPlace", "Destination")
+                    b.HasOne("Travel_Agency_Domain.City", "Destination")
                         .WithMany("DestinationFlights")
                         .HasForeignKey("DestinationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Travel_Agency_Domain.Services.TouristPlace", "Origin")
+                    b.HasOne("Travel_Agency_Domain.City", "Origin")
                         .WithMany("OriginFlights")
                         .HasForeignKey("OriginId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -959,39 +1033,19 @@ namespace Travel_Agency_DataBase.Migrations
 
             modelBuilder.Entity("Travel_Agency_Domain.Services.TouristPlace", b =>
                 {
+                    b.HasOne("Travel_Agency_Domain.City", "City")
+                        .WithMany("TouristPlaces")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Travel_Agency_Domain.Images.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Travel_Agency_Domain.Others.Address", "Address", b1 =>
-                        {
-                            b1.Property<Guid>("TouristPlaceId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.HasKey("TouristPlaceId");
-
-                            b1.ToTable("TouristPlaces");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TouristPlaceId");
-                        });
-
-                    b.Navigation("Address")
-                        .IsRequired();
+                    b.Navigation("City");
 
                     b.Navigation("Image");
                 });
@@ -1067,6 +1121,17 @@ namespace Travel_Agency_DataBase.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Travel_Agency_Domain.Users.Tourist", b =>
+                {
+                    b.HasOne("Travel_Agency_Domain.UserIdentity", "UserIdentity")
+                        .WithOne()
+                        .HasForeignKey("Travel_Agency_Domain.Users.Tourist", "UserIdentityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserIdentity");
+                });
+
             modelBuilder.Entity("Travel_Agency_Domain.Users.UserAgency", b =>
                 {
                     b.HasOne("Travel_Agency_Domain.Agency", "Agency")
@@ -1081,6 +1146,15 @@ namespace Travel_Agency_DataBase.Migrations
             modelBuilder.Entity("Travel_Agency_Domain.Agency", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Travel_Agency_Domain.City", b =>
+                {
+                    b.Navigation("DestinationFlights");
+
+                    b.Navigation("OriginFlights");
+
+                    b.Navigation("TouristPlaces");
                 });
 
             modelBuilder.Entity("Travel_Agency_Domain.Offers.Offer", b =>
@@ -1110,11 +1184,7 @@ namespace Travel_Agency_DataBase.Migrations
 
             modelBuilder.Entity("Travel_Agency_Domain.Services.TouristPlace", b =>
                 {
-                    b.Navigation("DestinationFlights");
-
                     b.Navigation("Hotels");
-
-                    b.Navigation("OriginFlights");
                 });
 
             modelBuilder.Entity("Travel_Agency_Domain.Payments.PaymentOnline", b =>

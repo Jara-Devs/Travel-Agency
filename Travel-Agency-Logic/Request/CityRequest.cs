@@ -8,11 +8,14 @@ public class CityRequest
 
     public string Country { get; set; } = null!;
 
+    public Guid ImageId { get; set; }
+
     public City City(City? city = null)
     {
-        city ??= new City(Name, Country);
+        city ??= new City(Name, Country, ImageId);
         city.Name = Name;
         city.Country = Country;
+        city.ImageId = ImageId;
 
         return city;
     }

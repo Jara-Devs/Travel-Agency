@@ -4,6 +4,10 @@
     "email": "raudel@matcom.com",
     "password": "123456",
     "role": "Tourist",
-    "nationality": "cuban"
+    "userIdentity": {
+      "name": "Raudel Alejandro Gomez Molina",
+      "identityDocument": 123456789,
+      "nationality": "cuban"
+    }
   }
 ]

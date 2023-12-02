@@ -8,6 +8,6 @@ public class PaymentConfiguration : EntityConfiguration<Payment>
 {
     public override void ConfigureEntity(EntityTypeBuilder<Payment> builder)
     {
-        builder.OwnsOne(p => p.UserIdentity);
+        builder.HasOne(p => p.UserIdentity).WithMany().HasForeignKey(p => p.UserIdentityId);
     }
 }

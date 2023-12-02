@@ -6,7 +6,7 @@ namespace Travel_Agency_Domain;
 public class UserIdentity : Entity
 
 {
-    public UserIdentity(string name, long identityDocument, string nationality)
+    public UserIdentity(string name, string identityDocument, string nationality)
     {
         Name = name;
         IdentityDocument = identityDocument;
@@ -14,7 +14,7 @@ public class UserIdentity : Entity
     }
 
     public string Name { get; set; }
-    public long IdentityDocument { get; set; }
+    public string IdentityDocument { get; set; }
 
     public string Nationality { get; set; }
 

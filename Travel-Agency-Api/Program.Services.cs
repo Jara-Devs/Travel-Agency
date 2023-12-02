@@ -45,6 +45,7 @@ public static class ProgramServices
         services.AddScoped<IQueryEntity<TouristActivity>, PublicQuery<TouristActivity>>();
         services.AddScoped<IQueryEntity<Facility>, PublicQuery<Facility>>();
         services.AddScoped<IQueryEntity<TouristPlace>, PublicQuery<TouristPlace>>();
+        services.AddScoped<IQueryEntity<City>, PublicQuery<City>>();
 
         services.AddScoped<IQueryEntity<ExcursionOffer>, PublicQuery<ExcursionOffer>>();
         services.AddScoped<IQueryEntity<HotelOffer>, PublicQuery<HotelOffer>>();

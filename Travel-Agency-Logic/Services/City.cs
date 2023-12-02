@@ -39,7 +39,7 @@ public class CityService : ICityService
         var city = await _context.Cities.FindAsync(id);
         if (city is null) return new NotFound("City not found");
 
-        if (!await _context.Cities.AnyAsync(c =>
+        if (await _context.Cities.AnyAsync(c =>
                 c.Id != id && c.Name == cityRequest.Name && c.Country == cityRequest.Country))
             return new BadRequest("The city with same name and country already exists");
 
