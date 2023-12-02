@@ -13,7 +13,6 @@ namespace Travel_Agency_Api.Controllers.Reserves;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles = Roles.Tourist)]
 public class ReserveTouristController : TravelAgencyController
 {
     private readonly IQueryEntity<ReserveTourist> _query;
@@ -27,7 +26,7 @@ public class ReserveTouristController : TravelAgencyController
     }
 
     [HttpGet]
-    [AllowAnonymous]
+    [Authorize(Policy = Policies.ReserveTouristAgency)]
     public async Task<IActionResult> Get(ODataQueryOptions<ReserveTourist> options)
     {
         var user = GetUser().Value!;
@@ -37,7 +36,7 @@ public class ReserveTouristController : TravelAgencyController
     }
 
     [HttpGet("{key}")]
-    [AllowAnonymous]
+    [Authorize(Policy = Policies.ReserveTouristAgency)]
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<ReserveTourist> options)
     {
         var user = GetUser().Value!;
@@ -48,6 +47,7 @@ public class ReserveTouristController : TravelAgencyController
 
 
     [HttpPost]
+    [Authorize(Roles = Roles.Tourist)]
     public async Task<IActionResult> CreateReserveTourist([FromBody] ReserveTouristRequest reserveTourist)
     {
         var user = GetUser().Value;

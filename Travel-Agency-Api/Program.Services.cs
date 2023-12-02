@@ -9,6 +9,7 @@ using Travel_Agency_Core;
 using Travel_Agency_DataBase;
 using Travel_Agency_DataBase.Core;
 using Travel_Agency_DataBase.Queries;
+using Travel_Agency_DataBase.Queries.Reserves;
 using Travel_Agency_DataBase.Queries.Users;
 using Travel_Agency_Domain.Images;
 using Travel_Agency_Domain.Offers;
@@ -130,6 +131,9 @@ public static class ProgramServices
         service.AddAuthorization(options =>
             options.AddPolicy(Policies.AgencyEmployee,
                 policy => policy.RequireRole(Roles.AdminAgency, Roles.ManagerAgency, Roles.EmployeeAgency)));
+        service.AddAuthorization(options =>
+            options.AddPolicy(Policies.ReserveTouristAgency,
+                policy => policy.RequireRole(Roles.AdminAgency, Roles.ManagerAgency, Roles.Tourist)));
     }
 
     private static IEdmModel GetEdmModel()
