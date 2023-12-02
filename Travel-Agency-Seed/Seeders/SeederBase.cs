@@ -31,4 +31,10 @@ public abstract class SeederBase<TData> where TData : Entity
     }
 
     protected abstract Task ConfigureSeed(TravelAgencyContext dbContext);
+
+    protected async Task SingleData(TravelAgencyContext dbContext)
+    {
+        dbContext.Set<TData>().AddRange(Data);
+        await dbContext.SaveChangesAsync();
+    }
 }

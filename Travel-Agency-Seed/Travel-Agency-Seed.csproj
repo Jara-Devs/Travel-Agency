@@ -19,8 +19,4 @@
       <ProjectReference Include="..\Travel-Agency-DataBase\Travel-Agency-DataBase.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Seeders\Services\" />
-    </ItemGroup>
-
 </Project>

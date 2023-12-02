@@ -1,11 +1,11 @@
 using Travel_Agency_DataBase;
-using Travel_Agency_Domain.Images;
+using Travel_Agency_Domain;
 
 namespace Travel_Agency_Seed.Seeders;
 
-public class ImageSeeder : SeederBase<Image>
+public class AgencySeeder : SeederBase<Agency>
 {
-    public ImageSeeder() : base("image")
+    public AgencySeeder() : base("agency")
     {
     }
 
