@@ -38,6 +38,7 @@ static async Task SeedDatabase(TravelAgencyContext context)
     var excursion = new ExcursionSeeder();
     var flight = new FlightSeeder();
     var facility = new FacilitySeeder();
+    var city = new CitySeeder();
 
     // Execute
     await image.Execute(context);
@@ -52,4 +53,5 @@ static async Task SeedDatabase(TravelAgencyContext context)
     await flight.Execute(context);
     await excursion.Execute(context);
     await facility.Execute(context);
+    await city.Execute(context);
 }
