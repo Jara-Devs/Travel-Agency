@@ -6,7 +6,8 @@ namespace Travel_Agency_Logic.Core;
 
 public interface IPackageService
 {
-    Task<ApiResponse<IdResponse>> CreatePackage(PackageRequest request, UserBasic userBasic);
+    Task<ApiResponse<IdResponse>>
+        CreatePackage(PackageRequest request, UserBasic userBasic, bool isSingleOffer = false);
 
     Task<ApiResponse> UpdatePackage(Guid id, PackageRequest request, UserBasic userBasic);
 

@@ -20,8 +20,9 @@ public class UserAgencyQuery : IQueryEntity<UserAgency>
             return new Unauthorized<IQueryable<UserAgency>>("You are not an admin of this agency");
 
         var admin = await _context.UserAgencies.FindAsync(userBasic.Id);
+        if (admin is null) return new NotFound<IQueryable<UserAgency>>("Not found agency");
 
         return new ApiResponse<IQueryable<UserAgency>>(
-            _context.UserAgencies.AsNoTracking().Where(x => x.AgencyId == admin!.AgencyId && x.Id != admin.Id));
+            _context.UserAgencies.AsNoTracking().Where(x => x.AgencyId == admin.AgencyId && x.Id != admin.Id));
     }
 }

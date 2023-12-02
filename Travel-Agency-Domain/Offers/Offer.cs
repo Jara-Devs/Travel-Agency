@@ -1,6 +1,7 @@
 using Travel_Agency_Core;
 using Travel_Agency_Core.Enums;
 using Travel_Agency_Domain.Images;
+using Travel_Agency_Domain.Payments;
 using Travel_Agency_Domain.Reactions;
 using Travel_Agency_Domain.Services;
 
@@ -21,6 +22,8 @@ public class Offer : Entity
         ImageId = imageId;
         Type = type;
         Facilities = new List<Facility>();
+        Reactions = new List<Reaction>();
+        Reserves = new List<Reserve>();
     }
 
     public string Name { get; set; }
@@ -47,5 +50,7 @@ public class Offer : Entity
 
     public ICollection<Facility> Facilities { get; set; }
 
-    public ICollection<Reaction> Reactions { get; set; } = null!;
+    public ICollection<Reaction> Reactions { get; set; }
+
+    public ICollection<Reserve> Reserves { get; set; }
 }

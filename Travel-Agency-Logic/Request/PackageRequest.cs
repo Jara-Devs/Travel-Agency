@@ -16,7 +16,7 @@ public class PackageRequest
 
     public Package Package(Package? package = null)
     {
-        package ??= new Package(Name, Description, Discount);
+        package ??= new Package(Name, Description,  Discount);
         package.Name = Name;
         package.Description = Description;
         package.Discount = Discount;

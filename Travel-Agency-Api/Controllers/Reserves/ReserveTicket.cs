@@ -9,11 +9,10 @@ using Travel_Agency_Domain.Payments;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
 
-namespace Travel_Agency_Api.Controllers.Offers;
+namespace Travel_Agency_Api.Controllers.Reserves;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles.EmployeeAgency)]
 public class ReserveTicketController : TravelAgencyController
 {
     private readonly IQueryEntity<ReserveTicket> _query;
@@ -27,7 +26,7 @@ public class ReserveTicketController : TravelAgencyController
     }
 
     [HttpGet]
-    [AllowAnonymous]
+    [Authorize(Policy = Policies.ReserveTouristAgency)]
     public async Task<IActionResult> Get(ODataQueryOptions<ReserveTicket> options)
     {
         var user = GetUser().Value!;
@@ -37,7 +36,7 @@ public class ReserveTicketController : TravelAgencyController
     }
 
     [HttpGet("{key}")]
-    [AllowAnonymous]
+    [Authorize(Policy = Policies.ReserveTouristAgency)]
     public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<ReserveTicket> options)
     {
         var user = GetUser().Value!;
@@ -48,6 +47,7 @@ public class ReserveTicketController : TravelAgencyController
 
 
     [HttpPost]
+    [Authorize(Policy = Policies.AgencyEmployee)]
     public async Task<IActionResult> CreateReserveTicket([FromBody] ReserveTicketRequest reserveTicket)
     {
         var user = GetUser().Value;

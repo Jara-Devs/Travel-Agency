@@ -18,7 +18,8 @@ public class PackageService : IPackageService
         _context = context;
     }
 
-    public async Task<ApiResponse<IdResponse>> CreatePackage(PackageRequest request, UserBasic userBasic)
+    public async Task<ApiResponse<IdResponse>> CreatePackage(PackageRequest request, UserBasic userBasic,
+        bool isSingleOffer = false)
     {
         var responsePermissions = await CheckPermissions(userBasic);
         if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse<IdResponse>();
@@ -30,6 +31,7 @@ public class PackageService : IPackageService
         if (!response.Ok) return response.ConvertApiResponse<IdResponse>();
 
         var package = response.Value!;
+        package.IsSingleOffer = isSingleOffer;
 
         _context.Packages.Add(package);
         await _context.SaveChangesAsync();
@@ -39,11 +41,12 @@ public class PackageService : IPackageService
 
     public async Task<ApiResponse> UpdatePackage(Guid id, PackageRequest request, UserBasic userBasic)
     {
-        var responsePermissions = await CheckPermissions(userBasic, id);
-        if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse();
-
-        var package = await _context.Packages.FindAsync(id);
+        var package = await _context.Packages.Include(x => x.FlightOffers).Include(x => x.HotelOffers)
+            .Include(x => x.ExcursionOffers).Where(p => p.Id == id).FirstOrDefaultAsync();
         if (package is null) return new NotFound("Package not found");
+
+        var responsePermissions = await CheckPermissions(userBasic, PackageAgencyId(package));
+        if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse();
 
         var inUse = await CheckDependency(id);
         if (!inUse.Ok) return inUse;
@@ -97,13 +100,7 @@ public class PackageService : IPackageService
 
         if (id is null) return new ApiResponse<Guid>(agencyId);
 
-        var package = await _context.Packages.Include(x => x.FlightOffers).Include(x => x.HotelOffers)
-            .Include(x => x.ExcursionOffers).Where(p => p.Id == id).FirstOrDefaultAsync();
-        if (package is null) return new NotFound<Guid>("Package not found");
-
-        return package.HotelOffers.Any(h => h.AgencyId != agencyId)
-               && package.ExcursionOffers.Any(e => e.AgencyId != agencyId
-                                                   && package.FlightOffers.Any(f => f.AgencyId != agencyId))
+        return id == agencyId
             ? new Unauthorized<Guid>("You don't have permissions")
             : new ApiResponse<Guid>(agencyId);
     }
@@ -164,5 +161,11 @@ public class PackageService : IPackageService
         package.FlightOffers = flightOffers;
 
         return new ApiResponse<Package>(package);
+    }
+
+    public static Guid PackageAgencyId(Package package)
+    {
+        return package.HotelOffers.FirstOrDefault()?.Id ?? package.ExcursionOffers.FirstOrDefault()?.Id ??
+            package.FlightOffers.FirstOrDefault()?.Id ?? Guid.Empty;
     }
 }
