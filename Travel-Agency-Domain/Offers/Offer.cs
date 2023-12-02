@@ -50,6 +50,6 @@ public class Offer : Entity
     public ICollection<Facility> Facilities { get; set; }
 
     public ICollection<Reaction> Reactions { get; set; }
-    
+
     public ICollection<Reserve> Reserves { get; set; }
 }

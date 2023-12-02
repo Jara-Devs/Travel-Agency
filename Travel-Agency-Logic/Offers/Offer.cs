@@ -136,6 +136,16 @@ public class OfferService<T> : IOfferService<T> where T : Offer
 
     private async Task<bool> CheckDependency(Guid id)
     {
+        if (await _context.Packages.Include(p => p.HotelOffers).Where(p => !p.IsSingleOffer)
+                .AnyAsync(o => o.Id == id))
+            return false;
+        if (await _context.Packages.Include(p => p.FlightOffers).Where(p => !p.IsSingleOffer)
+                .AnyAsync(o => o.Id == id))
+            return false;
+        if (await _context.Packages.Include(p => p.ExcursionOffers).Where(p => !p.IsSingleOffer)
+                .AnyAsync(o => o.Id == id))
+            return false;
+
         if (await _context.Reserves.Include(r => r.Package).ThenInclude(p => p.HotelOffers)
                 .AnyAsync(r => r.Package.HotelOffers.Select(o => o.Id).Contains(id)))
             return false;
