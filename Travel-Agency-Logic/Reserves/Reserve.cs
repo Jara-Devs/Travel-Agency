@@ -24,7 +24,13 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
             return new Unauthorized<IdResponse>("You don't have permissions");
 
         var package = await _context.Packages.Include(x => x.FlightOffers).Include(x => x.HotelOffers)
-            .Include(x => x.ExcursionOffers).FirstOrDefaultAsync(p => p.Id == request.PackageId);
+            .Include(x => x.ExcursionOffers)
+            .FirstOrDefaultAsync(request.IsSingleOffer
+                ? p => p.IsSingleOffer &&
+                       (p.HotelOffers.Any(o => o.Id == request.Id) ||
+                        p.ExcursionOffers.Any(o => o.Id == request.Id) ||
+                        p.FlightOffers.Any(o => o.Id == request.Id))
+                : p => p.Id == request.Id);
         if (package is null)
             return new NotFound<IdResponse>("Package not found");
 
@@ -40,7 +46,7 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         _context.Set<T2>().Add(payment);
         await _context.SaveChangesAsync();
 
-        var reserve = request.Reserve(payment.Id, userBasic.Id);
+        var reserve = request.Reserve(package.Id, payment.Id, userBasic.Id);
         AddOffers(package, reserve);
 
         _context.Set<T1>().Add(reserve);

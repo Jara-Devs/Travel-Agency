@@ -13,7 +13,7 @@ namespace Travel_Agency_Api.Controllers.Reserves;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles.Tourist)]
+[Authorize(Roles = Roles.Tourist)]
 public class ReserveTouristController : TravelAgencyController
 {
     private readonly IQueryEntity<ReserveTourist> _query;

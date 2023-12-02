@@ -41,9 +41,9 @@ public class Package : Entity
 
     public long StartDate()
     {
-        var hotel = HotelOffers.Min(h => h.EndDate);
-        var excursion = ExcursionOffers.Min(e => e.EndDate);
-        var flight = FlightOffers.Min(f => f.EndDate);
+        var hotel = HotelOffers.Count == 0 ? long.MaxValue : HotelOffers.Min(h => h.EndDate);
+        var excursion = ExcursionOffers.Count == 0 ? long.MaxValue : ExcursionOffers.Min(e => e.EndDate);
+        var flight = FlightOffers.Count == 0 ? long.MaxValue : FlightOffers.Min(f => f.EndDate);
 
         var values = new[] { hotel, excursion, flight };
 
@@ -52,9 +52,9 @@ public class Package : Entity
 
     public long EndDate()
     {
-        var hotel = HotelOffers.Max(h => h.EndDate);
-        var excursion = ExcursionOffers.Max(e => e.EndDate);
-        var flight = FlightOffers.Max(f => f.EndDate);
+        var hotel = HotelOffers.Count == 0 ? long.MinValue : HotelOffers.Max(h => h.EndDate);
+        var excursion = ExcursionOffers.Count == 0 ? long.MaxValue : ExcursionOffers.Max(e => e.EndDate);
+        var flight = FlightOffers.Count == 0 ? long.MaxValue : FlightOffers.Max(f => f.EndDate);
 
         var values = new[] { hotel, excursion, flight };
 

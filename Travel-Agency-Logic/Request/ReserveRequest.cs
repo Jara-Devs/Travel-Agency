@@ -5,14 +5,15 @@ namespace Travel_Agency_Logic.Request;
 
 public abstract class ReserveRequest<T1, T2> where T1 : Reserve where T2 : Payment
 {
-    public Guid PackageId { get; set; }
+    public Guid Id { get; set; }
 
+    public bool IsSingleOffer { get; set; }
     public ICollection<UserIdentity> UserIdentities { get; set; } = null!;
 
     public UserIdentity UserIdentity { get; set; } = null!;
     public abstract T2 Payment(double price);
 
-    public abstract T1 Reserve(Guid paymentId, Guid userId);
+    public abstract T1 Reserve(Guid packageId, Guid paymentId, Guid userId);
 }
 
 public class ReserveTouristRequest : ReserveRequest<ReserveTourist, PaymentOnline>
@@ -24,9 +25,9 @@ public class ReserveTouristRequest : ReserveRequest<ReserveTourist, PaymentOnlin
         return new PaymentOnline(UserIdentity, price, CreditCard);
     }
 
-    public override ReserveTourist Reserve(Guid paymentId, Guid userId)
+    public override ReserveTourist Reserve(Guid packageId, Guid paymentId, Guid userId)
     {
-        return new ReserveTourist(PackageId, UserIdentities, userId, paymentId);
+        return new ReserveTourist(packageId, UserIdentities, userId, paymentId);
     }
 }
 
@@ -37,8 +38,8 @@ public class ReserveTicketRequest : ReserveRequest<ReserveTicket, PaymentTicket>
         return new PaymentTicket(UserIdentity, price);
     }
 
-    public override ReserveTicket Reserve(Guid paymentId, Guid userId)
+    public override ReserveTicket Reserve(Guid packageId, Guid paymentId, Guid userId)
     {
-        return new ReserveTicket(PackageId, UserIdentities, userId, paymentId);
+        return new ReserveTicket(packageId, UserIdentities, userId, paymentId);
     }
 }
