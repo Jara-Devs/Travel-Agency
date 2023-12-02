@@ -11,6 +11,7 @@ using Travel_Agency_DataBase.Core;
 using Travel_Agency_DataBase.Queries;
 using Travel_Agency_DataBase.Queries.Reserves;
 using Travel_Agency_DataBase.Queries.Users;
+using Travel_Agency_Domain;
 using Travel_Agency_Domain.Images;
 using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Packages;
@@ -65,6 +66,7 @@ public static class ProgramServices
         services.AddScoped<IFlightService, FlightService>();
         services.AddScoped<ITouristActivityService, TouristActivityService>();
         services.AddScoped<IFacilityService, FacilityService>();
+        services.AddScoped<ICityService, CityService>();
 
         services.AddScoped<IOfferService<HotelOffer>, OfferService<HotelOffer>>();
         services.AddScoped<IOfferService<ExcursionOffer>, OfferService<ExcursionOffer>>();
@@ -150,6 +152,7 @@ public static class ProgramServices
         builder.EntitySet<TouristPlace>("TouristPlace");
         builder.EntitySet<TouristActivity>("TouristActivity");
         builder.EntitySet<Facility>("Facility");
+        builder.EntitySet<City>("City");
 
         builder.EntitySet<HotelOffer>("HotelOffer");
         builder.EntitySet<ExcursionOffer>("ExcursionOffer");

@@ -4,9 +4,10 @@ using Travel_Agency_Domain;
 
 namespace Travel_Agency_DataBase.Configurations;
 
-public class CityConfiguration : EntityConfiguration<Agency>
+public class CityConfiguration : EntityConfiguration<City>
 {
-    public override void ConfigureEntity(EntityTypeBuilder<Agency> builder)
+    public override void ConfigureEntity(EntityTypeBuilder<City> builder)
     {
+        builder.HasIndex(c => new { c.Name, c.Country }).IsUnique();
     }
 }

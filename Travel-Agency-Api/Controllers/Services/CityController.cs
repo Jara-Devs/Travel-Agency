@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Travel_Agency_Api.Core;
 using Travel_Agency_Core;
 using Travel_Agency_DataBase.Core;
-using Travel_Agency_Domain.Services;
+using Travel_Agency_Domain;
 using Travel_Agency_Logic.Core;
 using Travel_Agency_Logic.Request;
 
@@ -14,21 +14,21 @@ namespace Travel_Agency_Api.Controllers.Services;
 [ApiController]
 [Route("[controller]")]
 [Authorize(Policy = Policies.App)]
-public class FacilityController : TravelAgencyController
+public class CityController : TravelAgencyController
 {
-    private readonly IFacilityService _facilityService;
+    private readonly ICityService _cityService;
 
-    private readonly IQueryEntity<Facility> _query;
+    private readonly IQueryEntity<City> _query;
 
-    public FacilityController(IFacilityService facilityService, IQueryEntity<Facility> query)
+    public CityController(ICityService cityService, IQueryEntity<City> query)
     {
-        _facilityService = facilityService;
+        _cityService = cityService;
         _query = query;
     }
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> Get(ODataQueryOptions<Facility> options)
+    public async Task<IActionResult> Get(ODataQueryOptions<City> options)
     {
         var user = GetUser().Value!;
         var response = await _query.Get(user);
@@ -38,7 +38,7 @@ public class FacilityController : TravelAgencyController
 
     [HttpGet("{key}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<Facility> options)
+    public async Task<IActionResult> Get([FromODataUri] Guid key, ODataQueryOptions<City> options)
     {
         var user = GetUser().Value!;
         var response = await _query.Get(user);
@@ -48,23 +48,23 @@ public class FacilityController : TravelAgencyController
 
 
     [HttpPost]
-    public async Task<IActionResult> CreateFacility([FromBody] FacilityRequest facility)
+    public async Task<IActionResult> CreateFacility([FromBody] CityRequest city)
     {
         var user = GetUser().Value;
-        return ToResponse(await _facilityService.CreateFacility(facility, user!));
+        return ToResponse(await _cityService.CreateCity(city, user!));
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateFacility(Guid id, [FromBody] FacilityRequest facility)
+    public async Task<IActionResult> UpdateFacility(Guid id, [FromBody] CityRequest city)
     {
         var user = GetUser().Value;
-        return ToResponse(await _facilityService.UpdateFacility(id, facility, user!));
+        return ToResponse(await _cityService.UpdateCity(id, city, user!));
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteFacility(Guid id)
     {
         var user = GetUser().Value;
-        return ToResponse(await _facilityService.DeleteFacility(id, user!));
+        return ToResponse(await _cityService.DeleteCity(id, user!));
     }
 }
