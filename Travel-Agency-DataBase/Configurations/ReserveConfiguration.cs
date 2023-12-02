@@ -10,5 +10,6 @@ public class ReserveConfiguration : EntityConfiguration<Reserve>
     {
         builder.OwnsMany(r => r.UserIdentities);
         builder.HasOne(r => r.Package).WithMany(p => p.Reserves).HasForeignKey(r => r.PackageId);
+        builder.HasMany(r => r.Offers).WithMany(o => o.Reserves);
     }
 }

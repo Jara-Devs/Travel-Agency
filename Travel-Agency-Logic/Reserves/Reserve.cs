@@ -41,6 +41,8 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         await _context.SaveChangesAsync();
 
         var reserve = request.Reserve(payment.Id, userBasic.Id);
+        AddOffers(package, reserve);
+
         _context.Set<T1>().Add(reserve);
         await _context.SaveChangesAsync();
 
@@ -71,6 +73,16 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         }
 
         return true;
+    }
+
+    private void AddOffers(Package package, T1 reserve)
+    {
+        foreach (var offer in package.HotelOffers)
+            reserve.Offers.Add(offer);
+        foreach (var offer in package.FlightOffers)
+            reserve.Offers.Add(offer);
+        foreach (var offer in package.ExcursionOffers)
+            reserve.Offers.Add(offer);
     }
 
     internal abstract bool CheckPermissions(UserBasic user);

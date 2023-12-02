@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Travel_Agency_DataBase;
 
@@ -10,9 +11,11 @@ using Travel_Agency_DataBase;
 namespace Travel_Agency_DataBase.Migrations
 {
     [DbContext(typeof(TravelAgencyContext))]
-    partial class TravelAgencyContextModelSnapshot : ModelSnapshot
+    [Migration("20231201225430_isSingleOffer")]
+    partial class isSingleOffer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,21 +125,6 @@ namespace Travel_Agency_DataBase.Migrations
                     b.HasIndex("PackagesId");
 
                     b.ToTable("HotelOfferPackage");
-                });
-
-            modelBuilder.Entity("OfferReserve", b =>
-                {
-                    b.Property<Guid>("OffersId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("ReservesId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("OffersId", "ReservesId");
-
-                    b.HasIndex("ReservesId");
-
-                    b.ToTable("OfferReserve");
                 });
 
             modelBuilder.Entity("Travel_Agency_Domain.Agency", b =>
@@ -772,21 +760,6 @@ namespace Travel_Agency_DataBase.Migrations
                     b.HasOne("Travel_Agency_Domain.Packages.Package", null)
                         .WithMany()
                         .HasForeignKey("PackagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OfferReserve", b =>
-                {
-                    b.HasOne("Travel_Agency_Domain.Offers.Offer", null)
-                        .WithMany()
-                        .HasForeignKey("OffersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Travel_Agency_Domain.Payments.Reserve", null)
-                        .WithMany()
-                        .HasForeignKey("ReservesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

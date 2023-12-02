@@ -1,4 +1,5 @@
 using Travel_Agency_Core;
+using Travel_Agency_Domain.Offers;
 using Travel_Agency_Domain.Others;
 using Travel_Agency_Domain.Packages;
 
@@ -14,6 +15,7 @@ public class Reserve : Entity
     {
         PackageId = packageId;
         UserIdentities = userIdentities;
+        Offers = new List<Offer>();
     }
 
     public Guid UserId { get; set; }
@@ -25,4 +27,6 @@ public class Reserve : Entity
     public Package Package { get; set; } = null!;
 
     public ICollection<UserIdentity> UserIdentities { get; set; } = null!;
+
+    public ICollection<Offer> Offers { get; set; } = null!;
 }
