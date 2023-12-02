@@ -106,7 +106,20 @@ public class OfferService<T> : IOfferService<T> where T : Offer
         if (!await CheckDependency(id))
             return new BadRequest("The offer is in use");
 
+        var package = await _context.Packages
+            .Include(p => p.HotelOffers)
+            .Include(p => p.ExcursionOffers)
+            .Include(p => p.FlightOffers)
+            .Where(p => p.IsSingleOffer &&
+                        (p.HotelOffers.Select(o => o.Id).Contains(id) ||
+                         p.ExcursionOffers.Select(o => o.Id).Contains(id) ||
+                         p.FlightOffers.Select(o => o.Id).Contains(id)))
+            .FirstOrDefaultAsync();
+
+        if (package is null) return new BadRequest("The offer is not a single offer");
+
         _context.Set<T>().Remove(offer);
+        _context.Packages.Remove(package);
         await _context.SaveChangesAsync();
 
         return new ApiResponse();

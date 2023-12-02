@@ -45,6 +45,8 @@ public class PackageService : IPackageService
             .Include(x => x.ExcursionOffers).Where(p => p.Id == id).FirstOrDefaultAsync();
         if (package is null) return new NotFound("Package not found");
 
+        if (package.IsSingleOffer) return new BadRequest("The package is single offer");
+
         var responsePermissions = await CheckPermissions(userBasic, PackageAgencyId(package));
         if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse();
 
@@ -72,6 +74,8 @@ public class PackageService : IPackageService
 
         var oldPackage = await _context.Packages.FindAsync(id);
         if (oldPackage is null) return new NotFound("Package not found");
+
+        if (oldPackage.IsSingleOffer) return new BadRequest("The package is single offer");
 
         var inUse = await CheckDependency(id);
         if (!inUse.Ok) return inUse;
