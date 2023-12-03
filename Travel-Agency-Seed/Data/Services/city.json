@@ -1,0 +1,49 @@
+[
+  {
+    "name": "Denver",
+    "country": "United States",
+    "image": {
+      "name": "denver"
+    }
+  },
+
+  {
+    "name": "Cairns",
+    "country": "Australia",
+    "image": {
+      "name": "cairns"
+    }
+  },
+
+  {
+    "name": "Arusha",
+    "country": "Tanzania",
+    "image": {
+      "name": "arusha"
+    }
+  },
+
+  {
+    "name": "Flagstaff",
+    "country": "United States",
+    "image": {
+      "name": "flagstaff"
+    }
+  },
+
+  {
+    "name": "Paris",
+    "country": "France",
+    "image": {
+      "name": "paris"
+    }
+  },
+
+  {
+    "name": "Rome",
+    "country": "Italy",
+    "image": {
+      "name": "roma"
+    }
+  }
+]
