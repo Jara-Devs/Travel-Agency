@@ -10,13 +10,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Travel-Agency-DataBase\Travel-Agency-DataBase.csproj" />
+        <ProjectReference Include="..\Travel-Agency-DataBase\Travel-Agency-DataBase.csproj"/>
     </ItemGroup>
-
 </Project>

@@ -1,9 +1,91 @@
 [
   {
-    "name": "Bulbasaur",
-    "description": "There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger.",
+    "name": "Hiking in the Rocky Mountains",
+    "description": "Experience breathtaking views and stunning wildlife as you hike through the majestic Rocky Mountains.",
     "image": {
-      "name": "bulbasaur.png"
+      "name": "hiking-rocking-mountains"
+    }
+  },
+  {
+    "name": "Skiing in Aspen",
+    "description": "Enjoy world-class skiing and snowboarding experiences in the picturesque town of Aspen, nestled within the Rocky Mountains.",
+    "image": {
+      "name": "skiing-in-aspen"
+    }
+  },
+
+  {
+    "name": "Snorkeling in the Great Barrier Reef",
+    "description": "Discover the world's largest coral reef system and observe the vibrant marine life while snorkeling in the Great Barrier Reef.",
+    "image": {
+      "name": "snorkeling-great-barrier-reef"
+    }
+  },
+  {
+    "name": "Scuba Diving at Heron Island",
+    "description": "Explore the wonders of underwater life and vibrant coral gardens surrounding Heron Island through an unforgettable scuba diving adventure.",
+    "image": {
+      "name": "scuba-heron-island"
+    }
+  },
+
+  {
+    "name": "Safari in the Serengeti",
+    "description": "Embark on an unforgettable safari adventure in the vast plains of the Serengeti and witness the incredible diversity of African wildlife.",
+    "image": {
+      "name": "serengeti-safari"
+    }
+  },
+  {
+    "name": "Balloon Safari over the Serengeti",
+    "description": "Soar above the sweeping landscapes of the Serengeti in a hot air balloon and witness the majestic wildlife from a unique perspective.",
+    "image": {
+      "name": "serengeti-balloon"
+    }
+  },
+
+  {
+    "name": "Exploring the Grand Canyon",
+    "description": "Marvel at the awe-inspiring beauty of the Grand Canyon as you explore its intricate rock formations and deep ravines.",
+    "image": {
+      "name": "exploring-grand-canyon"
+    }
+  },
+  {
+    "name": "Colorado River Rafting",
+    "description": "Embark on an exhilarating rafting journey through the heart of the Grand Canyon, navigating the rapids of the mighty Colorado River.",
+    "image": {
+      "name": "rafting-colorado-river"
+    }
+  },
+
+  {
+    "name": "Visiting the Eiffel Tower",
+    "description": "Experience the iconic symbol of Paris and enjoy panoramic views of the city from the top of the Eiffel Tower.",
+    "image": {
+      "name": "tour-torre-eiffel"
+    }
+  },
+  {
+    "name": "Louvre Museum Tour",
+    "description": "Immerse yourself in art and history with a guided tour of the world-renowned Louvre Museum, home to the enigmatic Mona Lisa and countless other treasures.",
+    "image": {
+      "name": "tour-louvre"
+    }
+  },
+
+  {
+    "name": "Touring the Colosseum in Rome",
+    "description": "Step back in time as you explore the ancient amphitheater and marvel at the architectural wonders of the Colosseum in Rome.",
+    "image": {
+      "name": "tour-coliseo"
+    }
+  },
+  {
+    "name": "Touring the Vatican Museums and Sistine Chapel",
+    "description": "Immerse yourself in the artistic and cultural treasures of the Vatican Museums, home to an impressive collection of classical and Renaissance masterpieces. Marvel at the breathtaking frescoes in the Sistine Chapel, including Michelangelo's iconic ceiling artwork.",
+    "image": {
+      "name": "tour-vaticano"
     }
   }
 ]

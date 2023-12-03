@@ -1,0 +1,142 @@
+[
+  {
+    "company": "United Airlines",
+    "duration": 32400000,
+    "origin": {
+      "name": "Denver"
+    },
+    "destination": {
+      "name": "Paris"
+    }
+  },
+  {
+    "company": "Delta Air Lines",
+    "duration": 3600000,
+    "origin": {
+      "name": "Denver"
+    },
+    "destination": {
+      "name": "Rome"
+    }
+  },
+  {
+    "company": "Qantas",
+    "duration": 72000000,
+    "origin": {
+      "name": "Denver"
+    },
+    "destination": {
+      "name": "Cairns"
+    }
+  },
+  {
+    "company": "Emirates",
+    "duration": 75600000,
+    "origin": {
+      "name": "Denver"
+    },
+    "destination": {
+      "name": "Arusha"
+    }
+  },
+  {
+    "company": "Air France",
+    "duration": 7200000,
+    "origin": {
+      "name": "Paris"
+    },
+    "destination": {
+      "name": "Rome"
+    }
+  },
+  {
+    "company": "American Airlines",
+    "duration": 50400000,
+    "origin": {
+      "name": "Paris"
+    },
+    "destination": {
+      "name": "Flagstaff"
+    }
+  },
+  {
+    "company": "Qantas",
+    "duration": 72000000,
+    "origin": {
+      "name": "Paris"
+    },
+    "destination": {
+      "name": "Cairns"
+    }
+  },
+  {
+    "company": "Emirates",
+    "duration": 68400000,
+    "origin": {
+      "name": "Paris"
+    },
+    "destination": {
+      "name": "Arusha"
+    }
+  },
+  {
+    "company": "Lufthansa",
+    "duration": 54000000,
+    "origin": {
+      "name": "Rome"
+    },
+    "destination": {
+      "name": "Flagstaff"
+    }
+  },
+  {
+    "company": "Qatar Airways",
+    "duration": 64800000,
+    "origin": {
+      "name": "Rome"
+    },
+    "destination": {
+      "name": "Cairns"
+    }
+  },
+  {
+    "company": "Ethiopian Airlines",
+    "duration": 39600000,
+    "origin": {
+      "name": "Rome"
+    },
+    "destination": {
+      "name": "Arusha"
+    }
+  },
+  {
+    "company": "United Airlines",
+    "duration": 39600000,
+    "origin": {
+      "name": "Flagstaff"
+    },
+    "destination": {
+      "name": "Cairns"
+    }
+  },
+  {
+    "company": "British Airways",
+    "duration": 50400000,
+    "origin": {
+      "name": "Flagstaff"
+    },
+    "destination": {
+      "name": "Arusha"
+    }
+  },
+  {
+    "company": "Qatar Airways",
+    "duration": 50400000,
+    "origin": {
+      "name": "Cairns"
+    },
+    "destination": {
+      "name": "Arusha"
+    }
+  }
+]
