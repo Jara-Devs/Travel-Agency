@@ -1,6 +1,10 @@
 [
   {
-    "name": "Agency",
+    "name": "Agency Colon Travel",
+    "FaxNumber": 12345678
+  },
+  {
+    "name": "Agency Bahia Travel",
     "FaxNumber": 12345678
   }
 ]

@@ -17,6 +17,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Travel-Agency-DataBase\Travel-Agency-DataBase.csproj" />
+        <ProjectReference Include="..\Travel-Agency-Logic\Travel-Agency-Logic.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -44,6 +45,15 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Data\Services\touristPlace.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Data\Users\userAgency.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Data\Users\tourist.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Data\agency.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

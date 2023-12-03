@@ -15,11 +15,6 @@ public static class MyClaims
     public const string Name = "name";
 
     public const string Role = "role";
-    // public const string Date = "date";
-    // public const string TypePayment = "type_payment";
-    // public const string Price = "price";
-    // public const string PricePoints = "price_points";
-    // public const string AddPoints = "add_points";
 }
 
 public class SecurityService
@@ -44,23 +39,7 @@ public class SecurityService
 
         return Jwt(expires, claims);
     }
-
-    // public string JwtPay(int id, string type, double price,int pricePoints,int addPoints, DateTime expires)
-    // {
-    //     var now = DateTime.UtcNow;
-    //     var claims = new[]
-    //     {
-    //         new Claim(MyClaims.Id, id.ToString()),
-    //         new Claim(MyClaims.TypePayment, type),
-    //         new Claim(MyClaims.Price, $"{price}"),
-    //         new Claim(MyClaims.PricePoints,pricePoints.ToString()),
-    //         new Claim(MyClaims.AddPoints,addPoints.ToString()),
-    //         new Claim(MyClaims.Date, ((DateTimeOffset)now).ToUnixTimeSeconds().ToString())
-    //     };
-    //
-    //     return Jwt(expires, claims);
-    // }
-
+    
     private string Jwt(DateTime expires, IEnumerable<Claim> claims)
     {
         var issuer = _configuration["Jwt:Issuer"];
@@ -106,26 +85,7 @@ public class SecurityService
             return new ApiResponse<UserBasic>(HttpStatusCode.Unauthorized, "Unauthorized");
         }
     }
-
-    // public ApiResponse<(int, string, double, long)> DecodingPay(string authHeader)
-    // {
-    //     var response = DecodingToken(authHeader, false);
-    //     if (!response.Ok) return response.ConvertApiResponse<(int, string, double, long)>();
-    //
-    //     var jwtToken = response.Value!;
-    //
-    //     var idClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == MyClaims.Id);
-    //     var dateClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == MyClaims.Date);
-    //     var priceClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == MyClaims.Price);
-    //     var typeClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == MyClaims.TypePayment);
-    //
-    //     if (idClaim is null || dateClaim is null || typeClaim is null || priceClaim is null)
-    //         return new ApiResponse<(int, string, double, long)>(HttpStatusCode.Unauthorized, "Invalid token");
-    //
-    //     return new ApiResponse<(int, string, double, long)>((int.Parse(idClaim.Value), typeClaim.Value,
-    //         double.Parse(priceClaim.Value), long.Parse(dateClaim.Value)));
-    // }
-
+    
     private static ApiResponse<JwtSecurityToken> DecodingToken(string authHeader, bool bearer = true)
     {
         string token;
@@ -153,46 +113,7 @@ public class SecurityService
 
         return (user!, password!);
     }
-
-    // public ApiResponse Authorize(string authorization, Account account)
-    // {
-    //     var responseSecurity = DecodingAuth(authorization);
-    //     if (!responseSecurity.Ok)
-    //         return responseSecurity.ConvertApiResponse();
-    //
-    //     var accountCurrent = responseSecurity.Value.Item3;
-    //     return accountCurrent.Level() < account.Level()
-    //         ? new ApiResponse(HttpStatusCode.Unauthorized, "Unauthorized")
-    //         : new ApiResponse();
-    // }
-
-    // public bool ValidateToken(string token)
-    // {
-    //     var tokenHandler = new JwtSecurityTokenHandler();
-    //     var validationParameters = new TokenValidationParameters
-    //     {
-    //         ValidateIssuer = true,
-    //         ValidateAudience = true,
-    //         ValidateLifetime = true,
-    //         ValidateIssuerSigningKey = true,
-    //         ValidIssuer = _configuration["Jwt:Issuer"],
-    //         ValidAudience = _configuration["Jwt:Audience"],
-    //         IssuerSigningKey =
-    //             new SymmetricSecurityKey(
-    //                 Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!))
-    //     };
-    //
-    //     try
-    //     {
-    //         tokenHandler.ValidateToken(token, validationParameters, out _);
-    //         return true;
-    //     }
-    //     catch
-    //     {
-    //         return false;
-    //     }
-    // }
-
+    
     public static string EncryptPassword(string password)
     {
         var sal = new byte[16];

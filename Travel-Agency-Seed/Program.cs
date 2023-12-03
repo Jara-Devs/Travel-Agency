@@ -4,6 +4,7 @@ using Travel_Agency_Seed.Seeders;
 using Travel_Agency_Seed.Seeders.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Travel_Agency_Seed.Seeders.Users;
 
 
 var serviceCollection = new ServiceCollection();
@@ -41,10 +42,10 @@ static async Task SeedDatabase(TravelAgencyContext context)
 {
     // Create Seeders
     var image = new ImageSeeder();
-    // var agency = new AgencySeeder();
+    var agency = new AgencySeeder();
 
-    // var tourist = new TouristSeeder();
-    // var userAgency = new UsersAgencySeeder();
+    var tourist = new TouristSeeder();
+    var userAgency = new UsersAgencySeeder();
 
     var city = new CitySeeder();
     var touristPlace = new TouristPlaceSeeder();
@@ -56,10 +57,10 @@ static async Task SeedDatabase(TravelAgencyContext context)
 
     // Execute
     await image.Execute(context);
-    // await agency.Execute(context);
+    await agency.Execute(context);
 
-    // await tourist.Execute(context);
-    // await userAgency.Execute(context);
+    await tourist.Execute(context);
+    await userAgency.Execute(context);
 
     await city.Execute(context);
     await touristPlace.Execute(context);

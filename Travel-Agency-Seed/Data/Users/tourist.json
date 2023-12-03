@@ -9,5 +9,27 @@
       "identityDocument": 123456789,
       "nationality": "cuban"
     }
+  },
+  {
+    "name": "Rafael Acosta Marquez",
+    "email": "rafa@matcom.com",
+    "password": "123456",
+    "role": "Tourist",
+    "userIdentity": {
+      "name": "Rafael Acosta Marquez",
+      "identityDocument": 123456789,
+      "nationality": "cuban"
+    }
+  },
+  {
+    "name": "Alen Arnaiz Sedeño",
+    "email": "alen@instec.com",
+    "password": "123456",
+    "role": "Tourist",
+    "userIdentity": {
+      "name": "Alen Arnaiz Sedeño",
+      "identityDocument": 123456789,
+      "nationality": "cuban"
+    }
   }
 ]

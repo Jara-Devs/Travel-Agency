@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Travel_Agency_DataBase;
 using Travel_Agency_Domain.Users;
+using Travel_Agency_Logic;
 
 namespace Travel_Agency_Seed.Seeders.Users;
 
@@ -19,6 +20,7 @@ public class UsersAgencySeeder : SeederBase<UserAgency>
             if (agency is null) throw new Exception($"Agency with name {item.Agency.Name} not found");
 
             item.Agency = agency;
+            item.Password = SecurityService.EncryptPassword(item.Password);
         }
 
         dbContext.AddRange(Data);

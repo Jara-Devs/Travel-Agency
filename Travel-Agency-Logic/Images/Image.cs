@@ -57,7 +57,8 @@ public class ImageService : IImageService
 
             var uploadParams = new ImageUploadParams
             {
-                File = new FileDescription(file.FileName, file.OpenReadStream())
+                File = new FileDescription(file.FileName, file.OpenReadStream()),
+                Transformation = new Transformation().Quality("auto:eco")
             };
 
             var uploadResult = await cloudinary.UploadAsync(uploadParams);

@@ -5,7 +5,16 @@
     "password": "123456",
     "role": "AdminAgency",
     "agency": {
-      "name": "Agency"
+      "name": "Agency Colon Travel"
+    }
+  },
+  {
+    "name": "Talia Patricia Pedraza Ordoñez",
+    "email": "talia@matcom.com",
+    "password": "123456",
+    "role": "AdminAgency",
+    "agency": {
+      "name": "Agency Bahia Travel"
     }
   }
 ]
