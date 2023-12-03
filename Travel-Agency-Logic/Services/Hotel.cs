@@ -40,14 +40,15 @@ public class HotelService : IHotelService
         if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
-        var hotel = await _context.Hotels.Include(x => x.TouristPlace).Where(x => x.Id == id).FirstOrDefaultAsync();
+        var hotel = await _context.Hotels.Include(x => x.TouristPlace).Include(x => x.OverNightExcursions)
+            .Include(x => x.Offers).Where(x => x.Id == id).FirstOrDefaultAsync();
         if (hotel is null)
             return new NotFound("Hotel not found");
 
         if (await _context.Hotels.AnyAsync(h => h.Name == hotel.Name && id != h.Id))
             return new NotFound("The hotel with same name already exists");
 
-        var inUse = await CheckDependency(id);
+        var inUse = CheckDependency(hotel);
         if (!inUse.Ok) return inUse;
 
         var response = await CreateHotel(hotelRequest, hotel);
@@ -67,13 +68,13 @@ public class HotelService : IHotelService
         if (!Helpers.CheckPermissions(user))
             return new Unauthorized("You don't have permissions");
 
-        var inUse = await CheckDependency(id);
-        if (!inUse.Ok) return inUse;
-
-        var hotel = await _context.Hotels.FindAsync(id);
-
+        var hotel = await _context.Hotels.Include(x => x.TouristPlace).Include(x => x.OverNightExcursions)
+            .Include(x => x.Offers).Where(x => x.Id == id).FirstOrDefaultAsync();
         if (hotel is null)
             return new NotFound("Hotel not found");
+
+        var inUse = CheckDependency(hotel);
+        if (!inUse.Ok) return inUse;
 
         _context.Hotels.Remove(hotel);
         await _context.SaveChangesAsync();
@@ -91,12 +92,11 @@ public class HotelService : IHotelService
         return new ApiResponse<Hotel>(hotel);
     }
 
-    private async Task<ApiResponse> CheckDependency(Guid id)
+    private ApiResponse CheckDependency(Hotel hotel)
     {
-        if (await _context.HotelOffers.AnyAsync(o => o.HotelId == id))
+        if (hotel.Offers.Count != 0)
             return new BadRequest("There is an offer for this hotel");
-        if (await _context.Hotels.Include(x => x.OverNightExcursions).Select(x => x.OverNightExcursions)
-                .CountAsync() != 0)
+        if (hotel.OverNightExcursions.Count != 0)
             return new BadRequest("There is an over night excursion for this hotel");
 
         return new ApiResponse();
