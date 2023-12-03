@@ -10,6 +10,7 @@ public class Reserve : Entity
     {
         PackageId = packageId;
         Offers = new List<Offer>();
+        Cant = cant;
     }
 
     public int Cant { get; set; }

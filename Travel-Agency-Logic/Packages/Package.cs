@@ -169,7 +169,7 @@ public class PackageService : IPackageService
 
     public static Guid PackageAgencyId(Package package)
     {
-        return package.HotelOffers.FirstOrDefault()?.Id ?? package.ExcursionOffers.FirstOrDefault()?.Id ??
-            package.FlightOffers.FirstOrDefault()?.Id ?? Guid.Empty;
+        return package.HotelOffers.FirstOrDefault()?.AgencyId ?? package.ExcursionOffers.FirstOrDefault()?.AgencyId ??
+            package.FlightOffers.FirstOrDefault()?.AgencyId ?? Guid.Empty;
     }
 }
