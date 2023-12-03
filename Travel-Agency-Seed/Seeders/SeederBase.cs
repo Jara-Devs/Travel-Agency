@@ -18,7 +18,10 @@ public abstract class SeederBase<TData> where TData : Entity
 
     private void InitData(string path)
     {
-        var json = File.ReadAllText($"../../../Data/{path}.json");
+        var basePath = AppDomain.CurrentDomain.BaseDirectory;
+        var jsonFilePath = Path.Combine(basePath, $"Data/{path}.json");
+  
+        var json = File.ReadAllText(jsonFilePath);
         this.Data = JsonConvert.DeserializeObject<List<TData>>(json) ?? new List<TData>();
     }
 

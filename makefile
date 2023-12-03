@@ -22,3 +22,8 @@ remove:
 .PHONY: build
 build:
 	dotnet build
+
+
+.PHONY: seed
+seed:
+	dotnet run --project Travel-Agency-Seed\Travel-Agency-Seed.csproj
