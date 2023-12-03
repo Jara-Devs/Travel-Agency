@@ -1,0 +1,123 @@
+[
+  {
+    "name": "The Ritz-Carlton, Bachelor Gulch",
+    "category": "5 stars",
+    "image": {
+      "name": "The Ritz-Carlton, Bachelor Gulch"
+    },
+    "touristPlace": {
+      "name": "Rocky Mountains"
+    }
+  },
+  {
+    "name": "The Little Nell",
+    "category": "5 stars",
+    "image": {
+      "name": "The Little Nell"
+    },
+    "touristPlace": {
+      "name": "Rocky Mountains"
+    }
+  },
+  {
+    "name": "Lizard Island Resort",
+    "category": "5 stars",
+    "image": {
+      "name": "Lizard Island Resort"
+    },
+    "touristPlace": {
+      "name": "Great Barrier Reef"
+    }
+  },
+  {
+    "name": "Qualia Resort",
+    "category": "5 stars",
+    "image": {
+      "name": "Qualia Resort"
+    },
+    "touristPlace": {
+      "name": "Great Barrier Reef"
+    }
+  },
+  {
+    "name": "Four Seasons Safari Lodge Serengeti",
+    "category": "5 stars",
+    "image": {
+      "name": "Four Seasons Safari Lodge Serengeti"
+    },
+    "touristPlace": {
+      "name": "Serengeti National Park"
+    }
+  },
+  {
+    "name": "Singita Sasakwa Lodge",
+    "category": "5 stars",
+    "image": {
+      "name": "Singita Sasakwa Lodge"
+    },
+    "touristPlace": {
+      "name": "Serengeti National Park"
+    }
+  },
+  {
+    "name": "El Tovar Hotel",
+    "category": "3 stars",
+    "image": {
+      "name": "El Tovar Hotel"
+    },
+    "touristPlace": {
+      "name": "Grand Canyon"
+    }
+  },
+  {
+    "name": "Yavapai Lodge",
+    "category": "3 stars",
+    "image": {
+      "name": "Yavapai Lodge"
+    },
+    "touristPlace": {
+      "name": "Grand Canyon"
+    }
+  },
+  {
+    "name": "Four Seasons Hotel George V, Paris",
+    "category": "5 stars",
+    "image": {
+      "name": "Four Seasons Hotel George V, Paris"
+    },
+    "touristPlace": {
+      "name": "Eiffel Tower"
+    }
+  },
+  {
+    "name": "Le Meurice",
+    "category": "5 stars",
+    "image": {
+      "name": "Le Meurice"
+    },
+    "touristPlace": {
+      "name": "Eiffel Tower"
+    }
+  },
+
+  {
+    "name": "Gran Meliá Rome Villa Agrippina",
+    "category": "5 stars",
+    "image": {
+      "name": "Gran Meliá Rome Villa Agrippina"
+    },
+    "touristPlace": {
+      "name": "Colosseum and Roman Forum"
+    }
+  },
+  {
+    "name": "Hotel Eden - Dorchester Collection",
+    "category": "5 stars",
+    "image": {
+      "name": "Hotel Eden - Dorchester Collection"
+    },
+    "touristPlace": {
+      "name": "Colosseum and Roman Forum"
+    }
+  }
+]

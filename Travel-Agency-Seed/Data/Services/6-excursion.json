@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Rocky Mountain Adventure: Hiking and Wildlife Exploration",
+    "places": [{ "name": "Rocky Mountains" }],
+    "activities": [
+      { "name": "Hiking in the Rocky Mountains" },
+      { "name": "Skiing in Aspen" }
+    ],
+    "hotels": [
+      { "name": "The Ritz-Carlton, Bachelor Gulch" },
+      { "name": "The Little Nell" }
+    ],
+    "image": {
+      "name": "rocking-mountains-ex"
+    }
+  },
+  {
+    "name": "Reef Discovery: Snorkeling and Marine Life Exploration at Great Barrier Reef",
+    "places": [{ "name": "Great Barrier Reef" }],
+    "activities": [
+      { "name": "Snorkeling in the Great Barrier Reef" },
+      { "name": "Scuba Diving at Heron Island" }
+    ],
+    "hotels": [{ "name": "Lizard Island Resort" }],
+    "image": {
+      "name": "great-barrier-reef-ex"
+    }
+  },
+  {
+    "name": "Serengeti Safari Expedition: Wildlife Safari and Balloon Ride",
+    "places": [{ "name": "Serengeti National Park" }],
+    "activities": [
+      { "name": "Safari in the Serengeti" },
+      { "name": "Balloon Safari over the Serengeti" }
+    ],
+    "hotels": [{ "name": "Four Seasons Safari Lodge Serengeti" }],
+    "image": {
+      "name": "serengeti-ex"
+    }
+  },
+  {
+    "name": "Grand Canyon Discovery: Hiking and River Rafting Adventure",
+    "places": [{ "name": "Grand Canyon" }],
+    "activities": [
+      { "name": "Exploring the Grand Canyon" },
+      { "name": "Colorado River Rafting" }
+    ],
+    "hotels": [{ "name": "El Tovar Hotel" }],
+    "image": {
+      "name": "grand-canyon-ex"
+    }
+  },
+  {
+    "name": "Parisian Wonders: Eiffel Tower and Louvre Museum Tour",
+    "places": [{ "name": "Eiffel Tower" }, { "name": "Louvre Museum" }],
+    "activities": [
+      { "name": "Visiting the Eiffel Tower" },
+      { "name": "Louvre Museum Tour" }
+    ],
+    "hotels": [],
+    "image": {
+      "name": "louvre-ex"
+    }
+  },
+  {
+    "name": "Vatican City Marvels: Vatican Museums and Sistine Chapel Exploration",
+    "places": [
+      { "name": "Vatican City" },
+      { "name": "Colosseum and Roman Forum" }
+    ],
+    "activities": [
+      { "name": "Touring the Vatican Museums and Sistine Chapel" },
+      { "name": "Touring the Colosseum in Rome" }
+    ],
+    "hotels": [],
+    "image": {
+      "name": "vaticano-ex"
+    }
+  }
+]

@@ -1,0 +1,90 @@
+[
+  {
+    "name": "Rocky Mountains",
+    "description": "Experience breathtaking views and stunning wildlife as you hike through the majestic Rocky Mountains.",
+    "address": "Denver, Colorado, United States",
+    "image": {
+      "name": "rocking-mountains"
+    },
+    "city": {
+      "name": "Denver"
+    }
+  },
+  {
+    "name": "Great Barrier Reef",
+    "description": "Discover the world's largest coral reef system and observe the vibrant marine life while snorkeling in the Great Barrier Reef.",
+    "address": "Off the coast of Queensland, Australia",
+    "image": {
+      "name": "great-barrier-reef"
+    },
+    "city": {
+      "name": "Cairns"
+    }
+  },
+  {
+    "name": "Serengeti National Park",
+    "description": "Embark on an unforgettable safari adventure in the vast plains of the Serengeti and witness the incredible diversity of African wildlife.",
+    "address": "Northern Tanzania",
+    "image": {
+      "name": "serengeti"
+    },
+    "city": {
+      "name": "Arusha"
+    }
+  },
+  {
+    "name": "Grand Canyon",
+    "description": "Marvel at the awe-inspiring beauty of the Grand Canyon as you explore its intricate rock formations and deep ravines.",
+    "address": "Northern Arizona, United States",
+    "image": {
+      "name": "grand-canyon"
+    },
+    "city": {
+      "name": "Flagstaff"
+    }
+  },
+  {
+    "name": "Eiffel Tower",
+    "description": "Experience the iconic symbol of Paris and enjoy panoramic views of the city from the top of the Eiffel Tower.",
+    "address": "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France",
+    "image": {
+      "name": "torre-eiffel"
+    },
+    "city": {
+      "name": "Paris"
+    }
+  },
+  {
+    "name": "Vatican City",
+    "description": "Immerse yourself in the cultural and historical treasures of Vatican City, including the Vatican Museums, St. Peter's Basilica, and the Sistine Chapel.",
+    "address": "Vatican City",
+    "image": {
+      "name": "vaticano"
+    },
+    "city": {
+      "name": "Rome"
+    }
+  },
+  {
+    "name": "Colosseum and Roman Forum",
+    "description": "Step back in time as you explore the ancient ruins of the Colosseum and the Roman Forum, iconic symbols of the ancient Roman civilization.",
+    "address": "Colosseum: Piazza del Colosseo, 1, 00184 Rome, Italy | Roman Forum: Via della Salara Vecchia, 5/6, 00186 Rome, Italy",
+    "image": {
+      "name": "coliseo"
+    },
+    "city": {
+      "name": "Rome"
+    }
+  },
+  {
+    "name": "Louvre Museum",
+    "description": "Immerse yourself in art and history with a visit to the Louvre Museum, home to an extensive collection of world-famous works of art, including the enigmatic Mona Lisa.",
+    "address": "Musée du Louvre, Rue de Rivoli, 75001 Paris, France",
+    "image": {
+      "name": "louvre"
+    },
+    "city": {
+      "name": "Paris"
+    }
+  }
+]
