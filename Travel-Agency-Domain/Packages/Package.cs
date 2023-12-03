@@ -30,9 +30,9 @@ public class Package : Entity
 
     public double Price()
     {
-        var hotel = HotelOffers.Sum(h => h.EndDate);
-        var excursion = ExcursionOffers.Sum(e => e.EndDate);
-        var flight = FlightOffers.Sum(f => f.EndDate);
+        var hotel = HotelOffers.Sum(h => h.Price);
+        var excursion = ExcursionOffers.Sum(e => e.Price);
+        var flight = FlightOffers.Sum(f => f.Price);
 
         var values = new[] { hotel, excursion, flight };
 
@@ -41,9 +41,9 @@ public class Package : Entity
 
     public long StartDate()
     {
-        var hotel = HotelOffers.Count == 0 ? long.MaxValue : HotelOffers.Min(h => h.EndDate);
-        var excursion = ExcursionOffers.Count == 0 ? long.MaxValue : ExcursionOffers.Min(e => e.EndDate);
-        var flight = FlightOffers.Count == 0 ? long.MaxValue : FlightOffers.Min(f => f.EndDate);
+        var hotel = HotelOffers.Count == 0 ? long.MaxValue : HotelOffers.Min(h => h.StartDate);
+        var excursion = ExcursionOffers.Count == 0 ? long.MaxValue : ExcursionOffers.Min(e => e.StartDate);
+        var flight = FlightOffers.Count == 0 ? long.MaxValue : FlightOffers.Min(f => f.StartDate);
 
         var values = new[] { hotel, excursion, flight };
 
