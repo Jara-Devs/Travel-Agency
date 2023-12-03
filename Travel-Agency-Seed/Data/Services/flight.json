@@ -1,7 +1,7 @@
 [
   {
     "company": "United Airlines",
-    "duration": "9 hours",
+    "duration": 32400000,
     "origin": {
       "name": "Denver"
     },
@@ -11,7 +11,7 @@
   },
   {
     "company": "Delta Air Lines",
-    "duration": "10 hours",
+    "duration": 3600000,
     "origin": {
       "name": "Denver"
     },
@@ -21,7 +21,7 @@
   },
   {
     "company": "Qantas",
-    "duration": "20 hours",
+    "duration": 72000000,
     "origin": {
       "name": "Denver"
     },
@@ -31,7 +31,7 @@
   },
   {
     "company": "Emirates",
-    "duration": "21 hours",
+    "duration": 75600000,
     "origin": {
       "name": "Denver"
     },
@@ -41,7 +41,7 @@
   },
   {
     "company": "Air France",
-    "duration": "2 hours",
+    "duration": 7200000,
     "origin": {
       "name": "Paris"
     },
@@ -51,7 +51,7 @@
   },
   {
     "company": "American Airlines",
-    "duration": "14 hours",
+    "duration": 50400000,
     "origin": {
       "name": "Paris"
     },
@@ -61,7 +61,7 @@
   },
   {
     "company": "Qantas",
-    "duration": "20 hours",
+    "duration": 72000000,
     "origin": {
       "name": "Paris"
     },
@@ -71,7 +71,7 @@
   },
   {
     "company": "Emirates",
-    "duration": "19 hours",
+    "duration": 68400000,
     "origin": {
       "name": "Paris"
     },
@@ -81,7 +81,7 @@
   },
   {
     "company": "Lufthansa",
-    "duration": "15 hours",
+    "duration": 54000000,
     "origin": {
       "name": "Rome"
     },
@@ -91,7 +91,7 @@
   },
   {
     "company": "Qatar Airways",
-    "duration": "18 hours",
+    "duration": 64800000,
     "origin": {
       "name": "Rome"
     },
@@ -101,7 +101,7 @@
   },
   {
     "company": "Ethiopian Airlines",
-    "duration": "11 hours",
+    "duration": 39600000,
     "origin": {
       "name": "Rome"
     },
@@ -111,7 +111,7 @@
   },
   {
     "company": "United Airlines",
-    "duration": "16 hours",
+    "duration": 39600000,
     "origin": {
       "name": "Flagstaff"
     },
@@ -121,7 +121,7 @@
   },
   {
     "company": "British Airways",
-    "duration": "19 hours",
+    "duration": 50400000,
     "origin": {
       "name": "Flagstaff"
     },
@@ -131,7 +131,7 @@
   },
   {
     "company": "Qatar Airways",
-    "duration": "14 hours",
+    "duration": 50400000,
     "origin": {
       "name": "Cairns"
     },

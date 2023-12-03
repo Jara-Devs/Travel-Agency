@@ -45,11 +45,11 @@ public class ExcursionSeeder : SeederBase<Excursion>
             for (var i = 0; i < hotels.Count; i++)
             {
                 var i1 = i;
-                var hotel = await dbContext.Hotels.Where(x => x.Name == activities[i1].Name)
+                var hotel = await dbContext.Hotels.Where(x => x.Name == hotels[i1].Name)
                     .SingleOrDefaultAsync();
 
                 hotels[i] = hotel ??
-                            throw new Exception($"Hotel with name {activities[i].Name} not found");
+                            throw new Exception($"Hotel with name {hotels[i].Name} not found");
             }
 
             item.Places = places;

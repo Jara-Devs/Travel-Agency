@@ -1,7 +1,7 @@
 [
   {
     "name": "The Ritz-Carlton, Bachelor Gulch",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "The Ritz-Carlton, Bachelor Gulch"
     },
@@ -11,7 +11,7 @@
   },
   {
     "name": "The Little Nell",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "The Little Nell"
     },
@@ -21,7 +21,7 @@
   },
   {
     "name": "Lizard Island Resort",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "Lizard Island Resort"
     },
@@ -31,7 +31,7 @@
   },
   {
     "name": "Qualia Resort",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "Qualia Resort"
     },
@@ -41,7 +41,7 @@
   },
   {
     "name": "Four Seasons Safari Lodge Serengeti",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "Four Seasons Safari Lodge Serengeti"
     },
@@ -51,7 +51,7 @@
   },
   {
     "name": "Singita Sasakwa Lodge",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "Singita Sasakwa Lodge"
     },
@@ -61,7 +61,7 @@
   },
   {
     "name": "El Tovar Hotel",
-    "category": "3 stars",
+    "category": 2,
     "image": {
       "name": "El Tovar Hotel"
     },
@@ -71,7 +71,7 @@
   },
   {
     "name": "Yavapai Lodge",
-    "category": "3 stars",
+    "category": 2,
     "image": {
       "name": "Yavapai Lodge"
     },
@@ -81,7 +81,7 @@
   },
   {
     "name": "Four Seasons Hotel George V, Paris",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "Four Seasons Hotel George V, Paris"
     },
@@ -91,7 +91,7 @@
   },
   {
     "name": "Le Meurice",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "Le Meurice"
     },
@@ -102,7 +102,7 @@
 
   {
     "name": "Gran Meliá Rome Villa Agrippina",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "Gran Meliá Rome Villa Agrippina"
     },
@@ -112,7 +112,7 @@
   },
   {
     "name": "Hotel Eden - Dorchester Collection",
-    "category": "5 stars",
+    "category": 4,
     "image": {
       "name": "Hotel Eden - Dorchester Collection"
     },

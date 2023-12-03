@@ -7,7 +7,8 @@
       "name": "rocking-mountains"
     },
     "city": {
-      "name": "Denver"
+      "name": "Denver",
+      "country": "United States"
     }
   },
   {
@@ -18,7 +19,8 @@
       "name": "great-barrier-reef"
     },
     "city": {
-      "name": "Cairns"
+      "name": "Cairns",
+      "country": "Australia"
     }
   },
   {
@@ -29,7 +31,8 @@
       "name": "serengeti"
     },
     "city": {
-      "name": "Arusha"
+      "name": "Arusha",
+      "country": "Tanzania"
     }
   },
   {
@@ -40,7 +43,8 @@
       "name": "grand-canyon"
     },
     "city": {
-      "name": "Flagstaff"
+      "name": "Flagstaff",
+      "country": "United States"
     }
   },
   {
@@ -51,7 +55,8 @@
       "name": "torre-eiffel"
     },
     "city": {
-      "name": "Paris"
+      "name": "Paris",
+      "country": "France"
     }
   },
   {
@@ -59,10 +64,12 @@
     "description": "Immerse yourself in the cultural and historical treasures of Vatican City, including the Vatican Museums, St. Peter's Basilica, and the Sistine Chapel.",
     "address": "Vatican City",
     "image": {
-      "name": "vaticano"
+      "name": "vaticano",
+      "country": "Italy"
     },
     "city": {
-      "name": "Rome"
+      "name": "Rome",
+      "country": "Italy"
     }
   },
   {
@@ -73,7 +80,8 @@
       "name": "coliseo"
     },
     "city": {
-      "name": "Rome"
+      "name": "Rome",
+      "country": "Italy"
     }
   },
   {
@@ -84,7 +92,8 @@
       "name": "louvre"
     },
     "city": {
-      "name": "Paris"
+      "name": "Paris",
+      "country": "France"
     }
   }
 ]
