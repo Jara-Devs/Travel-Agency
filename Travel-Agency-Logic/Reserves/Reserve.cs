@@ -43,6 +43,9 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
         if (!CheckAvailability(package, request.UserIdentities.Count))
             return new BadRequest<IdResponse>("There is no availability for this package");
 
+        if (!CheckUniqueIdentity(request.UserIdentities))
+            return new BadRequest<IdResponse>("There are repeated identities");
+
         if (!Helpers.ValidDate(package.StartDate()))
             return new BadRequest<IdResponse>($"The {(package.IsSingleOffer ? "offer" : "package")} has expired");
 
@@ -64,6 +67,10 @@ public abstract class ReserveService<T1, T2> : IReserveService<T1, T2> where T1 
 
         return new ApiResponse<IdResponse>(new IdResponse { Id = reserve.Id });
     }
+
+    private bool CheckUniqueIdentity(ICollection<UserIdentityRequest> identityRequests) =>
+        identityRequests.Select(x => new { x.Name, x.Nationality, x.IdentityDocument }).Distinct().Count() ==
+        identityRequests.Count;
 
     private bool CheckAvailability(Package package, int cant)
     {

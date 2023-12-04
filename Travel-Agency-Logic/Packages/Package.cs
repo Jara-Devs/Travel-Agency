@@ -69,11 +69,12 @@ public class PackageService : IPackageService
 
     public async Task<ApiResponse> RemovePackage(Guid id, UserBasic userBasic)
     {
-        var responsePermissions = await CheckPermissions(userBasic, id);
-        if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse();
-
-        var oldPackage = await _context.Packages.FindAsync(id);
+        var oldPackage = await _context.Packages.Include(x => x.FlightOffers).Include(x => x.HotelOffers)
+            .Include(x => x.ExcursionOffers).Where(p => p.Id == id).FirstOrDefaultAsync();
         if (oldPackage is null) return new NotFound("Package not found");
+
+        var responsePermissions = await CheckPermissions(userBasic, PackageAgencyId(oldPackage));
+        if (!responsePermissions.Ok) return responsePermissions.ConvertApiResponse();
 
         if (oldPackage.IsSingleOffer) return new BadRequest("The package is single offer");
 
@@ -104,7 +105,7 @@ public class PackageService : IPackageService
 
         if (id is null) return new ApiResponse<Guid>(agencyId);
 
-        return id == agencyId
+        return id != agencyId
             ? new Unauthorized<Guid>("You don't have permissions")
             : new ApiResponse<Guid>(agencyId);
     }

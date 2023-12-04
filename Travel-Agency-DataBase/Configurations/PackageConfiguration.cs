@@ -8,5 +8,6 @@ public class PackageConfiguration : EntityConfiguration<Package>
 {
     public override void ConfigureEntity(EntityTypeBuilder<Package> builder)
     {
+        builder.HasIndex(x => x.Name).IsUnique();
     }
 }

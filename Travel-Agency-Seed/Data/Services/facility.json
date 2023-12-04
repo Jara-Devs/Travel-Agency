@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Pool",
+    "type": 0
+  },
+  {
+    "name": "Gym",
+    "type": 0
+  },
+  {
+    "name": "Spa",
+    "type": 0
+  },
+  {
+    "name": "Restaurant",
+    "type": 0
+  },
+  {
+    "name": "Wi-Fi",
+    "type": 0
+  },
+  {
+    "name": "Tour guide",
+    "type": 1
+  },
+  {
+    "name": "Transportation",
+    "type": 1
+  },
+  {
+    "name": "Tickets",
+    "type": 1
+  },
+  {
+    "name": "Food",
+    "type": 1
+  },
+  {
+    "name": "Insurance",
+    "type": 1
+  },
+  {
+    "name": "Baggage allowance",
+    "type": 2
+  },
+  {
+    "name": "In-flight entertainment",
+    "type": 2
+  },
+  {
+    "name": "Seat selection",
+    "type": 2
+  },
+  {
+    "name": "Meals and drinks",
+    "type": 2
+  },
+  {
+    "name": "Priority boarding",
+    "type": 2
+  }
+]

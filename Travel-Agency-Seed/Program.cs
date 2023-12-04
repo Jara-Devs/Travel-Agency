@@ -53,7 +53,7 @@ static async Task SeedDatabase(TravelAgencyContext context)
     var hotel = new HotelSeeder();
     var excursion = new ExcursionSeeder();
     var flight = new FlightSeeder();
-    // var facility = new FacilitySeeder();
+    var facility = new FacilitySeeder();
 
     // Execute
     await image.Execute(context);
@@ -68,5 +68,5 @@ static async Task SeedDatabase(TravelAgencyContext context)
     await hotel.Execute(context);
     await flight.Execute(context);
     await excursion.Execute(context);
-    // await facility.Execute(context);
+    await facility.Execute(context);
 }

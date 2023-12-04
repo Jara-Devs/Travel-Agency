@@ -29,8 +29,11 @@ public class OfferService<T> : IOfferService<T> where T : Offer
 
         var agencyId = check.Value;
 
-        if (await _context.Set<T>().AnyAsync(o => o.Name == offer.Name))
+        if (await _context.Offers.AnyAsync(o => o.Name == offer.Name))
             return new BadRequest<IdResponse>("The offer already exists");
+
+        if (await _context.Packages.AnyAsync(p => p.Name == offer.Name))
+            return new BadRequest<IdResponse>("The package whit the same name already exists");
 
         if (!CheckValidity(offer))
             return new BadRequest<IdResponse>("The offer is not valid");
@@ -66,7 +69,7 @@ public class OfferService<T> : IOfferService<T> where T : Offer
 
     public async Task<ApiResponse> UpdateOffer(Guid id, OfferRequest<T> offerRequest, UserBasic user)
     {
-        var offer = await _context.Set<T>().FindAsync(id);
+        var offer = await _context.Set<T>().Include(x => x.Facilities).FirstOrDefaultAsync(x => x.Id == id);
         if (offer is null)
             return new NotFound("Offer not found");
 
@@ -74,18 +77,26 @@ public class OfferService<T> : IOfferService<T> where T : Offer
         if (!check.Ok)
             return check.ConvertApiResponse();
 
-        if (await _context.Set<T>().AnyAsync(o => o.Name == offer.Name && o.Id != offer.Id))
+        if (await _context.Offers.AnyAsync(o => o.Name == offerRequest.Name && o.Id != offer.Id))
             return new BadRequest("The offer already exists");
+        if (await _context.Packages.AnyAsync(p => p.Name == offerRequest.Name && !p.IsSingleOffer))
+            return new BadRequest("The package whit the same name already exists");
 
         if (!CheckValidity(offerRequest))
             return new BadRequest("The offer is not valid");
 
         if (!await CheckDependency(id))
             return new BadRequest("The offer is in use");
+        
+        var package = await _context.Packages.Where(x => x.Name == offer.Name).FirstOrDefaultAsync();
+        if (package is null) return new BadRequest("The offer is not a single offer");
 
         var response = await BuildRequest(offerRequest, offer.AgencyId, offer);
         if (!response.Ok) return response.ConvertApiResponse();
-
+        
+        package.Name= offerRequest.Name;
+        
+        _context.Packages.Update(package);
         _context.Update(response.Value!);
         await _context.SaveChangesAsync();
 
@@ -106,15 +117,7 @@ public class OfferService<T> : IOfferService<T> where T : Offer
         if (!await CheckDependency(id))
             return new BadRequest("The offer is in use");
 
-        var package = await _context.Packages
-            .Include(p => p.HotelOffers)
-            .Include(p => p.ExcursionOffers)
-            .Include(p => p.FlightOffers)
-            .Where(p => p.IsSingleOffer &&
-                        (p.HotelOffers.Select(o => o.Id).Contains(id) ||
-                         p.ExcursionOffers.Select(o => o.Id).Contains(id) ||
-                         p.FlightOffers.Select(o => o.Id).Contains(id)))
-            .FirstOrDefaultAsync();
+        var package = await _context.Packages.Where(x => x.Name == offer.Name).FirstOrDefaultAsync();
 
         if (package is null) return new BadRequest("The offer is not a single offer");
 
@@ -150,13 +153,13 @@ public class OfferService<T> : IOfferService<T> where T : Offer
     private async Task<bool> CheckDependency(Guid id)
     {
         if (await _context.Packages.Include(p => p.HotelOffers).Where(p => !p.IsSingleOffer)
-                .AnyAsync(o => o.Id == id))
+                .AnyAsync(p => p.HotelOffers.Select(o => o.Id).Contains(id)))
             return false;
         if (await _context.Packages.Include(p => p.FlightOffers).Where(p => !p.IsSingleOffer)
-                .AnyAsync(o => o.Id == id))
+                .AnyAsync(p => p.FlightOffers.Select(o => o.Id).Contains(id)))
             return false;
         if (await _context.Packages.Include(p => p.ExcursionOffers).Where(p => !p.IsSingleOffer)
-                .AnyAsync(o => o.Id == id))
+                .AnyAsync(p => p.ExcursionOffers.Select(o => o.Id).Contains(id)))
             return false;
 
         if (await _context.Reserves.Include(r => r.Package).ThenInclude(p => p.HotelOffers)
