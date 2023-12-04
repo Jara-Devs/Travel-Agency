@@ -24,7 +24,7 @@ public static class Helpers
         {
             var userIdentityDb =
                 await context.UserIdentities.FirstOrDefaultAsync(u =>
-                    u.IdentityDocument == userIdentity.IdentityDocument);
+                    u.IdentityDocument == userIdentity.IdentityDocument && u.Nationality == userIdentity.Nationality);
 
             if (userIdentityDb is null)
             {

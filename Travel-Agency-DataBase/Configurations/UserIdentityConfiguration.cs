@@ -8,6 +8,6 @@ public class UserIdentityConfiguration : EntityConfiguration<UserIdentity>
 {
     public override void ConfigureEntity(EntityTypeBuilder<UserIdentity> builder)
     {
-        builder.HasIndex(x => x.Name).IsUnique();
+        builder.HasIndex(x => new { x.IdentityDocument, x.Nationality }).IsUnique();
     }
 }
