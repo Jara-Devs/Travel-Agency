@@ -28,13 +28,13 @@ public class AuthController : TravelAgencyController
     [HttpPost("register/tourist")]
     public async Task<IActionResult> RegisterTourist([FromBody] RegisterTouristRequest request)
     {
-        return ToResponse(await _authService.RegisterTourist(request));
+        return LoginResponse(await _authService.RegisterTourist(request));
     }
 
     [HttpPost("register/agency")]
     public async Task<IActionResult> RegisterAgency([FromBody] RegisterAgencyRequest request)
     {
-        return ToResponse(await _authService.RegisterAgency(request));
+        return LoginResponse(await _authService.RegisterAgency(request));
     }
 
     [HttpPost("changePassword")]

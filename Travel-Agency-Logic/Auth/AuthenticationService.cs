@@ -49,8 +49,7 @@ public class AuthenticationService : IAuthenticationService
 
         var user = await _context.Users.Where(u => u.Email == touristRequest.Email).SingleOrDefaultAsync();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Id, user.Name,
-            _securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
+        return await LoginResponse(user!.Id, user.Name, user.Role);
     }
 
     public async Task<ApiResponse<LoginResponse>> RegisterAgency(RegisterAgencyRequest agencyRequest)
@@ -72,8 +71,7 @@ public class AuthenticationService : IAuthenticationService
 
         var user = await _context.Users.Where(u => u.Email == agencyRequest.Email).SingleOrDefaultAsync();
 
-        return new ApiResponse<LoginResponse>(new LoginResponse(user!.Id, user.Name,
-            _securityService.JwtAuth(user.Id, user.Name, user.Role), user.Role));
+        return await LoginResponse(user!.Id, user.Name, user.Role);
     }
 
     public async Task<ApiResponse<IdResponse>> RegisterUserAgency(RegisterUserAgencyRequest userAgencyRequest,
