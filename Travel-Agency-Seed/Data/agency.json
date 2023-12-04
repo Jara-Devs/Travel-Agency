@@ -1,10 +1,17 @@
 [
   {
     "name": "Agency Colon Travel",
-    "FaxNumber": 12345678
+    "faxNumber": 12345678,
+    "address": "Calle 50, Panama City, Panama"
   },
   {
     "name": "Agency Bahia Travel",
-    "FaxNumber": 12345678
+    "faxNumber": 12345679,
+    "address": "Avenida Monumental, Ciudad de la Habana, Cuba"
+  },
+  {
+    "name": "Agency Sierra Travel",
+    "faxNumber": 12345670,
+    "address": "Esquina de Tejas, Ciudad de la Habana, Cuba"
   }
 ]

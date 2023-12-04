@@ -61,7 +61,7 @@ public class AuthenticationService : IAuthenticationService
         var check = await CheckRegister(agencyRequest.Email, agencyRequest.Password);
         if (!check.Ok) return check.ConvertApiResponse<LoginResponse>();
 
-        _context.Add(new Agency(agencyRequest.NameAgency, agencyRequest.FaxNumber));
+        _context.Add(new Agency(agencyRequest.NameAgency, agencyRequest.FaxNumber, agencyRequest.Address));
         await _context.SaveChangesAsync();
 
         var agency = await _context.Agencies.Where(a => a.Name == agencyRequest.NameAgency).SingleOrDefaultAsync();
