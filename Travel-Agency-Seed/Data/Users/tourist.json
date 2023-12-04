@@ -17,7 +17,7 @@
     "role": "Tourist",
     "userIdentity": {
       "name": "Rafael Acosta Marquez",
-      "identityDocument": 123456789,
+      "identityDocument": 123456780,
       "nationality": "cuban"
     }
   },
@@ -28,7 +28,7 @@
     "role": "Tourist",
     "userIdentity": {
       "name": "Alen Arnaiz Sedeño",
-      "identityDocument": 123456789,
+      "identityDocument": 123456781,
       "nationality": "cuban"
     }
   }

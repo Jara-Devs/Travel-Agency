@@ -16,5 +16,14 @@
     "agency": {
       "name": "Agency Bahia Travel"
     }
+  },
+  {
+    "name": "Alex Sierra Alcala",
+    "email": "alex@manager.com",
+    "password": "1234qwer",
+    "role": "AdminAgency",
+    "agency": {
+      "name": "Agency Sierra Travel"
+    }
   }
 ]
