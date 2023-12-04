@@ -27,3 +27,7 @@ build:
 .PHONY: seed
 seed:
 	dotnet run --project Travel-Agency-Seed\Travel-Agency-Seed.csproj
+	
+.PHONY: client
+client:
+	cd Travel-Agency-Client && yarn start
