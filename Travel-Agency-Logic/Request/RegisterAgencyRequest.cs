@@ -11,4 +11,6 @@ public class RegisterAgencyRequest
     public string NameAgency { get; set; } = null!;
 
     public long FaxNumber { get; set; }
+
+    public string Address { get; set; } = null!;
 }

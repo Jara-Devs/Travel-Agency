@@ -5,15 +5,18 @@ namespace Travel_Agency_Domain;
 
 public class Agency : Entity
 {
-    public Agency(string name, long faxNumber)
+    public Agency(string name, long faxNumber, string address)
     {
         Name = name;
         FaxNumber = faxNumber;
+        Address = address;
     }
 
     public string Name { get; set; }
 
     public long FaxNumber { get; set; }
+
+    public string Address { get; set; }
 
     public ICollection<UserAgency> Users { get; set; } = null!;
 
