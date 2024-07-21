@@ -11,7 +11,7 @@ var serviceCollection = new ServiceCollection();
 serviceCollection.AddLogging(builder => { builder.AddConsole(); });
 
 
-var connectionString = "server=localhost;port=3306;database=TravelAgency;user=travelagency;password=travelagency";
+var connectionString = "server=db;port=3306;database=TravelAgency;user=travelagency;password=travelagency";
 
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
 

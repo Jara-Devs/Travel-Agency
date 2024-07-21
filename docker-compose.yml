@@ -1,0 +1,33 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Travel-Agency-Api/Dockerfile
+    ports:
+      - 5000:80
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+  seed:
+    build:
+      context: .
+      dockerfile: ./Travel-Agency-Seed/Dockerfile
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: travelagency
+      MYSQL_DATABASE: TravelAgency
+      MYSQL_USER: travelagency
+      MYSQL_PASSWORD: travelagency
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  db_data:
