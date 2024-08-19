@@ -86,12 +86,12 @@ public static class ProgramServices
 
     public static void AddDataBase(this IServiceCollection services, IConfigurationRoot configuration)
     {
+        // Obtener la cadena de conexión desde la configuración
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        var serverVersion = new MySqlServerVersion(new Version(8, 0, 33));
-
+        // Configurar el contexto de la base de datos para usar PostgreSQL
         services.AddDbContext<TravelAgencyContext>(options =>
-            options.UseMySql(connectionString, serverVersion));
+            options.UseNpgsql(connectionString));
     }
 
     public static void AddMyAuthentication(this IServiceCollection services, IConfiguration configuration)
